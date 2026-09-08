@@ -1,94 +1,167 @@
 import 'package:flutter/material.dart';
-import 'package:frontendats/addproduct.dart';
-import 'package:frontendats/editproduct.dart';
+import 'package:frontendats/addpost.dart';
+import 'package:frontendats/editpost.dart';
+import 'package:frontendats/detailpost.dart';
+import 'package:frontendats/login.dart';
+import 'package:frontendats/api.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final String username;
+  const HomePage({super.key, this.username = ''});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  List products = [];
+  List posts = [];
+  List categories = [];
+  bool isLoading = false;
 
-  Future<void> getProduct() async {
-    final data = await http.get(
-      Uri.parse("https://fakestoreapi.com/products")
-    );
+  String categoryName(dynamic id) {
+    for (final c in categories) {
+      if (c['id'].toString() == id.toString()) {
+        return c['name'].toString();
+      }
+    }
+    return '';
+  }
 
-    if (data.statusCode == 200) {
+  Future<void> getPosts() async {
+    setState(() => isLoading = true);
+
+    final postRes = await http.get(Uri.parse('$baseUrl/posts'));
+    final catRes = await http.get(Uri.parse('$baseUrl/categories'));
+
+    setState(() => isLoading = false);
+
+    if (postRes.statusCode == 200) {
+      final body = jsonDecode(postRes.body);
       setState(() {
-        products = jsonDecode(data.body);
+        posts = body['data'] ?? [];
       });
     } else {
-      print("data gagal di ambil");
+      print('data gagal di ambil');
+    }
+
+    if (catRes.statusCode == 200) {
+      final body = jsonDecode(catRes.body);
+      setState(() {
+        categories = body['data'] ?? [];
+      });
     }
   }
 
-  Future<void> deleteProduct(int id) async {
-  final data = await http.delete(
-    Uri.parse('https://fakestoreapi.com/products/$id'),
-  );
-
-  if (data.statusCode == 200) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Produk Berhasil Dihapus: ${data.statusCode}')),
+  Future<void> deletePost(int id) async {
+    final data = await http.delete(
+      Uri.parse('$baseUrl/posts/$id'),
     );
 
-    setState(() {
-      products.removeWhere((product) => product['id'] == id);
-    });
-  } else {
-    print('Gagal menghapus produk: ${data.statusCode}');
+    if (data.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Artikel berhasil dihapus: ${data.statusCode}')),
+      );
+
+      setState(() {
+        posts.removeWhere((post) => post['id'] == id);
+      });
+    } else {
+      print('Gagal menghapus artikel: ${data.statusCode}');
+    }
   }
-}
 
   @override
   void initState() {
     super.initState();
-    getProduct();
+    getPosts();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemCount: products.length,
-        itemBuilder: (context, index){
-          final itemProduct = products[index];
-
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context, 
-                MaterialPageRoute(builder: (context) => EditProductPage(product: itemProduct),
-                ),
+      appBar: AppBar(
+        title: Text(widget.username.isEmpty ? 'Blog' : 'Blog - ${widget.username}'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
               );
             },
-            child: ListTile(
-              leading: Image.network(itemProduct["image"]),
-              title: Text(itemProduct["title"]),
-              subtitle: Text(itemProduct["price"].toString()),
-              trailing: IconButton(onPressed: (){
-                deleteProduct(itemProduct['id']);
-              }, 
-              icon: Icon(Icons.delete)
+            icon: Icon(Icons.logout),
+          ),
+        ],
+      ),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : RefreshIndicator(
+              onRefresh: getPosts,
+              child: ListView.builder(
+                itemCount: posts.length,
+                itemBuilder: (context, index) {
+                  final itemPost = posts[index];
+                  final cat = categoryName(itemPost['category_id']);
+
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailPostPage(
+                            post: itemPost,
+                            category: cat,
+                          ),
+                        ),
+                      ).then((_) => getPosts());
+                    },
+                    child: ListTile(
+                      title: Text(itemPost['title']?.toString() ?? ''),
+                      subtitle: Text(
+                        cat.isEmpty
+                            ? (itemPost['excerpt']?.toString() ?? '')
+                            : '$cat - ${itemPost['excerpt']?.toString() ?? ''}',
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EditPostPage(
+                                    post: itemPost,
+                                    categories: categories,
+                                  ),
+                                ),
+                              ).then((_) => getPosts());
+                            },
+                            icon: Icon(Icons.edit),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              deletePost(itemPost['id']);
+                            },
+                            icon: Icon(Icons.delete),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
-          );
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddPostPage()),
+          ).then((_) => getPosts());
         },
-      ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        Navigator.push(
-        context, 
-        MaterialPageRoute(builder: (context) => AddProductPage())
-        );
-      },
-      child: Icon(Icons.add),
+        child: Icon(Icons.add),
       ),
     );
   }
