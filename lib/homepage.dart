@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:frontendats/addpost.dart';
 import 'package:frontendats/editpost.dart';
 import 'package:frontendats/detailpost.dart';
-import 'package:frontendats/login.dart';
 import 'package:frontendats/api.dart';
+import 'package:frontendats/api_client.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -32,43 +32,80 @@ class _HomePageState extends State<HomePage> {
   Future<void> getPosts() async {
     setState(() => isLoading = true);
 
-    final postRes = await http.get(Uri.parse('$baseUrl/posts'));
-    final catRes = await http.get(Uri.parse('$baseUrl/categories'));
+    try {
+      // Backend protected: wajib Bearer token.
+      final postRes = await http
+          .get(Uri.parse('$baseUrl/posts'), headers: authHeaders())
+          .timeout(const Duration(seconds: 10));
+      final catRes = await http
+          .get(Uri.parse('$baseUrl/categories'), headers: authHeaders())
+          .timeout(const Duration(seconds: 10));
 
-    setState(() => isLoading = false);
+      if (!mounted) return;
+      setState(() => isLoading = false);
 
-    if (postRes.statusCode == 200) {
-      final body = jsonDecode(postRes.body);
-      setState(() {
-        posts = body['data'] ?? [];
-      });
-    } else {
-      print('data gagal di ambil');
-    }
+      if (isUnauthorized(postRes) || isUnauthorized(catRes)) {
+        await handleAuthError(context, postRes.statusCode == 401 || postRes.statusCode == 403 ? postRes : catRes);
+        return;
+      }
 
-    if (catRes.statusCode == 200) {
-      final body = jsonDecode(catRes.body);
-      setState(() {
-        categories = body['data'] ?? [];
-      });
+      if (postRes.statusCode == 200) {
+        final body = jsonDecode(postRes.body);
+        setState(() {
+          posts = body['data'] ?? [];
+        });
+      } else {
+        debugPrint('data gagal di ambil: ${postRes.statusCode} ${postRes.body}');
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Gagal ambil artikel: ${postRes.statusCode}')),
+          );
+        }
+      }
+
+      if (catRes.statusCode == 200) {
+        final body = jsonDecode(catRes.body);
+        setState(() {
+          categories = body['data'] ?? [];
+        });
+      }
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => isLoading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Tidak bisa terhubung ke server')),
+      );
     }
   }
 
   Future<void> deletePost(int id) async {
-    final data = await http.delete(
-      Uri.parse('$baseUrl/posts/$id'),
-    );
+    try {
+      final data = await http
+          .delete(Uri.parse('$baseUrl/posts/$id'), headers: authHeaders())
+          .timeout(const Duration(seconds: 10));
 
-    if (data.statusCode == 200) {
+      if (!mounted) return;
+      if (await handleAuthError(context, data)) return;
+
+      if (data.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Artikel berhasil dihapus: ${data.statusCode}')),
+        );
+
+        setState(() {
+          posts.removeWhere((post) => post['id'] == id);
+        });
+      } else {
+        debugPrint('Gagal menghapus artikel: ${data.statusCode} ${data.body}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Gagal menghapus: ${data.statusCode}')),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Artikel berhasil dihapus: ${data.statusCode}')),
+        const SnackBar(content: Text('Tidak bisa terhubung ke server')),
       );
-
-      setState(() {
-        posts.removeWhere((post) => post['id'] == id);
-      });
-    } else {
-      print('Gagal menghapus artikel: ${data.statusCode}');
     }
   }
 
@@ -85,18 +122,13 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.username.isEmpty ? 'Blog' : 'Blog - ${widget.username}'),
         actions: [
           IconButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LoginPage()),
-              );
-            },
-            icon: Icon(Icons.logout),
+            onPressed: () => forceLogout(context),
+            icon: const Icon(Icons.logout),
           ),
         ],
       ),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : RefreshIndicator(
               onRefresh: getPosts,
               child: ListView.builder(
@@ -113,6 +145,7 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) => DetailPostPage(
                             post: itemPost,
                             category: cat,
+                            categories: categories,
                           ),
                         ),
                       ).then((_) => getPosts());
@@ -139,13 +172,15 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ).then((_) => getPosts());
                             },
-                            icon: Icon(Icons.edit),
+                            icon: const Icon(Icons.edit),
                           ),
                           IconButton(
                             onPressed: () {
-                              deletePost(itemPost['id']);
+                              final rawId = itemPost['id'];
+                              final id = int.tryParse(rawId.toString());
+                              if (id != null) deletePost(id);
                             },
-                            icon: Icon(Icons.delete),
+                            icon: const Icon(Icons.delete),
                           ),
                         ],
                       ),
@@ -158,10 +193,10 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddPostPage()),
+            MaterialPageRoute(builder: (context) => const AddPostPage()),
           ).then((_) => getPosts());
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

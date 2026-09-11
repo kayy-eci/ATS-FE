@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:frontendats/api.dart';
+import 'package:frontendats/auth_session.dart';
 import 'package:frontendats/homepage.dart';
 import 'package:frontendats/register.dart';
 
@@ -18,9 +19,11 @@ class _LoginPageState extends State<LoginPage> {
   bool isSaving = false;
 
   Future<void> login() async {
-    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+    final email = emailController.text.trim();
+    final password = passwordController.text;
+    if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Email dan password wajib diisi')),
+        const SnackBar(content: Text('Email dan password wajib diisi')),
       );
       return;
     }
@@ -28,56 +31,68 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => isSaving = true);
 
     try {
+      // Backend: POST /api/auth/login -> 200 {message, token}
+      // Catatan: backend saat ini mengembalikan 500 untuk kredensial salah.
       final response = await http
-          .get(Uri.parse('$baseUrl/users'))
+          .post(
+            Uri.parse('$baseUrl/auth/login'),
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({'email': email, 'password': password}),
+          )
           .timeout(const Duration(seconds: 10));
 
+      if (!mounted) return;
       setState(() => isSaving = false);
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
-        List users = [];
-        if (body is Map && body['users'] is List) {
-          users = body['users'];
-        } else if (body is Map && body['data'] is List) {
-          users = body['data'];
-        } else if (body is List) {
-          users = body;
-        }
-
-        Map? found;
-        for (final u in users) {
-          if (u['email'] == emailController.text &&
-              u['password'] == passwordController.text) {
-            found = u;
-            break;
-          }
-        }
-
-        if (found != null) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  HomePage(username: found!['username']?.toString() ?? ''),
-            ),
-          );
-        } else {
+        final token = (body is Map ? body['token']?.toString() : null) ?? '';
+        if (token.isEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Email atau password salah')),
+            const SnackBar(content: Text('Login gagal: token kosong dari server')),
           );
+          return;
         }
+        // Simpan JWT untuk semua request protected berikutnya.
+        // Username tidak dikembalikan backend, pakai prefix email sebagai label.
+        AuthSession.instance.setSession(
+          token: token,
+          username: email.split('@').first,
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(
+              username: AuthSession.instance.username ?? '',
+            ),
+          ),
+        );
       } else {
+        String msg = 'Email atau password salah';
+        try {
+          final body = jsonDecode(response.body);
+          if (body is Map && body['message'] != null) {
+            msg = body['message'].toString();
+          }
+        } catch (_) {}
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Gagal login: ${response.statusCode}')),
+          SnackBar(content: Text('$msg (${response.statusCode})')),
         );
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() => isSaving = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Tidak bisa terhubung ke server')),
+        const SnackBar(content: Text('Tidak bisa terhubung ke server')),
       );
     }
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -113,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => RegisterPage()),
+                  MaterialPageRoute(builder: (context) => const RegisterPage()),
                 );
               },
               child: const Text('Belum punya akun? Daftar'),

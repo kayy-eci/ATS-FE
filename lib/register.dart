@@ -17,39 +17,70 @@ class _RegisterPageState extends State<RegisterPage> {
   bool isSaving = false;
 
   Future<void> register() async {
+    final username = usernameController.text.trim();
+    final email = emailController.text.trim();
+    final password = passwordController.text;
+    // Samakan dengan Zod backend: username min 4, email valid, password min 4.
+    if (username.length < 4 || email.isEmpty || password.length < 4) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Username min 4, email valid, password min 4'),
+        ),
+      );
+      return;
+    }
+
     setState(() => isSaving = true);
 
     try {
+      // Endpoint publik, tanpa token (backend: POST /api/users).
       final response = await http
           .post(
             Uri.parse('$baseUrl/users'),
             headers: {'Content-Type': 'application/json'},
             body: jsonEncode({
-              'username': usernameController.text,
-              'email': emailController.text,
-              'password': passwordController.text,
+              'username': username,
+              'email': email,
+              'password': password,
             }),
           )
           .timeout(const Duration(seconds: 10));
 
+      if (!mounted) return;
       setState(() => isSaving = false);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Berhasil daftar, silakan masuk')),
+          const SnackBar(content: Text('Berhasil daftar, silakan masuk')),
         );
         Navigator.pop(context);
       } else {
+        String msg = 'Gagal daftar: ${response.statusCode}';
+        try {
+          final b = jsonDecode(response.body);
+          if (b is Map && b['message'] != null) msg = '$msg - ${b['message']}';
+        } catch (_) {
+          msg = '$msg ${response.body}';
+        }
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Gagal daftar: ${response.statusCode} ${response.body}')),
+          SnackBar(content: Text(msg)),
         );
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() => isSaving = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Tidak bisa terhubung ke server')),
+        const SnackBar(content: Text('Tidak bisa terhubung ke server')),
       );
     }
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -62,7 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
           children: [
             TextField(
               controller: usernameController,
-              decoration: const InputDecoration(labelText: 'Username'),
+              decoration: const InputDecoration(labelText: 'Username (min 4)'),
             ),
             TextField(
               controller: emailController,
@@ -72,7 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
             TextField(
               controller: passwordController,
               obscureText: true,
-              decoration: const InputDecoration(labelText: 'Password'),
+              decoration: const InputDecoration(labelText: 'Password (min 4)'),
             ),
             const SizedBox(height: 24),
             ElevatedButton(

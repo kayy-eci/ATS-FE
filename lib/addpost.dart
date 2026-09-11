@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:frontendats/api.dart';
+import 'package:frontendats/api_client.dart';
 
 class AddPostPage extends StatefulWidget {
   const AddPostPage({super.key});
@@ -20,64 +21,101 @@ class _AddPostPageState extends State<AddPostPage> {
   String selectedStatus = 'published';
   bool isSaving = false;
 
+  /// Samakan dengan validasi backend (Zod):
+  /// slug hanya lowercase, angka, hyphen, tanpa hyphen ganda/di ujung.
   String makeSlug(String title) {
-    return title
-        .toLowerCase()
-        .replaceAll(RegExp(r'[^a-z0-9 ]'), '')
-        .trim()
-        .replaceAll(RegExp(r'\s+'), '-');
+    var s = title.toLowerCase().replaceAll(RegExp(r'[^a-z0-9\s-]'), '');
+    s = s.trim().replaceAll(RegExp(r'\s+'), '-').replaceAll(RegExp(r'-+'), '-');
+    s = s.replaceAll(RegExp(r'^-+|-+$'), '');
+    return s;
+  }
+
+  int? parseId(dynamic v) {
+    if (v == null) return null;
+    if (v is int) return v;
+    return int.tryParse(v.toString());
   }
 
   Future<void> getCategories() async {
-    final data = await http.get(Uri.parse('$baseUrl/categories'));
+    try {
+      final data = await http
+          .get(Uri.parse('$baseUrl/categories'), headers: authHeaders())
+          .timeout(const Duration(seconds: 10));
+      if (!mounted) return;
+      if (await handleAuthError(context, data)) return;
 
-    if (data.statusCode == 200) {
-      setState(() {
-        categories = jsonDecode(data.body)['data'] ?? [];
-        if (categories.isNotEmpty) {
-          selectedCategory = categories[0]['id'];
-        }
-      });
-    } else {
-      print('data gagal di ambil');
+      if (data.statusCode == 200) {
+        setState(() {
+          categories = jsonDecode(data.body)['data'] ?? [];
+          if (categories.isNotEmpty) {
+            selectedCategory = parseId(categories[0]['id']);
+          }
+        });
+      } else {
+        debugPrint('data gagal di ambil: ${data.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('getCategories error: $e');
     }
   }
 
   Future<void> addPost() async {
+    if (titleController.text.trim().isEmpty || contentController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Judul dan isi artikel wajib diisi')),
+      );
+      return;
+    }
     if (selectedCategory == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Pilih kategori dulu')),
+        const SnackBar(content: Text('Pilih kategori dulu')),
       );
       return;
     }
 
     setState(() => isSaving = true);
 
-    final response = await http.post(
-      Uri.parse('$baseUrl/posts'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'title': titleController.text,
-        'slug': makeSlug(titleController.text),
-        'content': contentController.text,
-        'excerpt': excerptController.text.isEmpty ? null : excerptController.text,
-        'cover_image': null,
-        'category_id': selectedCategory,
-        'author': authorController.text.isEmpty ? null : authorController.text,
-        'status': selectedStatus,
-      }),
-    );
+    try {
+      final slug = makeSlug(titleController.text);
+      final response = await http
+          .post(
+            Uri.parse('$baseUrl/posts'),
+            headers: authHeaders(),
+            body: jsonEncode({
+              'title': titleController.text.trim(),
+              'slug': slug.isEmpty ? null : slug,
+              'content': contentController.text,
+              'excerpt': excerptController.text.isEmpty ? null : excerptController.text,
+              'cover_image': null,
+              'category_id': selectedCategory,
+              'author': authorController.text.isEmpty ? null : authorController.text,
+              'status': selectedStatus,
+            }),
+          )
+          .timeout(const Duration(seconds: 10));
 
-    setState(() => isSaving = false);
+      if (!mounted) return;
+      setState(() => isSaving = false);
+      if (await handleAuthError(context, response)) return;
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Berhasil menyimpan artikel: ${response.body}')),
+        );
+        Navigator.pop(context, true);
+      } else {
+        String msg = 'Gagal menyimpan artikel: ${response.statusCode}';
+        try {
+          final b = jsonDecode(response.body);
+          if (b is Map && b['message'] != null) msg = '$msg - ${b['message']}';
+        } catch (_) {}
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+      }
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => isSaving = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Berhasil menyimpan artikel: ${response.body}')),
-      );
-      Navigator.pop(context, true);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal menyimpan artikel: ${response.statusCode}')),
+        const SnackBar(content: Text('Tidak bisa terhubung ke server')),
       );
     }
   }
@@ -86,6 +124,15 @@ class _AddPostPageState extends State<AddPostPage> {
   void initState() {
     super.initState();
     getCategories();
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    contentController.dispose();
+    excerptController.dispose();
+    authorController.dispose();
+    super.dispose();
   }
 
   @override
@@ -120,8 +167,9 @@ class _AddPostPageState extends State<AddPostPage> {
               isExpanded: true,
               hint: const Text('Kategori'),
               items: categories.map<DropdownMenuItem<int>>((c) {
+                final id = parseId(c['id']);
                 return DropdownMenuItem<int>(
-                  value: c['id'],
+                  value: id,
                   child: Text(c['name'].toString()),
                 );
               }).toList(),
