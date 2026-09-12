@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "frontendats" "\0"
+            VALUE "FileDescription", "Writly" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "frontendats" "\0"
+            VALUE "InternalName", "Writly" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2026 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "frontendats.exe" "\0"
-            VALUE "ProductName", "frontendats" "\0"
+            VALUE "OriginalFilename", "Writly.exe" "\0"
+            VALUE "ProductName", "Writly" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

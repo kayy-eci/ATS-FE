@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontendats/login.dart';
+import 'package:frontendats/scribblr_theme.dart';
+import 'package:frontendats/splash.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +12,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginPage(),
+      debugShowCheckedModeBanner: false,
+      title: 'Writly',
+      theme: scribblrTheme(),
+      home: const SplashPage(),
     );
   }
 }

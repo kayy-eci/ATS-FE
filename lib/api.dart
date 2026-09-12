@@ -7,5 +7,5 @@
 // - HP fisik (1 WiFi)        : http://<IP-LAN-laptop>:8000/api
 const String baseUrl = String.fromEnvironment(
   'API_BASE',
-  defaultValue: 'http://10.0.2.2:8000/api',
+  defaultValue: 'http://10.2.8.185:8000/api',
 );
