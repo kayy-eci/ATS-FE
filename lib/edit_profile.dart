@@ -6,9 +6,6 @@ import 'package:frontendats/api_client.dart';
 import 'package:frontendats/scribblr_theme.dart';
 import 'package:frontendats/scribblr_widgets.dart';
 
-// Edit Profile memakai endpoint yang sudah ada di backend:
-// GET /users (cari id berdasarkan email) lalu PUT /users/:id.
-// Skema body sama dengan register: username min 4, email valid, password min 4.
 class EditProfilePage extends StatefulWidget {
   final String username;
   final String email;
@@ -19,8 +16,7 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  late final usernameController =
-      TextEditingController(text: widget.username);
+  late final usernameController = TextEditingController(text: widget.username);
   late final emailController = TextEditingController(text: widget.email);
   final passwordController = TextEditingController();
   bool isSaving = false;
@@ -38,21 +34,23 @@ class _EditProfilePageState extends State<EditProfilePage> {
       if (await handleAuthError(context, res)) return;
       if (res.statusCode == 200 || res.statusCode == 201) {
         final body = jsonDecode(res.body);
-        final List users = (body is Map ? body['users'] ?? body['data'] : []) ?? [];
-        for (final u in users) {
-          if (u is Map && u['email']?.toString() == widget.email) {
+        final List<dynamic> users =
+            (body is Map ? body['users'] ?? body['data'] : []) ?? [];
+        for (final userEntry in users) {
+          if (userEntry is Map &&
+              userEntry['email']?.toString() == widget.email) {
             setState(() {
-              userId = int.tryParse(u['id'].toString());
+              userId = int.tryParse(userEntry['id'].toString());
               if ((usernameController.text.isEmpty) &&
-                  u['username'] != null) {
-                usernameController.text = u['username'].toString();
+                  userEntry['username'] != null) {
+                usernameController.text = userEntry['username'].toString();
               }
             });
             break;
           }
         }
       }
-    } catch (e) {
+    } catch (error) {
       if (!mounted) return;
       setState(() => isLoading = false);
     }
@@ -71,9 +69,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
       return;
     }
     if (userId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('User tidak ditemukan')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('User tidak ditemukan')));
       return;
     }
     setState(() => isSaving = true);
@@ -102,7 +100,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           SnackBar(content: Text('Gagal memperbarui: ${res.statusCode}')),
         );
       }
-    } catch (e) {
+    } catch (error) {
       if (!mounted) return;
       setState(() => isSaving = false);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -128,13 +126,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading: const BackButton(), title: const Text('Edit Profile')),
+      appBar: AppBar(
+        leading: const BackButton(),
+        title: const Text('Edit Profile'),
+      ),
       body: SafeArea(
         child: isLoading
             ? const Center(
-                child: CircularProgressIndicator(
-                  color: ScribblrColors.primary,
-                ),
+                child: CircularProgressIndicator(color: ScribblrColors.primary),
               )
             : ListView(
                 padding: const EdgeInsets.symmetric(
@@ -152,10 +151,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                   const SizedBox(height: 16),
                   const ScribblrLabel(text: 'Password (isi ulang, min 4)'),
-                  TextField(
-                    controller: passwordController,
-                    obscureText: true,
-                  ),
+                  TextField(controller: passwordController, obscureText: true),
                   const SizedBox(height: 28),
                   ScribblrPrimaryButton(
                     text: 'Save Changes',

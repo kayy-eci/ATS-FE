@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-// Design system "Scribblr" (UI layer saja, tanpa logic).
-// Estimasi visual dari referensi: krem hangat + terracotta.
 class ScribblrColors {
   static const bg = Color(0xFFFDF8F2);
   static const surface = Color(0xFFFFFFFF);

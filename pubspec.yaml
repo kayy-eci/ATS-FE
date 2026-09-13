@@ -36,10 +36,15 @@ dependencies:
   cupertino_icons: ^1.0.8
   http: ^1.6.0
   image_picker: ^1.1.2
+  shared_preferences: ^2.5.5
+  http_parser: ^4.1.2
+  flutter_floating_bottom_bar: ^2.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_native_splash: ^2.4.6
+  flutter_launcher_icons: ^0.14.4
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -61,6 +66,22 @@ flutter:
 
   assets:
     - assets/logokpi.png
+
+  # Native splash (flutter_native_splash): logo app + background Scribblr (#FDF8F2).
+  # Warna background = ScribblrColors.bg (#FDF8F2).
+flutter_native_splash:
+  color: "#FDF8F2"
+  image: assets/logokpi.png
+  android: true
+  ios: true
+
+# Launcher icon APK (flutter_launcher_icons): logo yang sama.
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/logokpi.png"
+  # Adaptive background biar logo 360x360 tidak ke-crop aneh di Android 8+.
+  adaptive_icon_background: "#FDF8F2"
 
   # To add assets to your application, add an assets section, like this:
   # assets:

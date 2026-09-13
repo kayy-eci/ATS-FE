@@ -1,5 +1,3 @@
-// Menyimpan JWT in-memory selama aplikasi berjalan.
-// Backend tidak diubah, jadi token adalah JWT dari POST /api/auth/login.
 class AuthSession {
   AuthSession._();
   static final AuthSession instance = AuthSession._();

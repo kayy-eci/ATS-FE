@@ -10,7 +10,7 @@ import 'package:frontendats/scribblr_widgets.dart';
 class DetailPostPage extends StatefulWidget {
   final Map post;
   final String category;
-  final List categories;
+  final List<dynamic> categories;
   final String currentUsername;
   const DetailPostPage({
     super.key,
@@ -34,25 +34,24 @@ class _DetailPostPageState extends State<DetailPostPage> {
   Future<void> deletePost() async {
     if (!_isMine) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Kamu hanya bisa menghapus artikelmu sendiri')),
+        const SnackBar(
+          content: Text('Kamu hanya bisa menghapus artikelmu sendiri'),
+        ),
       );
       return;
     }
     final postId = strOf(widget.post, 'id');
     if (postId.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('ID artikel tidak valid')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('ID artikel tidak valid')));
       return;
     }
     setState(() => isSaving = true);
 
     try {
       final data = await http
-          .delete(
-            Uri.parse('$baseUrl/posts/$postId'),
-            headers: authHeaders(),
-          )
+          .delete(Uri.parse('$baseUrl/posts/$postId'), headers: authHeaders())
           .timeout(const Duration(seconds: 10));
 
       if (!mounted) return;
@@ -61,7 +60,9 @@ class _DetailPostPageState extends State<DetailPostPage> {
       if (data.statusCode == 200) {
         PostsRefresh.bump();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Artikel berhasil dihapus: ${data.statusCode}')),
+          SnackBar(
+            content: Text('Artikel berhasil dihapus: ${data.statusCode}'),
+          ),
         );
         Navigator.pop(context, true);
       } else {
@@ -70,10 +71,10 @@ class _DetailPostPageState extends State<DetailPostPage> {
           SnackBar(content: Text('Gagal menghapus: ${data.statusCode}')),
         );
       }
-    } catch (e) {
+    } catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Tidak bisa terhubung ke server: $e')),
+        SnackBar(content: Text('Tidak bisa terhubung ke server: $error')),
       );
     } finally {
       if (mounted) setState(() => isSaving = false);
@@ -88,14 +89,15 @@ class _DetailPostPageState extends State<DetailPostPage> {
   void openEdit() {
     if (!_isMine) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Kamu hanya bisa mengedit artikelmu sendiri')),
+        const SnackBar(
+          content: Text('Kamu hanya bisa mengedit artikelmu sendiri'),
+        ),
       );
       return;
     }
     Navigator.push(
       context,
       MaterialPageRoute(
-        // Teruskan categories agar dropdown edit tidak kosong.
         builder: (context) => EditPostPage(
           post: widget.post,
           categories: widget.categories,
@@ -110,7 +112,7 @@ class _DetailPostPageState extends State<DetailPostPage> {
   @override
   Widget build(BuildContext context) {
     final post = widget.post;
-    final cover = strOf(post, 'cover_image');
+    final cover = resolveCoverUrl(strOf(post, 'cover_image'));
     final author = strOf(post, 'author');
     final date = strOf(post, 'created_at');
     final title = strOf(post, 'title');
@@ -178,8 +180,10 @@ class _DetailPostPageState extends State<DetailPostPage> {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  [if (author.isNotEmpty) author, if (date.isNotEmpty) date]
-                      .join('  \u2022  '),
+                  [
+                    if (author.isNotEmpty) author,
+                    if (date.isNotEmpty) date,
+                  ].join('  \u2022  '),
                   style: const TextStyle(
                     fontSize: 12,
                     color: ScribblrColors.muted,

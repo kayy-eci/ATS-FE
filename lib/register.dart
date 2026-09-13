@@ -20,8 +20,7 @@ class _RegisterPageState extends State<RegisterPage> {
   bool isSaving = false;
   bool obscure = true;
 
-  static final _emailRx =
-      RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
+  static final _emailRx = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
 
   Future<void> register() async {
     FocusScope.of(context).unfocus();
@@ -33,7 +32,6 @@ class _RegisterPageState extends State<RegisterPage> {
     setState(() => isSaving = true);
 
     try {
-      // Endpoint publik, tanpa token (backend: POST /api/users).
       final response = await http
           .post(
             Uri.parse('$baseUrl/users'),
@@ -57,20 +55,24 @@ class _RegisterPageState extends State<RegisterPage> {
       } else {
         String msg = 'Gagal daftar: ${response.statusCode}';
         try {
-          final b = jsonDecode(response.body);
-          if (b is Map && b['message'] != null) msg = '$msg - ${b['message']}';
+          final decodedBody = jsonDecode(response.body);
+          if (decodedBody is Map && decodedBody['message'] != null)
+            msg = '$msg - ${decodedBody['message']}';
         } catch (_) {
           if (response.body.isNotEmpty) msg = '$msg ${response.body}';
         }
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(msg)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(msg)));
       }
-    } catch (e) {
+    } catch (error) {
       if (!mounted) return;
       setState(() => isSaving = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Tidak bisa terhubung ke server: $e')),
+        SnackBar(
+          content: Text(friendlyNetworkError(error)),
+          duration: const Duration(seconds: 6),
+        ),
       );
     }
   }
@@ -115,8 +117,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           hintText: 'username',
                           prefixIcon: Icon(Icons.person_outline),
                         ),
-                        validator: (v) {
-                          if ((v ?? '').trim().length < 4) {
+                        validator: (value) {
+                          if ((value ?? '').trim().length < 4) {
                             return 'Username minimal 4 karakter';
                           }
                           return null;
@@ -131,10 +133,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           hintText: 'nama@email.com',
                           prefixIcon: Icon(Icons.email_outlined),
                         ),
-                        validator: (v) {
-                          final t = (v ?? '').trim();
-                          if (t.isEmpty) return 'Email wajib diisi';
-                          if (!_emailRx.hasMatch(t)) {
+                        validator: (value) {
+                          final trimmed = (value ?? '').trim();
+                          if (trimmed.isEmpty) return 'Email wajib diisi';
+                          if (!_emailRx.hasMatch(trimmed)) {
                             return 'Format email tidak valid';
                           }
                           return null;
@@ -146,12 +148,11 @@ class _RegisterPageState extends State<RegisterPage> {
                         controller: passwordController,
                         obscureText: obscure,
                         decoration: InputDecoration(
-                          hintText: '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022',
-                          prefixIcon:
-                              const Icon(Icons.lock_outline),
+                          hintText:
+                              '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022',
+                          prefixIcon: const Icon(Icons.lock_outline),
                           suffixIcon: IconButton(
-                            onPressed: () =>
-                                setState(() => obscure = !obscure),
+                            onPressed: () => setState(() => obscure = !obscure),
                             icon: Icon(
                               obscure
                                   ? Icons.visibility_off_outlined
@@ -159,8 +160,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                         ),
-                        validator: (v) {
-                          if ((v ?? '').length < 4) {
+                        validator: (value) {
+                          if ((value ?? '').length < 4) {
                             return 'Password minimal 4 karakter';
                           }
                           return null;
@@ -179,23 +180,22 @@ class _RegisterPageState extends State<RegisterPage> {
                           const Text(
                             'Already have an account? ',
                             style: TextStyle(
-                                fontSize: 13,
-                                color: ScribblrColors.muted),
+                              fontSize: 13,
+                              color: ScribblrColors.muted,
+                            ),
                           ),
                           TextButton(
                             style: TextButton.styleFrom(
                               padding: EdgeInsets.zero,
                               minimumSize: Size.zero,
-                              tapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
                             onPressed: isSaving
                                 ? null
                                 : () => Navigator.pop(context),
                             child: const Text(
                               'Sign In',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700),
+                              style: TextStyle(fontWeight: FontWeight.w700),
                             ),
                           ),
                         ],

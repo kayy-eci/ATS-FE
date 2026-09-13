@@ -9,10 +9,6 @@ import 'package:frontendats/posts_refresh.dart';
 import 'package:frontendats/scribblr_theme.dart';
 import 'package:frontendats/scribblr_widgets.dart';
 
-// My Article: list artikel milik user (filter client-side author == username,
-// case-insensitive, karena backend tidak punya owner/user_id).
-// Tab Draft & Published memakai field status yang memang ada di model.
-// Aksi Edit -> form edit, Delete -> konfirmasi + DELETE /posts/:id.
 class MyArticlesPage extends StatefulWidget {
   final String username;
   const MyArticlesPage({super.key, this.username = ''});
@@ -22,15 +18,15 @@ class MyArticlesPage extends StatefulWidget {
 }
 
 class _MyArticlesPageState extends State<MyArticlesPage> {
-  List posts = [];
-  List categories = [];
+  List<dynamic> posts = [];
+  List<dynamic> categories = [];
   bool isLoading = false;
   String tab = 'published';
   int _seenVersion = -1;
 
   String categoryName(dynamic id) => catNameOf(categories, id);
 
-  Future<void> getPosts() async {
+  Future<void> fetchPosts() async {
     setState(() => isLoading = true);
     try {
       final postRes = await http
@@ -69,11 +65,11 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
           });
         } catch (_) {}
       }
-    } catch (e) {
+    } catch (error) {
       if (!mounted) return;
       setState(() => isLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Tidak bisa terhubung ke server: $e')),
+        SnackBar(content: Text('Tidak bisa terhubung ke server: $error')),
       );
     }
   }
@@ -91,10 +87,14 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
 
       if (data.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Artikel berhasil dihapus: ${data.statusCode}')),
+          SnackBar(
+            content: Text('Artikel berhasil dihapus: ${data.statusCode}'),
+          ),
         );
         setState(() {
-          posts.removeWhere((post) => post is Map && post['id']?.toString() == id);
+          posts.removeWhere(
+            (post) => post is Map && post['id']?.toString() == id,
+          );
         });
         PostsRefresh.bump();
       } else {
@@ -102,10 +102,10 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
           SnackBar(content: Text('Gagal menghapus: ${data.statusCode}')),
         );
       }
-    } catch (e) {
+    } catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Tidak bisa terhubung ke server: $e')),
+        SnackBar(content: Text('Tidak bisa terhubung ke server: $error')),
       );
     }
   }
@@ -113,7 +113,7 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
   void _onRefreshBus() {
     if (PostsRefresh.notifier.value != _seenVersion) {
       _seenVersion = PostsRefresh.notifier.value;
-      getPosts();
+      fetchPosts();
     }
   }
 
@@ -122,7 +122,7 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
     super.initState();
     _seenVersion = PostsRefresh.notifier.value;
     PostsRefresh.notifier.addListener(_onRefreshBus);
-    getPosts();
+    fetchPosts();
   }
 
   @override
@@ -134,35 +134,31 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
   @override
   Widget build(BuildContext context) {
     final myPosts = posts
-        .where((p) => p is Map && isMine(p, widget.username))
+        .where(
+          (postItem) => postItem is Map && isMine(postItem, widget.username),
+        )
         .toList();
-    final mine = myPosts
-        .where((p) {
-          final st = strOf(p, 'status');
-          return (st.isEmpty ? 'published' : st) == tab;
-        })
-        .toList();
+    final mine = myPosts.where((postItem) {
+      final statusValue = strOf(postItem, 'status');
+      return (statusValue.isEmpty ? 'published' : statusValue) == tab;
+    }).toList();
     final draftCount = myPosts
-        .where((p) => strOf(p, 'status') == 'draft')
+        .where((postItem) => strOf(postItem, 'status') == 'draft')
         .length;
-    final pubCount = myPosts
-        .where((p) {
-          final st = strOf(p, 'status');
-          return st.isEmpty || st == 'published';
-        })
-        .length;
+    final pubCount = myPosts.where((postItem) {
+      final statusValue = strOf(postItem, 'status');
+      return statusValue.isEmpty || statusValue == 'published';
+    }).length;
 
     return Scaffold(
       body: SafeArea(
         child: isLoading
             ? const Center(
-                child: CircularProgressIndicator(
-                  color: ScribblrColors.primary,
-                ),
+                child: CircularProgressIndicator(color: ScribblrColors.primary),
               )
             : RefreshIndicator(
                 color: ScribblrColors.primary,
-                onRefresh: getPosts,
+                onRefresh: fetchPosts,
                 child: ListView(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
@@ -201,7 +197,7 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
                       )
                     else
                       ...mine.map(
-                        (p) => Padding(
+                        (postItem) => Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: ScribblrCard(
                             onTap: () {
@@ -209,21 +205,22 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => DetailPostPage(
-                                    post: p,
-                                    category: categoryName(
-                                      p['category_id'],
+                                    post: postItem,
+                                    category: categoryLabelOf(
+                                      categories,
+                                      postItem as Map,
                                     ),
                                     categories: categories,
                                     currentUsername: widget.username,
                                   ),
                                 ),
                               ).then((ok) {
-                                if (ok == true) getPosts();
+                                if (ok == true) fetchPosts();
                               });
                             },
                             child: Row(
                               children: [
-                                ScribblrThumb(cover: p['cover_image']),
+                                ScribblrThumb(cover: postItem['cover_image']),
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: Column(
@@ -231,7 +228,7 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        strOf(p, 'title'),
+                                        strOf(postItem, 'title'),
                                         style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w700,
@@ -251,14 +248,14 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
                                                 MaterialPageRoute(
                                                   builder: (context) =>
                                                       EditPostPage(
-                                                    post: p,
-                                                    categories: categories,
-                                                    currentUsername:
-                                                        widget.username,
-                                                  ),
+                                                        post: postItem,
+                                                        categories: categories,
+                                                        currentUsername:
+                                                            widget.username,
+                                                      ),
                                                 ),
                                               ).then((ok) {
-                                                if (ok == true) getPosts();
+                                                if (ok == true) fetchPosts();
                                               });
                                             },
                                             child: const Row(
@@ -266,18 +263,16 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
                                                 Icon(
                                                   Icons.edit_outlined,
                                                   size: 15,
-                                                  color:
-                                                      ScribblrColors.primary,
+                                                  color: ScribblrColors.primary,
                                                 ),
                                                 SizedBox(width: 4),
                                                 Text(
                                                   'Edit',
                                                   style: TextStyle(
                                                     fontSize: 12,
-                                                    color: ScribblrColors
-                                                        .primary,
-                                                    fontWeight:
-                                                        FontWeight.w600,
+                                                    color:
+                                                        ScribblrColors.primary,
+                                                    fontWeight: FontWeight.w600,
                                                   ),
                                                 ),
                                               ],
@@ -288,10 +283,10 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
                                             onTap: () async {
                                               final ok =
                                                   await confirmDeleteArticle(
-                                                context,
-                                              );
+                                                    context,
+                                                  );
                                               if (!ok) return;
-                                              deletePost(p['id']);
+                                              deletePost(postItem['id']);
                                             },
                                             child: const Row(
                                               children: [
@@ -306,8 +301,7 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
                                                   style: TextStyle(
                                                     fontSize: 12,
                                                     color: Colors.redAccent,
-                                                    fontWeight:
-                                                        FontWeight.w600,
+                                                    fontWeight: FontWeight.w600,
                                                   ),
                                                 ),
                                               ],

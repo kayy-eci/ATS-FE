@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:frontendats/api.dart';
@@ -24,29 +25,18 @@ class _AddPostPageState extends State<AddPostPage> {
   final titleController = TextEditingController();
   final contentController = TextEditingController();
   final excerptController = TextEditingController();
-  late final authorController =
-      TextEditingController(text: widget.username);
-  final coverController = TextEditingController();
-  List categories = [];
-  int? selectedCategory;
+  late final authorController = TextEditingController(text: widget.username);
+  List<dynamic> categories = [];
+
+  final Set<int> selectedCategories = {};
   String? categoryError;
   String selectedStatus = 'published';
   bool isSaving = false;
-  bool isUploading = false;
 
   XFile? _pickedCover;
   Uint8List? _pickedBytes;
 
-  /// Samakan dengan validasi backend (Zod):
-  /// slug hanya lowercase, angka, hyphen, tanpa hyphen ganda/di ujung.
-  String makeSlug(String title) {
-    var s = title.toLowerCase().replaceAll(RegExp(r'[^a-z0-9\s-]'), '');
-    s = s.trim().replaceAll(RegExp(r'\s+'), '-').replaceAll(RegExp(r'-+'), '-');
-    s = s.replaceAll(RegExp(r'^-+|-+$'), '');
-    return s;
-  }
-
-  Future<void> getCategories() async {
+  Future<void> fetchCategories() async {
     try {
       final data = await http
           .get(Uri.parse('$baseUrl/categories'), headers: authHeaders())
@@ -59,21 +49,20 @@ class _AddPostPageState extends State<AddPostPage> {
         final list = (body is Map ? body['data'] : null) ?? [];
         setState(() {
           categories = list is List ? list : [];
-          if (categories.isNotEmpty && selectedCategory == null) {
-            selectedCategory = idOf(categories[0]['id']);
+          if (categories.isNotEmpty && selectedCategories.isEmpty) {
+            final first = idOf(categories[0]['id']);
+            if (first != null) selectedCategories.add(first);
           }
           categoryError = null;
         });
       } else {
-        debugPrint('data gagal di ambil: ${data.statusCode}');
+        debugPrint('Gagal mengambil data: ${data.statusCode}');
       }
-    } catch (e) {
-      debugPrint('getCategories error: $e');
+    } catch (error) {
+      debugPrint('fetchCategories error: $error');
     }
   }
 
-  // Bikin kategori baru inline (POST /categories yang sudah ada di backend),
-  // lalu otomatis kepilih (checklist). Field sesuai skema backend.
   Future<void> createCategoryInline() async {
     final nameController = TextEditingController();
     final descController = TextEditingController();
@@ -98,14 +87,16 @@ class _AddPostPageState extends State<AddPostPage> {
                 TextFormField(
                   controller: nameController,
                   decoration: const InputDecoration(hintText: 'Topic name'),
-                  validator: (v) =>
-                      (v == null || v.trim().isEmpty) ? 'Wajib diisi' : null,
+                  validator: (value) => (value == null || value.trim().isEmpty)
+                      ? 'Wajib diisi'
+                      : null,
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: descController,
-                  decoration:
-                      const InputDecoration(hintText: 'Description (opsional)'),
+                  decoration: const InputDecoration(
+                    hintText: 'Description (opsional)',
+                  ),
                   maxLines: 2,
                 ),
               ],
@@ -117,9 +108,7 @@ class _AddPostPageState extends State<AddPostPage> {
               child: const Text('Cancel'),
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(100, 44),
-              ),
+              style: ElevatedButton.styleFrom(minimumSize: const Size(100, 44)),
               onPressed: () {
                 if (formKey.currentState?.validate() != true) return;
                 Navigator.pop(context, true);
@@ -132,7 +121,7 @@ class _AddPostPageState extends State<AddPostPage> {
     );
     if (created != true || !mounted) return;
     final name = nameController.text.trim();
-    final slug = makeSlug(name);
+    final slug = makeCategorySlug(name);
     try {
       final res = await http
           .post(
@@ -150,17 +139,20 @@ class _AddPostPageState extends State<AddPostPage> {
       if (!mounted) return;
       if (await handleAuthError(context, res)) return;
       if (res.statusCode == 200 || res.statusCode == 201) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Topik baru tersimpan')),
-        );
-        await getCategories();
-        // Otomatis checklist topik yang baru dibuat.
-        for (final c in categories) {
-          if (strOf(c, 'name') == name) {
-            setState(() {
-              selectedCategory = idOf((c as Map)['id']);
-              categoryError = null;
-            });
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Topik baru tersimpan')));
+        await fetchCategories();
+
+        for (final categoryItem in categories) {
+          if (strOf(categoryItem, 'name') == name) {
+            final id = idOf((categoryItem as Map)['id']);
+            if (id != null) {
+              setState(() {
+                selectedCategories.add(id);
+                categoryError = null;
+              });
+            }
             break;
           }
         }
@@ -169,10 +161,10 @@ class _AddPostPageState extends State<AddPostPage> {
           SnackBar(content: Text('Gagal bikin topik: ${res.statusCode}')),
         );
       }
-    } catch (e) {
+    } catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Tidak bisa terhubung ke server: $e')),
+        SnackBar(content: Text('Tidak bisa terhubung ke server: $error')),
       );
     }
   }
@@ -191,11 +183,11 @@ class _AddPostPageState extends State<AddPostPage> {
         _pickedCover = file;
         _pickedBytes = bytes;
       });
-    } catch (e) {
+    } catch (error) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal memilih gambar: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Gagal memilih gambar: $error')));
     }
   }
 
@@ -206,59 +198,48 @@ class _AddPostPageState extends State<AddPostPage> {
     });
   }
 
-  /// Upload cover ke backend (POST /api/upload, field `image`).
-  /// Return URL absolut, atau null kalau gagal / endpoint belum ada.
-  /// Pemanggil wajib fallback ke URL teks / null agar publish tetap jalan.
-  Future<String?> uploadCover() async {
-    final picked = _pickedCover;
-    final bytes = _pickedBytes;
-    if (picked == null || bytes == null) return null;
+  MediaType _guessImageType(String filename) {
+    final lower = filename.toLowerCase();
+    if (lower.endsWith('.png')) return MediaType('image', 'png');
+    if (lower.endsWith('.webp')) return MediaType('image', 'webp');
+    if (lower.endsWith('.gif')) return MediaType('image', 'gif');
+    return MediaType('image', 'jpeg');
+  }
+
+  void _showSaveError(int status, String body) {
+    debugPrint('POST /posts gagal: $status $body');
+    String msg = 'Gagal menyimpan artikel: $status';
     try {
-      final req = http.MultipartRequest(
-        'POST',
-        Uri.parse('$baseUrl/upload'),
-      )..headers.addAll(authHeaders());
-      req.files.add(
-        http.MultipartFile.fromBytes('image', bytes, filename: picked.name),
-      );
-      final streamed =
-          await req.send().timeout(const Duration(seconds: 20));
-      final res = await http.Response.fromStream(streamed);
-      if (res.statusCode == 200 || res.statusCode == 201) {
-        try {
-          final body = jsonDecode(res.body);
-          String url = '';
-          if (body is Map) {
-            url = (body['url'] ?? body['path'] ?? '').toString();
-            if (url.isEmpty && body['data'] is Map) {
-              final d = body['data'] as Map;
-              url = (d['url'] ?? d['path'] ?? '').toString();
-            }
-          }
-          if (url.isEmpty) return null;
-          if (url.startsWith('http')) return url;
-          final origin =
-              Uri.parse(baseUrl).replace(path: '').toString().replaceAll(RegExp(r'/+$'), '');
-          return url.startsWith('/') ? '$origin$url' : '$origin/$url';
-        } catch (_) {
-          return null;
+      final decodedBody = jsonDecode(body);
+      if (decodedBody is Map) {
+        if (decodedBody['message'] != null) {
+          msg = '$msg - ${decodedBody['message']}';
+        } else if (decodedBody['errors'] != null) {
+          msg = '$msg - ${decodedBody['errors']}';
+        } else if (decodedBody['error'] != null) {
+          msg = '$msg - ${decodedBody['error']}';
+        } else {
+          msg = '$msg - $body';
         }
+      } else {
+        msg = '$msg - $body';
       }
-      debugPrint('upload cover gagal: ${res.statusCode} ${res.body}');
-      return null;
-    } catch (e) {
-      debugPrint('uploadCover error: $e');
-      return null;
+    } catch (_) {
+      if (body.isNotEmpty) msg = '$msg - $body';
     }
+    if (msg.length > 500) msg = '${msg.substring(0, 500)}...';
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg), duration: const Duration(seconds: 6)),
+    );
   }
 
   Future<void> addPost() async {
     FocusScope.of(context).unfocus();
     final valid = _formKey.currentState?.validate() ?? false;
-    if (selectedCategory == null) {
-      setState(() => categoryError = 'Pilih kategori dulu');
+    if (selectedCategories.isEmpty) {
+      setState(() => categoryError = 'Pilih minimal 1 kategori');
     }
-    if (!valid || selectedCategory == null) {
+    if (!valid || selectedCategories.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Periksa lagi isian yang ditandai')),
       );
@@ -268,52 +249,67 @@ class _AddPostPageState extends State<AddPostPage> {
     setState(() => isSaving = true);
 
     try {
-      // Upload dulu kalau user memilih gambar dari galeri.
-      String? uploadedUrl;
-      if (_pickedCover != null) {
-        setState(() => isUploading = true);
-        uploadedUrl = await uploadCover();
-        if (!mounted) return;
-        setState(() => isUploading = false);
-        if (uploadedUrl == null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(
-                'Upload gambar gagal (endpoint belum tersedia?), pakai URL teks kalau ada',
-              ),
-            ),
-          );
-        }
-      }
-
-      var slug = makeSlug(titleController.text);
+      var slug = makeCategorySlug(titleController.text);
       if (slug.isEmpty) {
-        // Fallback agar tidak pernah mengirim slug null/kosong.
         slug = 'post-${DateTime.now().millisecondsSinceEpoch}';
       }
-      final urlCover = coverController.text.trim();
-      // Prioritas: hasil upload > URL teks > null.
-      final cover = uploadedUrl ?? (urlCover.isEmpty ? null : urlCover);
-      // Author dikunci ke akun login agar artikel terdeteksi di My Article.
+
       final author = authorController.text.trim().isEmpty
           ? (widget.username.trim().isEmpty ? null : widget.username.trim())
           : authorController.text.trim();
-      final response = await http
-          .post(
-            Uri.parse('$baseUrl/posts'),
-            headers: authHeaders(),
-            body: jsonEncode({
-              'title': titleController.text.trim(),
-              'slug': slug,
-              'content': contentController.text,
-              'excerpt': excerptController.text.isEmpty ? null : excerptController.text,
-              'cover_image': cover,
-              'category_id': selectedCategory,
-              'author': author,
-              'status': selectedStatus,
-            }),
-          )
-          .timeout(const Duration(seconds: 10));
+      final hasImage = _pickedCover != null && _pickedBytes != null;
+      final excerpt = excerptController.text.isEmpty
+          ? null
+          : excerptController.text;
+
+      final catList = selectedCategories.toList();
+      final primaryCat = catList.first;
+
+      http.Response response;
+      if (!hasImage) {
+        response = await http
+            .post(
+              Uri.parse('$baseUrl/posts'),
+              headers: authHeaders(),
+              body: jsonEncode({
+                'title': titleController.text.trim(),
+                'slug': slug,
+                'content': contentController.text,
+                'excerpt': excerpt,
+                'category_id': primaryCat,
+                'category_ids': catList,
+                'author': author,
+                'status': selectedStatus,
+              }),
+            )
+            .timeout(const Duration(seconds: 10));
+      } else {
+        final req = http.MultipartRequest('POST', Uri.parse('$baseUrl/posts'))
+          ..headers.addAll(authOnlyHeaders());
+        req.fields['title'] = titleController.text.trim();
+        req.fields['slug'] = slug;
+        req.fields['content'] = contentController.text;
+        if (excerpt != null) req.fields['excerpt'] = excerpt;
+        req.fields['category_id'] = primaryCat.toString();
+        req.fields['category_ids'] = jsonEncode(catList);
+        if (author != null && author.isNotEmpty) {
+          req.fields['author'] = author;
+        }
+        req.fields['status'] = selectedStatus;
+
+        final picked = _pickedCover!;
+        req.files.add(
+          http.MultipartFile.fromBytes(
+            'cover_image',
+            _pickedBytes!,
+            filename: picked.name.isEmpty ? 'cover.jpg' : picked.name,
+            contentType: _guessImageType(picked.name),
+          ),
+        );
+
+        final streamed = await req.send().timeout(const Duration(seconds: 20));
+        response = await http.Response.fromStream(streamed);
+      }
 
       if (!mounted) return;
       if (await handleAuthError(context, response)) return;
@@ -331,30 +327,22 @@ class _AddPostPageState extends State<AddPostPage> {
           ),
         );
         if (inShell) {
-          // Di dalam bottom-nav tidak ada route untuk di-pop:
-          // reset form lalu pindah ke tab My Article.
           _formKey.currentState?.reset();
           titleController.clear();
           contentController.clear();
           excerptController.clear();
-          coverController.clear();
           clearPickedCover();
           widget.onSaved?.call();
         } else {
           Navigator.pop(context, true);
         }
       } else {
-        String msg = 'Gagal menyimpan artikel: ${response.statusCode}';
-        try {
-          final b = jsonDecode(response.body);
-          if (b is Map && b['message'] != null) msg = '$msg - ${b['message']}';
-        } catch (_) {}
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+        _showSaveError(response.statusCode, response.body);
       }
-    } catch (e) {
+    } catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Tidak bisa terhubung ke server: $e')),
+        SnackBar(content: Text('Tidak bisa terhubung ke server: $error')),
       );
     } finally {
       if (mounted) setState(() => isSaving = false);
@@ -364,7 +352,7 @@ class _AddPostPageState extends State<AddPostPage> {
   @override
   void initState() {
     super.initState();
-    getCategories();
+    fetchCategories();
   }
 
   @override
@@ -381,7 +369,6 @@ class _AddPostPageState extends State<AddPostPage> {
     contentController.dispose();
     excerptController.dispose();
     authorController.dispose();
-    coverController.dispose();
     super.dispose();
   }
 
@@ -424,6 +411,7 @@ class _AddPostPageState extends State<AddPostPage> {
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             children: [
+              const ScribblrLabel(text: 'Cover image (opsional, dari galeri)'),
               _coverPreview(),
               const SizedBox(height: 8),
               Row(
@@ -443,34 +431,22 @@ class _AddPostPageState extends State<AddPostPage> {
                     ),
                 ],
               ),
-              const SizedBox(height: 4),
-              const ScribblrLabel(text: 'Cover image URL (opsional)'),
-              TextFormField(
-                controller: coverController,
-                keyboardType: TextInputType.url,
-                decoration: const InputDecoration(
-                  hintText: 'https://... (dipakai kalau tidak pilih gambar)',
+              if (_pickedCover != null)
+                Text(
+                  _pickedCover!.name,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: ScribblrColors.muted,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                validator: (v) {
-                  final t = (v ?? '').trim();
-                  if (t.isEmpty) return null;
-                  final uri = Uri.tryParse(t);
-                  if (uri == null ||
-                      !(uri.isScheme('http') || uri.isScheme('https'))) {
-                    return 'URL tidak valid';
-                  }
-                  return null;
-                },
-              ),
               const SizedBox(height: 14),
               const ScribblrLabel(text: 'Title'),
               TextFormField(
                 controller: titleController,
-                decoration: const InputDecoration(
-                  hintText: 'Article title',
-                ),
-                validator: (v) {
-                  if ((v ?? '').trim().length < 3) {
+                decoration: const InputDecoration(hintText: 'Article title'),
+                validator: (value) {
+                  if ((value ?? '').trim().length < 3) {
                     return 'Judul minimal 3 karakter';
                   }
                   return null;
@@ -484,8 +460,8 @@ class _AddPostPageState extends State<AddPostPage> {
                 decoration: const InputDecoration(
                   hintText: 'Tell your story...',
                 ),
-                validator: (v) {
-                  if ((v ?? '').trim().length < 10) {
+                validator: (value) {
+                  if ((value ?? '').trim().length < 10) {
                     return 'Isi artikel minimal 10 karakter';
                   }
                   return null;
@@ -496,9 +472,7 @@ class _AddPostPageState extends State<AddPostPage> {
               TextFormField(
                 controller: excerptController,
                 maxLines: 2,
-                decoration: const InputDecoration(
-                  hintText: 'Short summary...',
-                ),
+                decoration: const InputDecoration(hintText: 'Short summary...'),
               ),
               const SizedBox(height: 14),
               const ScribblrLabel(text: 'Author (akun kamu, terkunci)'),
@@ -511,8 +485,8 @@ class _AddPostPageState extends State<AddPostPage> {
                       ? const Icon(Icons.lock_outline, size: 18)
                       : null,
                 ),
-                validator: (v) {
-                  if ((v ?? '').trim().isEmpty &&
+                validator: (value) {
+                  if ((value ?? '').trim().isEmpty &&
                       widget.username.trim().isEmpty) {
                     return 'Author wajib diisi';
                   }
@@ -522,19 +496,43 @@ class _AddPostPageState extends State<AddPostPage> {
               const SizedBox(height: 18),
               Row(
                 children: [
-                  const Text(
-                    'Select Topics',
-                    style: TextStyle(
+                  Text(
+                    'Select Topics${selectedCategories.isEmpty ? '' : ' (${selectedCategories.length})'}',
+                    style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w800,
                       color: ScribblrColors.ink,
                     ),
                   ),
                   const Spacer(),
+                  if (selectedCategories.isNotEmpty)
+                    TextButton(
+                      onPressed: isSaving
+                          ? null
+                          : () => setState(() {
+                              selectedCategories.clear();
+                              categoryError = null;
+                            }),
+                      child: const Text('Clear'),
+                    ),
                   TextButton.icon(
                     onPressed: isSaving ? null : createCategoryInline,
                     icon: const Icon(Icons.add, size: 16),
                     label: const Text('New'),
+                  ),
+                ],
+              ),
+              const Row(
+                children: [
+                  Icon(
+                    Icons.touch_app_outlined,
+                    size: 14,
+                    color: ScribblrColors.muted,
+                  ),
+                  SizedBox(width: 4),
+                  Text(
+                    'Bisa pilih lebih dari 1 topik.',
+                    style: TextStyle(fontSize: 12, color: ScribblrColors.muted),
                   ),
                 ],
               ),
@@ -548,21 +546,36 @@ class _AddPostPageState extends State<AddPostPage> {
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
-                  children: categories.map<Widget>((c) {
-                    final id = idOf((c as Map)['id']);
-                    final selected = selectedCategory == id;
+                  children: categories.map<Widget>((categoryItem) {
+                    final id = idOf((categoryItem as Map)['id']);
+                    final selected =
+                        id != null && selectedCategories.contains(id);
                     return FilterChip(
-                      label: Text(strOf(c, 'name')),
+                      label: Text(strOf(categoryItem, 'name')),
+                      avatar: CircleAvatar(
+                        radius: 11,
+                        backgroundColor: selected
+                            ? Colors.white24
+                            : ScribblrColors.chipBg,
+                        backgroundImage: const AssetImage('assets/logokpi.png'),
+                        onBackgroundImageError: (_, _) {},
+                        child: const SizedBox.shrink(),
+                      ),
                       selected: selected,
-                      onSelected: (_) => setState(() {
-                        selectedCategory = id;
-                        categoryError = null;
-                      }),
+                      onSelected: (_) {
+                        if (id == null) return;
+                        setState(() {
+                          if (selected) {
+                            selectedCategories.remove(id);
+                          } else {
+                            selectedCategories.add(id);
+                          }
+                          categoryError = null;
+                        });
+                      },
                       selectedColor: ScribblrColors.primary,
                       labelStyle: TextStyle(
-                        color: selected
-                            ? Colors.white
-                            : ScribblrColors.ink,
+                        color: selected ? Colors.white : ScribblrColors.ink,
                         fontWeight: FontWeight.w600,
                       ),
                       shape: const StadiumBorder(
@@ -575,10 +588,7 @@ class _AddPostPageState extends State<AddPostPage> {
                 const SizedBox(height: 6),
                 Text(
                   categoryError!,
-                  style: const TextStyle(
-                    color: Colors.redAccent,
-                    fontSize: 12,
-                  ),
+                  style: const TextStyle(color: Colors.redAccent, fontSize: 12),
                 ),
               ],
               const SizedBox(height: 18),
@@ -598,9 +608,7 @@ class _AddPostPageState extends State<AddPostPage> {
               ),
               const SizedBox(height: 24),
               ScribblrPrimaryButton(
-                text: isUploading
-                    ? 'Uploading image...'
-                    : (selectedStatus == 'draft' ? 'Save Draft' : 'Publish'),
+                text: selectedStatus == 'draft' ? 'Save Draft' : 'Publish',
                 loading: isSaving,
                 onPressed: isSaving ? null : addPost,
               ),
@@ -624,22 +632,7 @@ class _AddPostPageState extends State<AddPostPage> {
         ),
       );
     }
-    return ValueListenableBuilder<TextEditingValue>(
-      valueListenable: coverController,
-      builder: (context, value, _) {
-        final url = value.text.trim();
-        if (url.isEmpty) return _coverPlaceholder();
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Image.network(
-            url,
-            height: 180,
-            fit: BoxFit.cover,
-            errorBuilder: (_, _, _) => _coverPlaceholder(),
-          ),
-        );
-      },
-    );
+    return _coverPlaceholder();
   }
 
   Widget _coverPlaceholder() {

@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'dart:convert';
 import 'package:image_picker/image_picker.dart';
 import 'package:frontendats/api.dart';
@@ -12,7 +13,7 @@ import 'package:frontendats/scribblr_widgets.dart';
 
 class EditPostPage extends StatefulWidget {
   final Map post;
-  final List categories;
+  final List<dynamic> categories;
   final String currentUsername;
   const EditPostPage({
     super.key,
@@ -27,18 +28,24 @@ class EditPostPage extends StatefulWidget {
 
 class _EditPostPageState extends State<EditPostPage> {
   final _formKey = GlobalKey<FormState>();
-  late final titleController = TextEditingController(text: strOf(widget.post, 'title'));
-  late final contentController = TextEditingController(text: strOf(widget.post, 'content'));
-  late final excerptController = TextEditingController(text: strOf(widget.post, 'excerpt'));
-  late final authorController = TextEditingController(text: strOf(widget.post, 'author'));
-  late final coverController =
-      TextEditingController(text: strOf(widget.post, 'cover_image'));
-  List categories = [];
-  int? selectedCategory;
+  late final titleController = TextEditingController(
+    text: strOf(widget.post, 'title'),
+  );
+  late final contentController = TextEditingController(
+    text: strOf(widget.post, 'content'),
+  );
+  late final excerptController = TextEditingController(
+    text: strOf(widget.post, 'excerpt'),
+  );
+  late final authorController = TextEditingController(
+    text: strOf(widget.post, 'author'),
+  );
+  List<dynamic> categories = [];
+
+  final Set<int> selectedCategories = {};
   String? categoryError;
   late String selectedStatus;
   bool isSaving = false;
-  bool isUploading = false;
   bool isLoadingCats = false;
 
   XFile? _pickedCover;
@@ -48,21 +55,18 @@ class _EditPostPageState extends State<EditPostPage> {
       widget.currentUsername.isEmpty ||
       isMine(widget.post, widget.currentUsername);
 
-  String makeSlug(String title) {
-    var s = title.toLowerCase().replaceAll(RegExp(r'[^a-z0-9\s-]'), '');
-    s = s.trim().replaceAll(RegExp(r'\s+'), '-').replaceAll(RegExp(r'-+'), '-');
-    s = s.replaceAll(RegExp(r'^-+|-+$'), '');
-    return s;
-  }
-
   @override
   void initState() {
     super.initState();
     categories = widget.categories;
-    selectedCategory = idOf(widget.post['category_id']);
-    final st = strOf(widget.post, 'status');
-    selectedStatus = st.isEmpty ? 'published' : st;
-    // DetailPost kadang tidak membawa categories -> fetch sendiri.
+
+    for (final categoryIdText in postCategoryIds(widget.post)) {
+      final id = int.tryParse(categoryIdText);
+      if (id != null) selectedCategories.add(id);
+    }
+    final statusValue = strOf(widget.post, 'status');
+    selectedStatus = statusValue.isEmpty ? 'published' : statusValue;
+
     if (categories.isEmpty) fetchCategories();
   }
 
@@ -81,8 +85,8 @@ class _EditPostPageState extends State<EditPostPage> {
           categories = list is List ? list : [];
         });
       }
-    } catch (e) {
-      debugPrint('fetchCategories error: $e');
+    } catch (error) {
+      debugPrint('fetchCategories error: $error');
     } finally {
       if (mounted) setState(() => isLoadingCats = false);
     }
@@ -102,55 +106,11 @@ class _EditPostPageState extends State<EditPostPage> {
         _pickedCover = file;
         _pickedBytes = bytes;
       });
-    } catch (e) {
+    } catch (error) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal memilih gambar: $e')),
-      );
-    }
-  }
-
-  /// Upload cover ke backend (POST /api/upload, field `image`).
-  /// Null kalau gagal — pemanggil fallback ke URL teks.
-  Future<String?> uploadCover() async {
-    final picked = _pickedCover;
-    final bytes = _pickedBytes;
-    if (picked == null || bytes == null) return null;
-    try {
-      final req = http.MultipartRequest(
-        'POST',
-        Uri.parse('$baseUrl/upload'),
-      )..headers.addAll(authHeaders());
-      req.files.add(
-        http.MultipartFile.fromBytes('image', bytes, filename: picked.name),
-      );
-      final streamed =
-          await req.send().timeout(const Duration(seconds: 20));
-      final res = await http.Response.fromStream(streamed);
-      if (res.statusCode == 200 || res.statusCode == 201) {
-        try {
-          final body = jsonDecode(res.body);
-          String url = '';
-          if (body is Map) {
-            url = (body['url'] ?? body['path'] ?? '').toString();
-            if (url.isEmpty && body['data'] is Map) {
-              final d = body['data'] as Map;
-              url = (d['url'] ?? d['path'] ?? '').toString();
-            }
-          }
-          if (url.isEmpty) return null;
-          if (url.startsWith('http')) return url;
-          final origin =
-              Uri.parse(baseUrl).replace(path: '').toString().replaceAll(RegExp(r'/+$'), '');
-          return url.startsWith('/') ? '$origin$url' : '$origin/$url';
-        } catch (_) {
-          return null;
-        }
-      }
-      return null;
-    } catch (e) {
-      debugPrint('uploadCover error: $e');
-      return null;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Gagal memilih gambar: $error')));
     }
   }
 
@@ -158,15 +118,17 @@ class _EditPostPageState extends State<EditPostPage> {
     FocusScope.of(context).unfocus();
     if (!_isMine) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Kamu hanya bisa mengedit artikelmu sendiri')),
+        const SnackBar(
+          content: Text('Kamu hanya bisa mengedit artikelmu sendiri'),
+        ),
       );
       return;
     }
     final valid = _formKey.currentState?.validate() ?? false;
-    if (selectedCategory == null) {
+    if (selectedCategories.isEmpty) {
       setState(() => categoryError = 'Kategori belum dipilih');
     }
-    if (!valid || selectedCategory == null) {
+    if (!valid || selectedCategories.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Periksa lagi isian yang ditandai')),
       );
@@ -176,45 +138,124 @@ class _EditPostPageState extends State<EditPostPage> {
     setState(() => isSaving = true);
 
     try {
-      String? uploadedUrl;
-      if (_pickedCover != null) {
-        setState(() => isUploading = true);
-        uploadedUrl = await uploadCover();
-        if (!mounted) return;
-        setState(() => isUploading = false);
-      }
-
-      var slug = makeSlug(titleController.text);
+      var slug = makeCategorySlug(titleController.text);
       if (slug.isEmpty) {
         slug = 'post-${DateTime.now().millisecondsSinceEpoch}';
       }
-      final urlCover = coverController.text.trim();
-      final cover = uploadedUrl ?? (urlCover.isEmpty ? null : urlCover);
       final postId = strOf(widget.post, 'id');
       if (postId.isEmpty) {
         if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('ID artikel tidak valid')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('ID artikel tidak valid')));
         return;
       }
-      final response = await http
-          .put(
-            Uri.parse('$baseUrl/posts/$postId'),
-            headers: authHeaders(),
-            body: jsonEncode({
-              'title': titleController.text.trim(),
-              'slug': slug,
-              'content': contentController.text,
-              'excerpt': excerptController.text.isEmpty ? null : excerptController.text,
-              'cover_image': cover,
-              'category_id': selectedCategory,
-              // Author tidak diubah saat edit agar kepemilikan konsisten.
-              'author': authorController.text.isEmpty ? null : authorController.text.trim(),
-              'status': selectedStatus,
-            }),
-          )
-          .timeout(const Duration(seconds: 10));
+
+      Map<String, String> buildFields() {
+        final catList = selectedCategories.toList();
+        final fields = <String, String>{
+          'title': titleController.text.trim(),
+          'slug': slug,
+          'content': contentController.text,
+          'category_id': catList.first.toString(),
+          'category_ids': jsonEncode(catList),
+          'status': selectedStatus,
+        };
+        if (excerptController.text.isNotEmpty) {
+          fields['excerpt'] = excerptController.text;
+        }
+
+        if (authorController.text.trim().isNotEmpty) {
+          fields['author'] = authorController.text.trim();
+        }
+        return fields;
+      }
+
+      MediaType guessImageType(String filename) {
+        final lower = filename.toLowerCase();
+        if (lower.endsWith('.png')) return MediaType('image', 'png');
+        if (lower.endsWith('.webp')) return MediaType('image', 'webp');
+        if (lower.endsWith('.gif')) return MediaType('image', 'gif');
+        return MediaType('image', 'jpeg');
+      }
+
+      void attachFile(http.MultipartRequest request) {
+        final picked = _pickedCover;
+        final bytes = _pickedBytes;
+
+        if (picked != null && bytes != null) {
+          request.files.add(
+            http.MultipartFile.fromBytes(
+              'cover_image',
+              bytes,
+              filename: picked.name.isEmpty ? 'cover.jpg' : picked.name,
+              contentType: guessImageType(picked.name),
+            ),
+          );
+        }
+      }
+
+      Future<http.Response> sendJsonPut() async {
+        final catList = selectedCategories.toList();
+        return http
+            .put(
+              Uri.parse('$baseUrl/posts/$postId'),
+              headers: authHeaders(),
+              body: jsonEncode({
+                'title': titleController.text.trim(),
+                'slug': slug,
+                'content': contentController.text,
+                'excerpt': excerptController.text.isEmpty
+                    ? null
+                    : excerptController.text,
+                'category_id': catList.first,
+                'category_ids': catList,
+                'author': authorController.text.trim().isEmpty
+                    ? null
+                    : authorController.text.trim(),
+                'status': selectedStatus,
+              }),
+            )
+            .timeout(const Duration(seconds: 10));
+      }
+
+      Future<http.Response> sendPutMultipart() async {
+        final req = http.MultipartRequest(
+          'PUT',
+          Uri.parse('$baseUrl/posts/$postId'),
+        )..headers.addAll(authOnlyHeaders());
+        req.fields.addAll(buildFields());
+        attachFile(req);
+        final streamed = await req.send().timeout(const Duration(seconds: 20));
+        return http.Response.fromStream(streamed);
+      }
+
+      Future<http.Response> sendPostSpoofedPut() async {
+        final req = http.MultipartRequest(
+          'POST',
+          Uri.parse('$baseUrl/posts/$postId'),
+        )..headers.addAll(authOnlyHeaders());
+        req.fields['_method'] = 'PUT';
+        req.fields.addAll(buildFields());
+        attachFile(req);
+        final streamed = await req.send().timeout(const Duration(seconds: 20));
+        return http.Response.fromStream(streamed);
+      }
+
+      final hasNewImage = _pickedCover != null && _pickedBytes != null;
+      http.Response response;
+      if (!hasNewImage) {
+        response = await sendJsonPut();
+      } else {
+        response = await sendPutMultipart();
+
+        if (response.statusCode == 404 || response.statusCode == 405) {
+          debugPrint(
+            'PUT multipart ditolak (${response.statusCode}), coba POST + _method=PUT',
+          );
+          response = await sendPostSpoofedPut();
+        }
+      }
 
       if (!mounted) return;
       if (await handleAuthError(context, response)) return;
@@ -222,21 +263,47 @@ class _EditPostPageState extends State<EditPostPage> {
       if (response.statusCode == 200) {
         PostsRefresh.bump();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Berhasil memperbarui artikel: ${response.statusCode}')),
+          SnackBar(
+            content: Text(
+              'Berhasil memperbarui artikel: ${response.statusCode}',
+            ),
+          ),
         );
         Navigator.pop(context, true);
       } else {
+        debugPrint(
+          'PUT /posts/$postId gagal: ${response.statusCode} ${response.body}',
+        );
         String msg = 'Gagal memperbarui artikel: ${response.statusCode}';
         try {
-          final b = jsonDecode(response.body);
-          if (b is Map && b['message'] != null) msg = '$msg - ${b['message']}';
-        } catch (_) {}
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+          final decodedBody = jsonDecode(response.body);
+          if (decodedBody is Map) {
+            if (decodedBody['message'] != null) {
+              msg = '$msg - ${decodedBody['message']}';
+            } else if (decodedBody['errors'] != null) {
+              msg = '$msg - ${decodedBody['errors']}';
+            } else if (decodedBody['error'] != null) {
+              msg = '$msg - ${decodedBody['error']}';
+            } else {
+              msg = '$msg - ${response.body}';
+            }
+          } else {
+            msg = '$msg - ${response.body}';
+          }
+        } catch (_) {
+          if (response.body.isNotEmpty) {
+            msg = '$msg - ${response.body}';
+          }
+        }
+        if (msg.length > 500) msg = '${msg.substring(0, 500)}...';
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(msg), duration: const Duration(seconds: 6)),
+        );
       }
-    } catch (e) {
+    } catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Tidak bisa terhubung ke server: $e')),
+        SnackBar(content: Text('Tidak bisa terhubung ke server: $error')),
       );
     } finally {
       if (mounted) setState(() => isSaving = false);
@@ -249,14 +316,16 @@ class _EditPostPageState extends State<EditPostPage> {
     contentController.dispose();
     excerptController.dispose();
     authorController.dispose();
-    coverController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(leading: const BackButton(), title: const Text('Edit Article')),
+      appBar: AppBar(
+        leading: const BackButton(),
+        title: const Text('Edit Article'),
+      ),
       body: SafeArea(
         child: Form(
           key: _formKey,
@@ -276,6 +345,7 @@ class _EditPostPageState extends State<EditPostPage> {
                     style: TextStyle(color: Colors.redAccent, fontSize: 13),
                   ),
                 ),
+              const ScribblrLabel(text: 'Cover image (dari galeri)'),
               _coverPreview(),
               const SizedBox(height: 8),
               Row(
@@ -283,46 +353,41 @@ class _EditPostPageState extends State<EditPostPage> {
                   TextButton.icon(
                     onPressed: (!_isMine || isSaving) ? null : pickCover,
                     icon: const Icon(Icons.photo_library_outlined, size: 18),
-                    label: const Text('Ganti gambar'),
+                    label: Text(
+                      _pickedCover == null && _existingCover().isEmpty
+                          ? 'Pilih gambar'
+                          : 'Ganti gambar',
+                    ),
                   ),
                   if (_pickedCover != null)
                     TextButton.icon(
                       onPressed: isSaving
                           ? null
                           : () => setState(() {
-                                _pickedCover = null;
-                                _pickedBytes = null;
-                              }),
+                              _pickedCover = null;
+                              _pickedBytes = null;
+                            }),
                       icon: const Icon(Icons.close, size: 18),
-                      label: const Text('Hapus'),
+                      label: const Text('Batalkan ganti'),
                     ),
                 ],
               ),
-              const SizedBox(height: 4),
-              const ScribblrLabel(text: 'Cover image URL (opsional)'),
-              TextFormField(
-                controller: coverController,
-                keyboardType: TextInputType.url,
-                enabled: _isMine,
-                decoration: const InputDecoration(hintText: 'https://...'),
-                validator: (v) {
-                  final t = (v ?? '').trim();
-                  if (t.isEmpty) return null;
-                  final uri = Uri.tryParse(t);
-                  if (uri == null ||
-                      !(uri.isScheme('http') || uri.isScheme('https'))) {
-                    return 'URL tidak valid';
-                  }
-                  return null;
-                },
-              ),
+              if (_pickedCover != null)
+                Text(
+                  _pickedCover!.name,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: ScribblrColors.muted,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
               const SizedBox(height: 14),
               const ScribblrLabel(text: 'Title'),
               TextFormField(
                 controller: titleController,
                 enabled: _isMine,
-                validator: (v) {
-                  if ((v ?? '').trim().length < 3) {
+                validator: (value) {
+                  if ((value ?? '').trim().length < 3) {
                     return 'Judul minimal 3 karakter';
                   }
                   return null;
@@ -334,8 +399,8 @@ class _EditPostPageState extends State<EditPostPage> {
                 controller: contentController,
                 maxLines: 6,
                 enabled: _isMine,
-                validator: (v) {
-                  if ((v ?? '').trim().length < 10) {
+                validator: (value) {
+                  if ((value ?? '').trim().length < 10) {
                     return 'Isi artikel minimal 10 karakter';
                   }
                   return null;
@@ -358,13 +423,18 @@ class _EditPostPageState extends State<EditPostPage> {
                 ),
               ),
               const SizedBox(height: 18),
-              const Text(
-                'Select Topics',
-                style: TextStyle(
+              Text(
+                'Select Topics${selectedCategories.isEmpty ? '' : ' (${selectedCategories.length})'}',
+                style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w800,
                   color: ScribblrColors.ink,
                 ),
+              ),
+              const SizedBox(height: 4),
+              const Text(
+                'Bisa pilih lebih dari 1 topik.',
+                style: TextStyle(fontSize: 12, color: ScribblrColors.muted),
               ),
               const SizedBox(height: 8),
               if (isLoadingCats)
@@ -377,23 +447,38 @@ class _EditPostPageState extends State<EditPostPage> {
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
-                  children: categories.map<Widget>((c) {
-                    final id = idOf((c as Map)['id']);
-                    final selected = selectedCategory == id;
+                  children: categories.map<Widget>((categoryItem) {
+                    final id = idOf((categoryItem as Map)['id']);
+                    final selected =
+                        id != null && selectedCategories.contains(id);
                     return FilterChip(
-                      label: Text(strOf(c, 'name')),
+                      label: Text(strOf(categoryItem, 'name')),
+                      avatar: CircleAvatar(
+                        radius: 11,
+                        backgroundColor: selected
+                            ? Colors.white24
+                            : ScribblrColors.chipBg,
+                        backgroundImage: const AssetImage('assets/logokpi.png'),
+                        onBackgroundImageError: (_, _) {},
+                        child: const SizedBox.shrink(),
+                      ),
                       selected: selected,
                       onSelected: !_isMine
                           ? null
-                          : (_) => setState(() {
-                                selectedCategory = id;
+                          : (_) {
+                              if (id == null) return;
+                              setState(() {
+                                if (selected) {
+                                  selectedCategories.remove(id);
+                                } else {
+                                  selectedCategories.add(id);
+                                }
                                 categoryError = null;
-                              }),
+                              });
+                            },
                       selectedColor: ScribblrColors.primary,
                       labelStyle: TextStyle(
-                        color: selected
-                            ? Colors.white
-                            : ScribblrColors.ink,
+                        color: selected ? Colors.white : ScribblrColors.ink,
                         fontWeight: FontWeight.w600,
                       ),
                       shape: const StadiumBorder(
@@ -406,10 +491,7 @@ class _EditPostPageState extends State<EditPostPage> {
                 const SizedBox(height: 6),
                 Text(
                   categoryError!,
-                  style: const TextStyle(
-                    color: Colors.redAccent,
-                    fontSize: 12,
-                  ),
+                  style: const TextStyle(color: Colors.redAccent, fontSize: 12),
                 ),
               ],
               const SizedBox(height: 18),
@@ -429,7 +511,7 @@ class _EditPostPageState extends State<EditPostPage> {
               ),
               const SizedBox(height: 24),
               ScribblrPrimaryButton(
-                text: isUploading ? 'Uploading image...' : 'Save Changes',
+                text: 'Save Changes',
                 loading: isSaving,
                 onPressed: (!_isMine || isSaving) ? null : updatePost,
               ),
@@ -440,6 +522,8 @@ class _EditPostPageState extends State<EditPostPage> {
       ),
     );
   }
+
+  String _existingCover() => resolveCoverUrl(strOf(widget.post, 'cover_image'));
 
   Widget _coverPreview() {
     if (_pickedBytes != null) {
@@ -453,7 +537,7 @@ class _EditPostPageState extends State<EditPostPage> {
         ),
       );
     }
-    final url = coverController.text.trim();
+    final url = _existingCover();
     if (url.isEmpty) return _coverPlaceholder();
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),

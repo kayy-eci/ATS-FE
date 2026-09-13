@@ -17,18 +17,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List posts = [];
-  List categories = [];
+  List<dynamic> posts = [];
+  List<dynamic> categories = [];
   bool isLoading = false;
   int _seenVersion = -1;
 
   String categoryName(dynamic id) => catNameOf(categories, id);
 
-  Future<void> getPosts() async {
+  Future<void> fetchPosts() async {
     setState(() => isLoading = true);
 
     try {
-      // Backend protected: wajib Bearer token.
       final postRes = await http
           .get(Uri.parse('$baseUrl/posts'), headers: authHeaders())
           .timeout(const Duration(seconds: 10));
@@ -40,7 +39,12 @@ class _HomePageState extends State<HomePage> {
       setState(() => isLoading = false);
 
       if (isUnauthorized(postRes) || isUnauthorized(catRes)) {
-        await handleAuthError(context, postRes.statusCode == 401 || postRes.statusCode == 403 ? postRes : catRes);
+        await handleAuthError(
+          context,
+          postRes.statusCode == 401 || postRes.statusCode == 403
+              ? postRes
+              : catRes,
+        );
         return;
       }
 
@@ -59,10 +63,14 @@ class _HomePageState extends State<HomePage> {
           }
         }
       } else {
-        debugPrint('data gagal di ambil: ${postRes.statusCode} ${postRes.body}');
+        debugPrint(
+          'Gagal mengambil data: ${postRes.statusCode} ${postRes.body}',
+        );
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Gagal ambil artikel: ${postRes.statusCode}')),
+            SnackBar(
+              content: Text('Gagal ambil artikel: ${postRes.statusCode}'),
+            ),
           );
         }
       }
@@ -76,11 +84,11 @@ class _HomePageState extends State<HomePage> {
           });
         } catch (_) {}
       }
-    } catch (e) {
+    } catch (error) {
       if (!mounted) return;
       setState(() => isLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Tidak bisa terhubung ke server: $e')),
+        SnackBar(content: Text('Tidak bisa terhubung ke server: $error')),
       );
     }
   }
@@ -98,11 +106,15 @@ class _HomePageState extends State<HomePage> {
 
       if (data.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Artikel berhasil dihapus: ${data.statusCode}')),
+          SnackBar(
+            content: Text('Artikel berhasil dihapus: ${data.statusCode}'),
+          ),
         );
 
         setState(() {
-          posts.removeWhere((post) => post is Map && post['id']?.toString() == id);
+          posts.removeWhere(
+            (post) => post is Map && post['id']?.toString() == id,
+          );
         });
         PostsRefresh.bump();
       } else {
@@ -111,10 +123,10 @@ class _HomePageState extends State<HomePage> {
           SnackBar(content: Text('Gagal menghapus: ${data.statusCode}')),
         );
       }
-    } catch (e) {
+    } catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Tidak bisa terhubung ke server: $e')),
+        SnackBar(content: Text('Tidak bisa terhubung ke server: $error')),
       );
     }
   }
@@ -122,7 +134,7 @@ class _HomePageState extends State<HomePage> {
   void _onRefreshBus() {
     if (PostsRefresh.notifier.value != _seenVersion) {
       _seenVersion = PostsRefresh.notifier.value;
-      getPosts();
+      fetchPosts();
     }
   }
 
@@ -131,7 +143,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _seenVersion = PostsRefresh.notifier.value;
     PostsRefresh.notifier.addListener(_onRefreshBus);
-    getPosts();
+    fetchPosts();
   }
 
   @override
@@ -146,20 +158,25 @@ class _HomePageState extends State<HomePage> {
       MaterialPageRoute(
         builder: (context) => DetailPostPage(
           post: post,
-          category: categoryName(post['category_id']),
+          category: categoryLabelOf(categories, post),
           categories: categories,
           currentUsername: widget.username,
         ),
       ),
     ).then((ok) {
-      if (ok == true) getPosts();
+      if (ok == true) fetchPosts();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final published = posts
-        .where((p) => p is Map && (strOf(p, 'status').isEmpty || strOf(p, 'status') == 'published'))
+        .where(
+          (postItem) =>
+              postItem is Map &&
+              (strOf(postItem, 'status').isEmpty ||
+                  strOf(postItem, 'status') == 'published'),
+        )
         .toList();
     final featured = published.isNotEmpty ? published.first as Map : null;
     final recent = published.length > 1
@@ -170,13 +187,11 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: isLoading
             ? const Center(
-                child: CircularProgressIndicator(
-                  color: ScribblrColors.primary,
-                ),
+                child: CircularProgressIndicator(color: ScribblrColors.primary),
               )
             : RefreshIndicator(
                 color: ScribblrColors.primary,
-                onRefresh: getPosts,
+                onRefresh: fetchPosts,
                 child: ListView(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
@@ -226,9 +241,8 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 20),
                     if (featured != null) ...[
                       GestureDetector(
-                        onTap: () => openDetail(
-                          Map<String, dynamic>.from(featured),
-                        ),
+                        onTap: () =>
+                            openDetail(Map<String, dynamic>.from(featured)),
                         child: Container(
                           padding: const EdgeInsets.all(18),
                           decoration: BoxDecoration(
@@ -239,10 +253,11 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                categoryName(featured['category_id']).isEmpty
+                                categoryLabelOf(categories, featured).isEmpty
                                     ? 'Featured'
-                                    : categoryName(
-                                        featured['category_id'],
+                                    : categoryLabelOf(
+                                        categories,
+                                        featured,
                                       ).toUpperCase(),
                                 style: const TextStyle(
                                   fontSize: 11,
@@ -299,7 +314,7 @@ class _HomePageState extends State<HomePage> {
                     else if (recent.isEmpty && featured != null)
                       _articleTile(featured)
                     else
-                      ...recent.map((p) => _articleTile(p)),
+                      ...recent.map((postItem) => _articleTile(postItem)),
                     const SizedBox(height: 12),
                     const Text(
                       'Your Articles',
@@ -312,10 +327,12 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 12),
                     ...posts
                         .where(
-                          (p) => p is Map && isMine(p, widget.username),
+                          (postItem) =>
+                              postItem is Map &&
+                              isMine(postItem, widget.username),
                         )
                         .take(3)
-                        .map((p) => _articleTile(p)),
+                        .map((postItem) => _articleTile(postItem)),
                   ],
                 ),
               ),
@@ -325,7 +342,7 @@ class _HomePageState extends State<HomePage> {
 
   String _metaLine(Map post) {
     final author = strOf(post, 'author');
-    final cat = categoryName(post['category_id']);
+    final cat = categoryLabelOf(categories, post);
     final parts = <String>[
       if (cat.isNotEmpty) cat,
       if (author.isNotEmpty) author,
@@ -334,7 +351,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _articleTile(Map post) {
-    final cat = categoryName(post['category_id']);
+    final cat = categoryLabelOf(categories, post);
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: ScribblrCard(
@@ -382,10 +399,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            const Icon(
-              Icons.chevron_right,
-              color: ScribblrColors.muted,
-            ),
+            const Icon(Icons.chevron_right, color: ScribblrColors.muted),
           ],
         ),
       ),

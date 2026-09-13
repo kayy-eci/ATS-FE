@@ -8,9 +8,6 @@ import 'package:frontendats/posts_refresh.dart';
 import 'package:frontendats/scribblr_theme.dart';
 import 'package:frontendats/scribblr_widgets.dart';
 
-// Discover: browse kategori (GET /categories) + list artikel per kategori.
-// Filter artikel per kategori + search by title dilakukan client-side
-// dari GET /posts. Tanpa endpoint/logic baru.
 class DiscoverPage extends StatefulWidget {
   final String username;
   const DiscoverPage({super.key, this.username = ''});
@@ -20,17 +17,28 @@ class DiscoverPage extends StatefulWidget {
 }
 
 class _DiscoverPageState extends State<DiscoverPage> {
-  List posts = [];
-  List categories = [];
+  List<dynamic> posts = [];
+  List<dynamic> categories = [];
   bool isLoading = false;
-  String? selectedCategoryId;
+
+  final Set<String> selectedIds = {};
   final searchController = TextEditingController();
   String query = '';
   int _seenVersion = -1;
+  bool _catSaving = false;
 
   String categoryName(dynamic id) => catNameOf(categories, id);
 
-  Future<void> getData() async {
+  int categoryUsage(String id) {
+    var usageCount = 0;
+    for (final postItem in posts) {
+      if (postItem is Map && postCategoryIds(postItem).contains(id))
+        usageCount++;
+    }
+    return usageCount;
+  }
+
+  Future<void> fetchDiscoverData() async {
     setState(() => isLoading = true);
     try {
       final postRes = await http
@@ -66,22 +74,318 @@ class _DiscoverPageState extends State<DiscoverPage> {
           final list = (body is Map ? body['data'] : null) ?? [];
           setState(() {
             categories = list is List ? list : [];
+
+            final alive = categories
+                .whereType<Map>()
+                .map((categoryItem) => categoryItem['id']?.toString() ?? '')
+                .toSet();
+            selectedIds.retainWhere(alive.contains);
           });
         } catch (_) {}
       }
-    } catch (e) {
+    } catch (error) {
       if (!mounted) return;
       setState(() => isLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Tidak bisa terhubung ke server: $e')),
+        SnackBar(content: Text('Tidak bisa terhubung ke server: $error')),
       );
+    }
+  }
+
+  Future<void> openManageCategory(Map cat) async {
+    final id = cat['id']?.toString() ?? '';
+    if (id.isEmpty) return;
+    final name = strOf(cat, 'name');
+    final used = categoryUsage(id);
+
+    await showModalBottomSheet(
+      context: context,
+      backgroundColor: ScribblrColors.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (ctx) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: ScribblrColors.line,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                const SizedBox(height: 14),
+                Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(14),
+                      child: Image.asset(
+                        'assets/logokpi.png',
+                        width: 44,
+                        height: 44,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, _, _) => Container(
+                          width: 44,
+                          height: 44,
+                          color: ScribblrColors.chipBg,
+                          child: const Icon(
+                            Icons.label_outline,
+                            color: ScribblrColors.primary,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            name.isEmpty ? 'Tanpa nama' : name,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w800,
+                              color: ScribblrColors.ink,
+                            ),
+                          ),
+                          Text(
+                            used == 0
+                                ? 'Belum dipakai artikel'
+                                : 'Dipakai $used artikel',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: ScribblrColors.muted,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        onPressed: () {
+                          Navigator.pop(ctx);
+                          openEditCategory(cat);
+                        },
+                        icon: const Icon(Icons.edit_outlined, size: 18),
+                        label: const Text('Edit'),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        onPressed: () {
+                          Navigator.pop(ctx);
+                          confirmDeleteCategory(cat, used);
+                        },
+                        icon: const Icon(
+                          Icons.delete_outline,
+                          size: 18,
+                          color: Colors.redAccent,
+                        ),
+                        label: const Text(
+                          'Hapus',
+                          style: TextStyle(color: Colors.redAccent),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> openEditCategory(Map cat) async {
+    final id = cat['id']?.toString() ?? '';
+    if (id.isEmpty) return;
+    final nameController = TextEditingController(text: strOf(cat, 'name'));
+    final descController = TextEditingController(
+      text: strOf(cat, 'description'),
+    );
+    final formKey = GlobalKey<FormState>();
+
+    final save = await showDialog<bool>(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          backgroundColor: ScribblrColors.surface,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: const Text(
+            'Edit Topic',
+            style: TextStyle(fontWeight: FontWeight.w700),
+          ),
+          content: Form(
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: nameController,
+                  decoration: const InputDecoration(hintText: 'Topic name'),
+                  validator: (value) => (value == null || value.trim().isEmpty)
+                      ? 'Wajib diisi'
+                      : null,
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: descController,
+                  decoration: const InputDecoration(
+                    hintText: 'Description (opsional)',
+                  ),
+                  maxLines: 2,
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(minimumSize: const Size(100, 44)),
+              onPressed: () {
+                if (formKey.currentState?.validate() != true) return;
+                Navigator.pop(ctx, true);
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+    if (save != true || !mounted) return;
+
+    final name = nameController.text.trim();
+    var slug = makeCategorySlug(name);
+    if (slug.isEmpty) slug = 'topic-$id';
+    setState(() => _catSaving = true);
+    try {
+      final res = await http
+          .put(
+            Uri.parse('$baseUrl/categories/$id'),
+            headers: authHeaders(),
+            body: jsonEncode({
+              'name': name,
+              'slug': slug,
+              'description': descController.text.trim().isEmpty
+                  ? null
+                  : descController.text.trim(),
+            }),
+          )
+          .timeout(const Duration(seconds: 10));
+      if (!mounted) return;
+      if (await handleAuthError(context, res)) return;
+      if (res.statusCode == 200) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Topik diperbarui')));
+        PostsRefresh.bump();
+        await fetchDiscoverData();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Gagal update topik: ${res.statusCode}')),
+        );
+      }
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Tidak bisa terhubung ke server: $error')),
+      );
+    } finally {
+      if (mounted) setState(() => _catSaving = false);
+    }
+  }
+
+  Future<void> confirmDeleteCategory(Map cat, int used) async {
+    final id = cat['id']?.toString() ?? '';
+    if (id.isEmpty) return;
+    final name = strOf(cat, 'name');
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          backgroundColor: ScribblrColors.surface,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: const Text(
+            'Delete Topic',
+            style: TextStyle(fontWeight: FontWeight.w700),
+          ),
+          content: Text(
+            used == 0
+                ? 'Hapus topik "$name"? Tindakan ini tidak bisa dibatalkan.'
+                : 'Topik "$name" dipakai $used artikel. '
+                      'Artikel tersebut akan kehilangan kategori ini. '
+                      'Tetap hapus?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                minimumSize: const Size(110, 44),
+              ),
+              onPressed: () => Navigator.pop(ctx, true),
+              child: const Text('Yes, Delete'),
+            ),
+          ],
+        );
+      },
+    );
+    if (ok != true || !mounted) return;
+    setState(() => _catSaving = true);
+    try {
+      final res = await http
+          .delete(Uri.parse('$baseUrl/categories/$id'), headers: authHeaders())
+          .timeout(const Duration(seconds: 10));
+      if (!mounted) return;
+      if (await handleAuthError(context, res)) return;
+      if (res.statusCode == 200 || res.statusCode == 204) {
+        setState(() => selectedIds.remove(id));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Topik dihapus')));
+        PostsRefresh.bump();
+        await fetchDiscoverData();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Gagal hapus topik: ${res.statusCode}')),
+        );
+      }
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Tidak bisa terhubung ke server: $error')),
+      );
+    } finally {
+      if (mounted) setState(() => _catSaving = false);
     }
   }
 
   void _onRefreshBus() {
     if (PostsRefresh.notifier.value != _seenVersion) {
       _seenVersion = PostsRefresh.notifier.value;
-      getData();
+      fetchDiscoverData();
     }
   }
 
@@ -90,7 +394,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
     super.initState();
     _seenVersion = PostsRefresh.notifier.value;
     PostsRefresh.notifier.addListener(_onRefreshBus);
-    getData();
+    fetchDiscoverData();
   }
 
   @override
@@ -100,33 +404,77 @@ class _DiscoverPageState extends State<DiscoverPage> {
     super.dispose();
   }
 
+  Widget _catAvatar(bool selected) {
+    return CircleAvatar(
+      radius: 11,
+      backgroundColor: selected ? Colors.white24 : ScribblrColors.chipBg,
+      backgroundImage: const AssetImage('assets/logokpi.png'),
+      onBackgroundImageError: (_, _) {},
+      child: const SizedBox.shrink(),
+    );
+  }
+
+  Widget _topicChip(Map categoryItem) {
+    final id = categoryItem['id']?.toString() ?? '';
+    final selected = selectedIds.contains(id);
+
+    return GestureDetector(
+      onLongPress: () => openManageCategory(categoryItem),
+      child: FilterChip(
+        label: Text(strOf(categoryItem, 'name')),
+        avatar: _catAvatar(selected),
+        selected: selected,
+        onSelected: (_) => setState(() {
+          if (selected) {
+            selectedIds.remove(id);
+          } else {
+            selectedIds.add(id);
+          }
+        }),
+        selectedColor: ScribblrColors.primary,
+        labelStyle: TextStyle(
+          color: selected ? Colors.white : ScribblrColors.ink,
+          fontWeight: FontWeight.w600,
+        ),
+        shape: const StadiumBorder(
+          side: BorderSide(color: ScribblrColors.line),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final q = query.trim().toLowerCase();
-    final filtered = posts.where((p) {
-      if (p is! Map) return false;
-      if (selectedCategoryId != null &&
-          (p['category_id']?.toString() ?? '') != selectedCategoryId) {
-        return false;
+    final normalizedQuery = query.trim().toLowerCase();
+    final filtered = posts.where((postItem) {
+      if (postItem is! Map) return false;
+
+      if (selectedIds.isNotEmpty) {
+        final ids = postCategoryIds(postItem);
+        if (ids.intersection(selectedIds).isEmpty) return false;
       }
-      if (q.isNotEmpty &&
-          !strOf(p, 'title').toLowerCase().contains(q)) {
+      if (normalizedQuery.isNotEmpty &&
+          !strOf(postItem, 'title').toLowerCase().contains(normalizedQuery)) {
         return false;
       }
       return true;
     }).toList();
 
+    final selectionLabel = selectedIds.isEmpty
+        ? 'All Articles (${filtered.length})'
+        : selectedIds.length == 1
+        ? '${categoryName(selectedIds.first)} (${filtered.length})'
+        : '${selectedIds.length} topik (${filtered.length})';
+
     return Scaffold(
       body: SafeArea(
-        child: isLoading
+        child: isLoading || _catSaving
             ? const Center(
-                child: CircularProgressIndicator(
-                  color: ScribblrColors.primary,
-                ),
+                child: CircularProgressIndicator(color: ScribblrColors.primary),
               )
             : RefreshIndicator(
                 color: ScribblrColors.primary,
-                onRefresh: getData,
+                onRefresh: fetchDiscoverData,
                 child: ListView(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
@@ -141,7 +489,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     TextField(
                       controller: searchController,
                       textInputAction: TextInputAction.search,
-                      onChanged: (v) => setState(() => query = v),
+                      onChanged: (value) => setState(() => query = value),
                       decoration: InputDecoration(
                         hintText: 'Search by title...',
                         prefixIcon: const Icon(Icons.search),
@@ -157,13 +505,41 @@ class _DiscoverPageState extends State<DiscoverPage> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const Text(
-                      'Explore by Topics',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                        color: ScribblrColors.ink,
-                      ),
+                    Row(
+                      children: [
+                        const Text(
+                          'Explore by Topics',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            color: ScribblrColors.ink,
+                          ),
+                        ),
+                        const Spacer(),
+                        if (selectedIds.isNotEmpty)
+                          TextButton(
+                            onPressed: () =>
+                                setState(() => selectedIds.clear()),
+                            child: Text('Clear (${selectedIds.length})'),
+                          ),
+                      ],
+                    ),
+                    const Row(
+                      children: [
+                        Icon(
+                          Icons.touch_app_outlined,
+                          size: 14,
+                          color: ScribblrColors.muted,
+                        ),
+                        SizedBox(width: 4),
+                        Text(
+                          'Tap untuk filter banyak, tahan lama untuk kelola.',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: ScribblrColors.muted,
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 10),
                     if (categories.isEmpty)
@@ -178,28 +554,15 @@ class _DiscoverPageState extends State<DiscoverPage> {
                           children: [
                             ChoiceChip(
                               label: const Text('All'),
-                              selected: selectedCategoryId == null,
+                              selected: selectedIds.isEmpty,
                               onSelected: (_) =>
-                                  setState(() => selectedCategoryId = null),
+                                  setState(() => selectedIds.clear()),
                             ),
                             const SizedBox(width: 8),
-                            ...categories.map((c) {
-                              final id = (c as Map)['id']?.toString();
+                            ...categories.map((categoryItem) {
                               return Padding(
                                 padding: const EdgeInsets.only(right: 8),
-                                child: ChoiceChip(
-                                  label: Text(strOf(c, 'name')),
-                                  selected: selectedCategoryId == id,
-                                  // Tap chip aktif = kembali ke All.
-                                  onSelected: (selected) => setState(() {
-                                    if (!selected ||
-                                        selectedCategoryId == id) {
-                                      selectedCategoryId = null;
-                                    } else {
-                                      selectedCategoryId = id;
-                                    }
-                                  }),
-                                ),
+                                child: _topicChip(categoryItem as Map),
                               );
                             }),
                           ],
@@ -207,9 +570,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                       ),
                     const SizedBox(height: 20),
                     Text(
-                      selectedCategoryId == null
-                          ? 'All Articles (${filtered.length})'
-                          : '${categoryName(selectedCategoryId)} (${filtered.length})',
+                      selectionLabel,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
@@ -222,17 +583,16 @@ class _DiscoverPageState extends State<DiscoverPage> {
                         padding: const EdgeInsets.symmetric(vertical: 24),
                         child: Center(
                           child: Text(
-                            q.isNotEmpty
+                            normalizedQuery.isNotEmpty
                                 ? 'Tidak ketemu artikel berjudul "$query".'
                                 : 'Tidak ada artikel di kategori ini.',
-                            style:
-                                const TextStyle(color: ScribblrColors.muted),
+                            style: const TextStyle(color: ScribblrColors.muted),
                           ),
                         ),
                       )
                     else
                       ...filtered.map(
-                        (p) => Padding(
+                        (postItem) => Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: ScribblrCard(
                             onTap: () {
@@ -240,21 +600,23 @@ class _DiscoverPageState extends State<DiscoverPage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => DetailPostPage(
-                                    post: p,
+                                    post: postItem,
                                     category: categoryName(
-                                      p['category_id'],
+                                      primaryCategoryId(postItem),
                                     ),
                                     categories: categories,
                                     currentUsername: widget.username,
                                   ),
                                 ),
                               ).then((ok) {
-                                if (ok == true) getData();
+                                if (ok == true) fetchDiscoverData();
                               });
                             },
                             child: Row(
                               children: [
-                                ScribblrThumb(cover: (p as Map)['cover_image']),
+                                ScribblrThumb(
+                                  cover: (postItem as Map)['cover_image'],
+                                ),
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: Column(
@@ -262,7 +624,22 @@ class _DiscoverPageState extends State<DiscoverPage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        strOf(p, 'title'),
+                                        categoryLabelOf(
+                                          categories,
+                                          postItem,
+                                        ).toUpperCase(),
+                                        style: const TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w700,
+                                          color: ScribblrColors.primary,
+                                          letterSpacing: 0.8,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        strOf(postItem, 'title'),
                                         style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w700,
@@ -274,7 +651,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
-                                        strOf(p, 'author'),
+                                        strOf(postItem, 'author'),
                                         style: const TextStyle(
                                           fontSize: 11,
                                           color: ScribblrColors.muted,

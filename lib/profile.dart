@@ -8,9 +8,6 @@ import 'package:frontendats/posts_refresh.dart';
 import 'package:frontendats/scribblr_theme.dart';
 import 'package:frontendats/scribblr_widgets.dart';
 
-// Profile read-only: nama, email, jumlah artikel milik user.
-// Jumlah artikel dihitung client-side dari GET /posts (filter author).
-// Tanpa followers/following (di luar scope). Logout pakai logic yang ada.
 class ProfilePage extends StatefulWidget {
   final String username;
   final String email;
@@ -24,7 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
   int articleCount = 0;
   bool isLoading = false;
 
-  Future<void> getCount() async {
+  Future<void> fetchArticleCount() async {
     setState(() => isLoading = true);
     try {
       final res = await http
@@ -34,14 +31,17 @@ class _ProfilePageState extends State<ProfilePage> {
       setState(() => isLoading = false);
       if (await handleAuthError(context, res)) return;
       if (res.statusCode == 200) {
-        final List data = jsonDecode(res.body)['data'] ?? [];
+        final List<dynamic> data = jsonDecode(res.body)['data'] ?? [];
         setState(() {
           articleCount = data
-              .where((p) => p is Map && isMine(p, widget.username))
+              .where(
+                (postItem) =>
+                    postItem is Map && isMine(postItem, widget.username),
+              )
               .length;
         });
       }
-    } catch (e) {
+    } catch (error) {
       if (!mounted) return;
       setState(() => isLoading = false);
     }
@@ -50,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    getCount();
+    fetchArticleCount();
   }
 
   @override
@@ -59,7 +59,7 @@ class _ProfilePageState extends State<ProfilePage> {
       body: SafeArea(
         child: RefreshIndicator(
           color: ScribblrColors.primary,
-          onRefresh: getCount,
+          onRefresh: fetchArticleCount,
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             children: [
@@ -157,10 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         );
                       },
                     ),
-                    const Divider(
-                      height: 1,
-                      color: ScribblrColors.line,
-                    ),
+                    const Divider(height: 1, color: ScribblrColors.line),
                     ListTile(
                       leading: const Icon(
                         Icons.logout,

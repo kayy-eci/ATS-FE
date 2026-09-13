@@ -22,12 +22,8 @@ class _LoginPageState extends State<LoginPage> {
   bool isSaving = false;
   bool obscure = true;
 
-  static final _emailRx =
-      RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
+  static final _emailRx = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
 
-  /// Username asli dari backend (GET /users cari by email).
-  /// Fallback ke prefix email kalau tidak ketemu — penting agar artikel
-  /// terdeteksi sebagai milik sendiri di My Article.
   Future<String> resolveUsername(String token, String email) async {
     try {
       final res = await http
@@ -41,15 +37,15 @@ class _LoginPageState extends State<LoginPage> {
           .timeout(const Duration(seconds: 10));
       if (res.statusCode == 200) {
         final body = jsonDecode(res.body);
-        final List users =
+        final List<dynamic> users =
             (body is Map ? body['users'] ?? body['data'] : []) ?? [];
-        for (final u in users) {
-          if (u is Map &&
-              u['email']?.toString().trim().toLowerCase() ==
+        for (final userEntry in users) {
+          if (userEntry is Map &&
+              userEntry['email']?.toString().trim().toLowerCase() ==
                   email.trim().toLowerCase() &&
-              u['username'] != null &&
-              u['username'].toString().isNotEmpty) {
-            return u['username'].toString();
+              userEntry['username'] != null &&
+              userEntry['username'].toString().isNotEmpty) {
+            return userEntry['username'].toString();
           }
         }
       }
@@ -72,8 +68,6 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => isSaving = true);
 
     try {
-      // Backend: POST /api/auth/login -> 200 {message, token}
-      // Catatan: backend saat ini mengembalikan 500 untuk kredensial salah.
       final response = await http
           .post(
             Uri.parse('$baseUrl/auth/login'),
@@ -93,11 +87,13 @@ class _LoginPageState extends State<LoginPage> {
         if (token.isEmpty) {
           setState(() => isSaving = false);
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Login gagal: token kosong dari server')),
+            const SnackBar(
+              content: Text('Login gagal: token kosong dari server'),
+            ),
           );
           return;
         }
-        // Simpan JWT untuk semua request protected berikutnya.
+
         final username = await resolveUsername(token, email);
         if (!mounted) return;
         setState(() => isSaving = false);
@@ -128,13 +124,101 @@ class _LoginPageState extends State<LoginPage> {
           SnackBar(content: Text('$msg (${response.statusCode})')),
         );
       }
-    } catch (e) {
+    } catch (error) {
       if (!mounted) return;
       setState(() => isSaving = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Tidak bisa terhubung ke server: $e')),
+        SnackBar(
+          content: Text(friendlyNetworkError(error)),
+          duration: const Duration(seconds: 6),
+        ),
       );
     }
+  }
+
+  Future<void> openServerSettings() async {
+    final controller = TextEditingController(text: baseUrl);
+    final formKey = GlobalKey<FormState>();
+    final saved = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: ScribblrColors.surface,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: const Text(
+            'Server Backend',
+            style: TextStyle(fontWeight: FontWeight.w700),
+          ),
+          content: Form(
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'HP fisik harus satu WiFi dengan laptop. Cek IP terbaru via ipconfig.',
+                  style: TextStyle(fontSize: 12, color: ScribblrColors.muted),
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: controller,
+                  keyboardType: TextInputType.url,
+                  decoration: const InputDecoration(
+                    hintText: 'http://192.168.1.11:8000/api',
+                    labelText: 'Base URL',
+                  ),
+                  validator: (value) {
+                    final trimmed = (value ?? '').trim();
+                    if (trimmed.isEmpty) return 'Wajib diisi';
+                    final uri = Uri.tryParse(trimmed);
+                    if (uri == null ||
+                        !(uri.isScheme('http') || uri.isScheme('https')) ||
+                        uri.host.isEmpty) {
+                      return 'Contoh valid: http://192.168.1.11:8000/api';
+                    }
+                    return null;
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Batal'),
+            ),
+            if (ApiConfig.isOverridden)
+              TextButton(
+                onPressed: () async {
+                  await ApiConfig.clearOverride();
+                  if (context.mounted) Navigator.pop(context, true);
+                },
+                child: const Text('Reset'),
+              ),
+            ElevatedButton(
+              onPressed: () async {
+                if (formKey.currentState?.validate() != true) return;
+                try {
+                  await ApiConfig.setOverride(controller.text);
+                  if (context.mounted) Navigator.pop(context, true);
+                } catch (error) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Gagal menyimpan: $error')),
+                    );
+                  }
+                }
+              },
+              child: const Text('Simpan'),
+            ),
+          ],
+        );
+      },
+    );
+    controller.dispose();
+    if (saved == true && mounted) setState(() {});
   }
 
   @override
@@ -171,10 +255,10 @@ class _LoginPageState extends State<LoginPage> {
                           hintText: 'nama@email.com',
                           prefixIcon: Icon(Icons.email_outlined),
                         ),
-                        validator: (v) {
-                          final t = (v ?? '').trim();
-                          if (t.isEmpty) return 'Email wajib diisi';
-                          if (!_emailRx.hasMatch(t)) {
+                        validator: (value) {
+                          final trimmed = (value ?? '').trim();
+                          if (trimmed.isEmpty) return 'Email wajib diisi';
+                          if (!_emailRx.hasMatch(trimmed)) {
                             return 'Format email tidak valid';
                           }
                           return null;
@@ -186,12 +270,11 @@ class _LoginPageState extends State<LoginPage> {
                         controller: passwordController,
                         obscureText: obscure,
                         decoration: InputDecoration(
-                          hintText: '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022',
-                          prefixIcon:
-                              const Icon(Icons.lock_outline),
+                          hintText:
+                              '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022',
+                          prefixIcon: const Icon(Icons.lock_outline),
                           suffixIcon: IconButton(
-                            onPressed: () =>
-                                setState(() => obscure = !obscure),
+                            onPressed: () => setState(() => obscure = !obscure),
                             icon: Icon(
                               obscure
                                   ? Icons.visibility_off_outlined
@@ -199,11 +282,11 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                         ),
-                        validator: (v) {
-                          if ((v ?? '').isEmpty) {
+                        validator: (value) {
+                          if ((value ?? '').isEmpty) {
                             return 'Password wajib diisi';
                           }
-                          if ((v ?? '').length < 4) {
+                          if ((value ?? '').length < 4) {
                             return 'Password minimal 4 karakter';
                           }
                           return null;
@@ -222,15 +305,15 @@ class _LoginPageState extends State<LoginPage> {
                           const Text(
                             "Don't have an account? ",
                             style: TextStyle(
-                                fontSize: 13,
-                                color: ScribblrColors.muted),
+                              fontSize: 13,
+                              color: ScribblrColors.muted,
+                            ),
                           ),
                           TextButton(
                             style: TextButton.styleFrom(
                               padding: EdgeInsets.zero,
                               minimumSize: Size.zero,
-                              tapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
                             onPressed: isSaving
                                 ? null
@@ -245,11 +328,49 @@ class _LoginPageState extends State<LoginPage> {
                                   },
                             child: const Text(
                               'Sign Up',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700),
+                              style: TextStyle(fontWeight: FontWeight.w700),
                             ),
                           ),
                         ],
+                      ),
+                      const SizedBox(height: 12),
+
+                      InkWell(
+                        onTap: isSaving ? null : openServerSettings,
+                        borderRadius: BorderRadius.circular(8),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.dns_outlined,
+                                size: 14,
+                                color: ScribblrColors.muted,
+                              ),
+                              const SizedBox(width: 6),
+                              Flexible(
+                                child: Text(
+                                  baseUrl,
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    color: ScribblrColors.muted,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              const Text(
+                                'Ubah',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                  color: ScribblrColors.primary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),

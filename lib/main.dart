@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:frontendats/api.dart';
+import 'package:frontendats/login.dart';
 import 'package:frontendats/scribblr_theme.dart';
-import 'package:frontendats/splash.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await ApiConfig.load();
   runApp(const MyApp());
 }
 
@@ -15,7 +19,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Writly',
       theme: scribblrTheme(),
-      home: const SplashPage(),
+
+      home: const LoginPage(),
     );
   }
 }

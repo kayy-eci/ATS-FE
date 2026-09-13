@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontendats/posts_refresh.dart';
 import 'package:frontendats/scribblr_theme.dart';
-
-// Kumpulan widget presentasional gaya Scribblr.
-// Tidak ada API call / logic bisnis di sini, hanya tampilan.
 
 class ScribblrHeader extends StatelessWidget {
   final String title;
@@ -83,8 +81,6 @@ class ScribblrPrimaryButton extends StatelessWidget {
   }
 }
 
-/// Thumbnail artikel: tampilkan cover URL kalau ada,
-/// kalau kosong/null tampilkan placeholder warna krem (tanpa asumsi asset lain).
 class ScribblrThumb extends StatelessWidget {
   final dynamic cover;
   final double width;
@@ -98,7 +94,7 @@ class ScribblrThumb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final url = cover?.toString() ?? '';
+    final url = resolveCoverUrl(cover);
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: Container(
@@ -143,7 +139,6 @@ class ScribblrCard extends StatelessWidget {
   }
 }
 
-/// Header auth full-width: gradasi primary, logo, judul, subjudul.
 class AuthHeader extends StatelessWidget {
   final String title;
   final String subtitle;
@@ -203,7 +198,6 @@ class AuthHeader extends StatelessWidget {
   }
 }
 
-/// Card form auth yang overlap ke header.
 class AuthCard extends StatelessWidget {
   final Widget child;
   const AuthCard({super.key, required this.child});
@@ -231,16 +225,13 @@ class AuthCard extends StatelessWidget {
   }
 }
 
-/// Dialog konfirmasi hapus gaya Scribblr (UI saja).
 Future<bool> confirmDeleteArticle(BuildContext context) async {
   final ok = await showDialog<bool>(
     context: context,
     builder: (context) {
       return AlertDialog(
         backgroundColor: ScribblrColors.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Text(
           'Delete Article',
           style: TextStyle(fontWeight: FontWeight.w700),
@@ -252,9 +243,7 @@ Future<bool> confirmDeleteArticle(BuildContext context) async {
             child: const Text('Cancel'),
           ),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size(110, 44),
-            ),
+            style: ElevatedButton.styleFrom(minimumSize: const Size(110, 44)),
             onPressed: () => Navigator.pop(context, true),
             child: const Text('Yes, Delete'),
           ),
