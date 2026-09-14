@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:frontendats/api.dart';
 import 'package:frontendats/api_client.dart';
-import 'package:frontendats/scribblr_theme.dart';
-import 'package:frontendats/scribblr_widgets.dart';
+import 'package:frontendats/writly_theme.dart';
+import 'package:frontendats/writly_widgets.dart';
 
 class EditProfilePage extends StatefulWidget {
   final String username;
@@ -133,7 +133,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       body: SafeArea(
         child: isLoading
             ? const Center(
-                child: CircularProgressIndicator(color: ScribblrColors.primary),
+                child: CircularProgressIndicator(color: WritlyColors.primary),
               )
             : ListView(
                 padding: const EdgeInsets.symmetric(
@@ -141,19 +141,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   vertical: 16,
                 ),
                 children: [
-                  const ScribblrLabel(text: 'Username'),
+                  const WritlyLabel(text: 'Username'),
                   TextField(controller: usernameController),
                   const SizedBox(height: 16),
-                  const ScribblrLabel(text: 'Email'),
+                  const WritlyLabel(text: 'Email'),
                   TextField(
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
                   ),
                   const SizedBox(height: 16),
-                  const ScribblrLabel(text: 'Password (isi ulang, min 4)'),
+                  const WritlyLabel(text: 'Password (isi ulang, min 4)'),
                   TextField(controller: passwordController, obscureText: true),
                   const SizedBox(height: 28),
-                  ScribblrPrimaryButton(
+                  WritlyPrimaryButton(
                     text: 'Save Changes',
                     loading: isSaving,
                     onPressed: save,

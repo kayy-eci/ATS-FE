@@ -5,8 +5,8 @@ import 'package:frontendats/api.dart';
 import 'package:frontendats/auth_session.dart';
 import 'package:frontendats/main_shell.dart';
 import 'package:frontendats/register.dart';
-import 'package:frontendats/scribblr_theme.dart';
-import 'package:frontendats/scribblr_widgets.dart';
+import 'package:frontendats/writly_theme.dart';
+import 'package:frontendats/writly_widgets.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -143,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: ScribblrColors.surface,
+          backgroundColor: WritlyColors.surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -159,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 const Text(
                   'HP fisik harus satu WiFi dengan laptop. Cek IP terbaru via ipconfig.',
-                  style: TextStyle(fontSize: 12, color: ScribblrColors.muted),
+                  style: TextStyle(fontSize: 12, color: WritlyColors.muted),
                 ),
                 const SizedBox(height: 12),
                 TextFormField(
@@ -231,7 +231,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ScribblrColors.bg,
+      backgroundColor: WritlyColors.bg,
       body: SafeArea(
         top: false,
         child: SingleChildScrollView(
@@ -247,7 +247,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const ScribblrLabel(text: 'Email'),
+                      const WritlyLabel(text: 'Email'),
                       TextFormField(
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
@@ -265,7 +265,7 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
                       const SizedBox(height: 16),
-                      const ScribblrLabel(text: 'Password'),
+                      const WritlyLabel(text: 'Password'),
                       TextFormField(
                         controller: passwordController,
                         obscureText: obscure,
@@ -293,7 +293,7 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
                       const SizedBox(height: 24),
-                      ScribblrPrimaryButton(
+                      WritlyPrimaryButton(
                         text: 'Sign In',
                         loading: isSaving,
                         onPressed: isSaving ? null : login,
@@ -306,7 +306,7 @@ class _LoginPageState extends State<LoginPage> {
                             "Don't have an account? ",
                             style: TextStyle(
                               fontSize: 13,
-                              color: ScribblrColors.muted,
+                              color: WritlyColors.muted,
                             ),
                           ),
                           TextButton(
@@ -346,7 +346,7 @@ class _LoginPageState extends State<LoginPage> {
                               const Icon(
                                 Icons.dns_outlined,
                                 size: 14,
-                                color: ScribblrColors.muted,
+                                color: WritlyColors.muted,
                               ),
                               const SizedBox(width: 6),
                               Flexible(
@@ -354,7 +354,7 @@ class _LoginPageState extends State<LoginPage> {
                                   baseUrl,
                                   style: const TextStyle(
                                     fontSize: 11,
-                                    color: ScribblrColors.muted,
+                                    color: WritlyColors.muted,
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -365,7 +365,7 @@ class _LoginPageState extends State<LoginPage> {
                                 style: TextStyle(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w700,
-                                  color: ScribblrColors.primary,
+                                  color: WritlyColors.primary,
                                 ),
                               ),
                             ],

@@ -6,8 +6,8 @@ import 'package:frontendats/api_client.dart';
 import 'package:frontendats/detailpost.dart';
 import 'package:frontendats/editpost.dart';
 import 'package:frontendats/posts_refresh.dart';
-import 'package:frontendats/scribblr_theme.dart';
-import 'package:frontendats/scribblr_widgets.dart';
+import 'package:frontendats/writly_theme.dart';
+import 'package:frontendats/writly_widgets.dart';
 
 class MyArticlesPage extends StatefulWidget {
   final String username;
@@ -154,10 +154,10 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
       body: SafeArea(
         child: isLoading
             ? const Center(
-                child: CircularProgressIndicator(color: ScribblrColors.primary),
+                child: CircularProgressIndicator(color: WritlyColors.primary),
               )
             : RefreshIndicator(
-                color: ScribblrColors.primary,
+                color: WritlyColors.primary,
                 onRefresh: fetchPosts,
                 child: ListView(
                   padding: const EdgeInsets.symmetric(
@@ -165,7 +165,7 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
                     vertical: 16,
                   ),
                   children: [
-                    ScribblrHeader(
+                    WritlyHeader(
                       title: 'My Articles',
                       subtitle:
                           '$pubCount Published  \u2022  $draftCount Drafts',
@@ -174,7 +174,7 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
                     Container(
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
-                        color: ScribblrColors.chipBg,
+                        color: WritlyColors.chipBg,
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Row(
@@ -191,7 +191,7 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
                         child: Center(
                           child: Text(
                             'Belum ada artikel di tab ini.',
-                            style: TextStyle(color: ScribblrColors.muted),
+                            style: TextStyle(color: WritlyColors.muted),
                           ),
                         ),
                       )
@@ -199,7 +199,7 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
                       ...mine.map(
                         (postItem) => Padding(
                           padding: const EdgeInsets.only(bottom: 10),
-                          child: ScribblrCard(
+                          child: WritlyCard(
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -220,7 +220,7 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
                             },
                             child: Row(
                               children: [
-                                ScribblrThumb(cover: postItem['cover_image']),
+                                WritlyThumb(cover: postItem['cover_image']),
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: Column(
@@ -232,7 +232,7 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
                                         style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w700,
-                                          color: ScribblrColors.ink,
+                                          color: WritlyColors.ink,
                                           height: 1.35,
                                         ),
                                         maxLines: 2,
@@ -263,7 +263,7 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
                                                 Icon(
                                                   Icons.edit_outlined,
                                                   size: 15,
-                                                  color: ScribblrColors.primary,
+                                                  color: WritlyColors.primary,
                                                 ),
                                                 SizedBox(width: 4),
                                                 Text(
@@ -271,7 +271,7 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
                                                   style: TextStyle(
                                                     fontSize: 12,
                                                     color:
-                                                        ScribblrColors.primary,
+                                                        WritlyColors.primary,
                                                     fontWeight: FontWeight.w600,
                                                   ),
                                                 ),
@@ -332,7 +332,7 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: active ? ScribblrColors.surface : Colors.transparent,
+            color: active ? WritlyColors.surface : Colors.transparent,
             borderRadius: BorderRadius.circular(26),
           ),
           alignment: Alignment.center,
@@ -341,7 +341,7 @@ class _MyArticlesPageState extends State<MyArticlesPage> {
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w700,
-              color: active ? ScribblrColors.primary : ScribblrColors.muted,
+              color: active ? WritlyColors.primary : WritlyColors.muted,
             ),
           ),
         ),

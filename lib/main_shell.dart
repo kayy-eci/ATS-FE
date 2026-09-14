@@ -6,7 +6,7 @@ import 'package:frontendats/homepage.dart';
 import 'package:frontendats/my_articles.dart';
 import 'package:frontendats/posts_refresh.dart';
 import 'package:frontendats/profile.dart';
-import 'package:frontendats/scribblr_theme.dart';
+import 'package:frontendats/writly_theme.dart';
 
 class MainShell extends StatefulWidget {
   final String username;
@@ -60,12 +60,12 @@ class _MainShellState extends State<MainShell> {
         ),
         theme: BottomBarThemeData(
           barDecoration: BoxDecoration(
-            color: ScribblrColors.surface,
+            color: WritlyColors.surface,
             borderRadius: BorderRadius.circular(28),
-            border: Border.all(color: ScribblrColors.line),
+            border: Border.all(color: WritlyColors.line),
             boxShadow: [
               BoxShadow(
-                color: ScribblrColors.ink.withValues(alpha: 0.12),
+                color: WritlyColors.ink.withValues(alpha: 0.12),
                 blurRadius: 28,
                 offset: const Offset(0, 12),
               ),
@@ -100,7 +100,7 @@ class _MainShellState extends State<MainShell> {
     String label,
   ) {
     final selected = index == tabIndex;
-    final color = selected ? ScribblrColors.primary : ScribblrColors.muted;
+    final color = selected ? WritlyColors.primary : WritlyColors.muted;
     return Expanded(
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
@@ -144,17 +144,17 @@ class _MainShellState extends State<MainShell> {
                 width: 52,
                 height: 52,
                 decoration: BoxDecoration(
-                  color: ScribblrColors.primary,
+                  color: WritlyColors.primary,
                   shape: BoxShape.circle,
                   border: selected
                       ? Border.all(
-                          color: ScribblrColors.primaryDark,
+                          color: WritlyColors.primaryDark,
                           width: 2.5,
                         )
                       : null,
                   boxShadow: [
                     BoxShadow(
-                      color: ScribblrColors.primary.withValues(alpha: 0.4),
+                      color: WritlyColors.primary.withValues(alpha: 0.4),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -169,8 +169,8 @@ class _MainShellState extends State<MainShell> {
                   fontSize: 10,
                   fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
                   color: selected
-                      ? ScribblrColors.primary
-                      : ScribblrColors.muted,
+                      ? WritlyColors.primary
+                      : WritlyColors.muted,
                 ),
               ),
             ],

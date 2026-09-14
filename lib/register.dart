@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:frontendats/api.dart';
-import 'package:frontendats/scribblr_theme.dart';
-import 'package:frontendats/scribblr_widgets.dart';
+import 'package:frontendats/writly_theme.dart';
+import 'package:frontendats/writly_widgets.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -88,7 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ScribblrColors.bg,
+      backgroundColor: WritlyColors.bg,
       appBar: AppBar(
         leading: const BackButton(),
         backgroundColor: Colors.transparent,
@@ -110,7 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const ScribblrLabel(text: 'Username'),
+                      const WritlyLabel(text: 'Username'),
                       TextFormField(
                         controller: usernameController,
                         decoration: const InputDecoration(
@@ -125,7 +125,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         },
                       ),
                       const SizedBox(height: 16),
-                      const ScribblrLabel(text: 'Email'),
+                      const WritlyLabel(text: 'Email'),
                       TextFormField(
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
@@ -143,7 +143,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         },
                       ),
                       const SizedBox(height: 16),
-                      const ScribblrLabel(text: 'Password'),
+                      const WritlyLabel(text: 'Password'),
                       TextFormField(
                         controller: passwordController,
                         obscureText: obscure,
@@ -168,11 +168,11 @@ class _RegisterPageState extends State<RegisterPage> {
                         },
                       ),
                       const SizedBox(height: 24),
-                      ScribblrPrimaryButton(
+                      WritlyPrimaryButton(
                         text: 'Sign Up',
                         loading: isSaving,
                         onPressed: isSaving ? null : register,
-                      ),
+                      ),  
                       const SizedBox(height: 16),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -181,7 +181,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             'Already have an account? ',
                             style: TextStyle(
                               fontSize: 13,
-                              color: ScribblrColors.muted,
+                              color: WritlyColors.muted,
                             ),
                           ),
                           TextButton(

@@ -8,8 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:frontendats/api.dart';
 import 'package:frontendats/api_client.dart';
 import 'package:frontendats/posts_refresh.dart';
-import 'package:frontendats/scribblr_theme.dart';
-import 'package:frontendats/scribblr_widgets.dart';
+import 'package:frontendats/writly_theme.dart';
+import 'package:frontendats/writly_widgets.dart';
 
 class AddPostPage extends StatefulWidget {
   final String username;
@@ -71,7 +71,7 @@ class _AddPostPageState extends State<AddPostPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: ScribblrColors.surface,
+          backgroundColor: WritlyColors.surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -389,7 +389,7 @@ class _AddPostPageState extends State<AddPostPage> {
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: ScribblrColors.chipBg,
+                  color: WritlyColors.chipBg,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
@@ -397,7 +397,7 @@ class _AddPostPageState extends State<AddPostPage> {
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
-                    color: ScribblrColors.primary,
+                    color: WritlyColors.primary,
                   ),
                 ),
               ),
@@ -411,7 +411,7 @@ class _AddPostPageState extends State<AddPostPage> {
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             children: [
-              const ScribblrLabel(text: 'Cover image (opsional, dari galeri)'),
+              const WritlyLabel(text: 'Cover image (opsional, dari galeri)'),
               _coverPreview(),
               const SizedBox(height: 8),
               Row(
@@ -436,12 +436,12 @@ class _AddPostPageState extends State<AddPostPage> {
                   _pickedCover!.name,
                   style: const TextStyle(
                     fontSize: 12,
-                    color: ScribblrColors.muted,
+                    color: WritlyColors.muted,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
               const SizedBox(height: 14),
-              const ScribblrLabel(text: 'Title'),
+              const WritlyLabel(text: 'Title'),
               TextFormField(
                 controller: titleController,
                 decoration: const InputDecoration(hintText: 'Article title'),
@@ -453,7 +453,7 @@ class _AddPostPageState extends State<AddPostPage> {
                 },
               ),
               const SizedBox(height: 14),
-              const ScribblrLabel(text: 'Article'),
+              const WritlyLabel(text: 'Article'),
               TextFormField(
                 controller: contentController,
                 maxLines: 6,
@@ -468,14 +468,14 @@ class _AddPostPageState extends State<AddPostPage> {
                 },
               ),
               const SizedBox(height: 14),
-              const ScribblrLabel(text: 'Excerpt'),
+              const WritlyLabel(text: 'Excerpt'),
               TextFormField(
                 controller: excerptController,
                 maxLines: 2,
                 decoration: const InputDecoration(hintText: 'Short summary...'),
               ),
               const SizedBox(height: 14),
-              const ScribblrLabel(text: 'Author (akun kamu, terkunci)'),
+              const WritlyLabel(text: 'Author (akun kamu, terkunci)'),
               TextFormField(
                 controller: authorController,
                 readOnly: authorLocked,
@@ -501,7 +501,7 @@ class _AddPostPageState extends State<AddPostPage> {
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w800,
-                      color: ScribblrColors.ink,
+                      color: WritlyColors.ink,
                     ),
                   ),
                   const Spacer(),
@@ -527,12 +527,12 @@ class _AddPostPageState extends State<AddPostPage> {
                   Icon(
                     Icons.touch_app_outlined,
                     size: 14,
-                    color: ScribblrColors.muted,
+                    color: WritlyColors.muted,
                   ),
                   SizedBox(width: 4),
                   Text(
                     'Bisa pilih lebih dari 1 topik.',
-                    style: TextStyle(fontSize: 12, color: ScribblrColors.muted),
+                    style: TextStyle(fontSize: 12, color: WritlyColors.muted),
                   ),
                 ],
               ),
@@ -540,7 +540,7 @@ class _AddPostPageState extends State<AddPostPage> {
               if (categories.isEmpty)
                 const Text(
                   'Belum ada topik. Bikin baru lewat tombol New.',
-                  style: TextStyle(color: ScribblrColors.muted, fontSize: 13),
+                  style: TextStyle(color: WritlyColors.muted, fontSize: 13),
                 )
               else
                 Wrap(
@@ -556,7 +556,7 @@ class _AddPostPageState extends State<AddPostPage> {
                         radius: 11,
                         backgroundColor: selected
                             ? Colors.white24
-                            : ScribblrColors.chipBg,
+                            : WritlyColors.chipBg,
                         backgroundImage: const AssetImage('assets/logokpi.png'),
                         onBackgroundImageError: (_, _) {},
                         child: const SizedBox.shrink(),
@@ -573,13 +573,13 @@ class _AddPostPageState extends State<AddPostPage> {
                           categoryError = null;
                         });
                       },
-                      selectedColor: ScribblrColors.primary,
+                      selectedColor: WritlyColors.primary,
                       labelStyle: TextStyle(
-                        color: selected ? Colors.white : ScribblrColors.ink,
+                        color: selected ? Colors.white : WritlyColors.ink,
                         fontWeight: FontWeight.w600,
                       ),
                       shape: const StadiumBorder(
-                        side: BorderSide(color: ScribblrColors.line),
+                        side: BorderSide(color: WritlyColors.line),
                       ),
                     );
                   }).toList(),
@@ -592,11 +592,11 @@ class _AddPostPageState extends State<AddPostPage> {
                 ),
               ],
               const SizedBox(height: 18),
-              const ScribblrLabel(text: 'Status'),
+              const WritlyLabel(text: 'Status'),
               Container(
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                  color: ScribblrColors.chipBg,
+                  color: WritlyColors.chipBg,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Row(
@@ -607,7 +607,7 @@ class _AddPostPageState extends State<AddPostPage> {
                 ),
               ),
               const SizedBox(height: 24),
-              ScribblrPrimaryButton(
+              WritlyPrimaryButton(
                 text: selectedStatus == 'draft' ? 'Save Draft' : 'Publish',
                 loading: isSaving,
                 onPressed: isSaving ? null : addPost,
@@ -639,14 +639,14 @@ class _AddPostPageState extends State<AddPostPage> {
     return Container(
       height: 150,
       decoration: BoxDecoration(
-        color: ScribblrColors.placeholderBg,
+        color: WritlyColors.placeholderBg,
         borderRadius: BorderRadius.circular(20),
       ),
       alignment: Alignment.center,
       child: const Icon(
         Icons.image_outlined,
         size: 40,
-        color: ScribblrColors.primary,
+        color: WritlyColors.primary,
       ),
     );
   }
@@ -659,7 +659,7 @@ class _AddPostPageState extends State<AddPostPage> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: active ? ScribblrColors.surface : Colors.transparent,
+            color: active ? WritlyColors.surface : Colors.transparent,
             borderRadius: BorderRadius.circular(26),
           ),
           alignment: Alignment.center,
@@ -668,7 +668,7 @@ class _AddPostPageState extends State<AddPostPage> {
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w700,
-              color: active ? ScribblrColors.primary : ScribblrColors.muted,
+              color: active ? WritlyColors.primary : WritlyColors.muted,
             ),
           ),
         ),

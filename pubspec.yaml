@@ -67,8 +67,8 @@ flutter:
   assets:
     - assets/logokpi.png
 
-  # Native splash (flutter_native_splash): logo app + background Scribblr (#FDF8F2).
-  # Warna background = ScribblrColors.bg (#FDF8F2).
+  # Native splash (flutter_native_splash): logo app + background Writly (#FDF8F2).
+  # Warna background = WritlyColors.bg (#FDF8F2).
 flutter_native_splash:
   color: "#FDF8F2"
   image: assets/logokpi.png

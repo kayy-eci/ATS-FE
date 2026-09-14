@@ -4,8 +4,8 @@ import 'package:frontendats/api.dart';
 import 'package:frontendats/api_client.dart';
 import 'package:frontendats/editpost.dart';
 import 'package:frontendats/posts_refresh.dart';
-import 'package:frontendats/scribblr_theme.dart';
-import 'package:frontendats/scribblr_widgets.dart';
+import 'package:frontendats/writly_theme.dart';
+import 'package:frontendats/writly_widgets.dart';
 
 class DetailPostPage extends StatefulWidget {
   final Map post;
@@ -143,7 +143,7 @@ class _DetailPostPageState extends State<DetailPostPage> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: ScribblrColors.chipBg,
+                color: WritlyColors.chipBg,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
@@ -151,7 +151,7 @@ class _DetailPostPageState extends State<DetailPostPage> {
                 style: const TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
-                  color: ScribblrColors.primary,
+                  color: WritlyColors.primary,
                 ),
               ),
             ),
@@ -162,7 +162,7 @@ class _DetailPostPageState extends State<DetailPostPage> {
               fontSize: 24,
               fontWeight: FontWeight.w800,
               height: 1.3,
-              color: ScribblrColors.ink,
+              color: WritlyColors.ink,
             ),
           ),
           const SizedBox(height: 10),
@@ -170,11 +170,11 @@ class _DetailPostPageState extends State<DetailPostPage> {
             children: [
               const CircleAvatar(
                 radius: 16,
-                backgroundColor: ScribblrColors.chipBg,
+                backgroundColor: WritlyColors.chipBg,
                 child: Icon(
                   Icons.person,
                   size: 16,
-                  color: ScribblrColors.primary,
+                  color: WritlyColors.primary,
                 ),
               ),
               const SizedBox(width: 8),
@@ -186,7 +186,7 @@ class _DetailPostPageState extends State<DetailPostPage> {
                   ].join('  \u2022  '),
                   style: const TextStyle(
                     fontSize: 12,
-                    color: ScribblrColors.muted,
+                    color: WritlyColors.muted,
                   ),
                 ),
               ),
@@ -197,12 +197,12 @@ class _DetailPostPageState extends State<DetailPostPage> {
             borderRadius: BorderRadius.circular(20),
             child: Container(
               height: 200,
-              color: ScribblrColors.placeholderBg,
+              color: WritlyColors.placeholderBg,
               child: cover.isEmpty
                   ? const Icon(
                       Icons.image_outlined,
                       size: 44,
-                      color: ScribblrColors.primary,
+                      color: WritlyColors.primary,
                     )
                   : Image.network(
                       cover,
@@ -210,7 +210,7 @@ class _DetailPostPageState extends State<DetailPostPage> {
                       errorBuilder: (_, _, _) => const Icon(
                         Icons.image_outlined,
                         size: 44,
-                        color: ScribblrColors.primary,
+                        color: WritlyColors.primary,
                       ),
                     ),
             ),
@@ -222,7 +222,7 @@ class _DetailPostPageState extends State<DetailPostPage> {
               style: const TextStyle(
                 fontSize: 14,
                 fontStyle: FontStyle.italic,
-                color: ScribblrColors.muted,
+                color: WritlyColors.muted,
                 height: 1.6,
               ),
             ),
@@ -233,7 +233,7 @@ class _DetailPostPageState extends State<DetailPostPage> {
             style: const TextStyle(
               fontSize: 15,
               height: 1.7,
-              color: ScribblrColors.ink,
+              color: WritlyColors.ink,
             ),
           ),
           const SizedBox(height: 32),

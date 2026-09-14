@@ -5,8 +5,8 @@ import 'package:frontendats/api.dart';
 import 'package:frontendats/api_client.dart';
 import 'package:frontendats/detailpost.dart';
 import 'package:frontendats/posts_refresh.dart';
-import 'package:frontendats/scribblr_theme.dart';
-import 'package:frontendats/scribblr_widgets.dart';
+import 'package:frontendats/writly_theme.dart';
+import 'package:frontendats/writly_widgets.dart';
 
 class DiscoverPage extends StatefulWidget {
   final String username;
@@ -100,7 +100,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
     await showModalBottomSheet(
       context: context,
-      backgroundColor: ScribblrColors.surface,
+      backgroundColor: WritlyColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -115,7 +115,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: ScribblrColors.line,
+                    color: WritlyColors.line,
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -132,10 +132,10 @@ class _DiscoverPageState extends State<DiscoverPage> {
                         errorBuilder: (_, _, _) => Container(
                           width: 44,
                           height: 44,
-                          color: ScribblrColors.chipBg,
+                          color: WritlyColors.chipBg,
                           child: const Icon(
                             Icons.label_outline,
-                            color: ScribblrColors.primary,
+                            color: WritlyColors.primary,
                           ),
                         ),
                       ),
@@ -150,7 +150,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w800,
-                              color: ScribblrColors.ink,
+                              color: WritlyColors.ink,
                             ),
                           ),
                           Text(
@@ -159,7 +159,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                                 : 'Dipakai $used artikel',
                             style: const TextStyle(
                               fontSize: 12,
-                              color: ScribblrColors.muted,
+                              color: WritlyColors.muted,
                             ),
                           ),
                         ],
@@ -221,7 +221,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
       context: context,
       builder: (ctx) {
         return AlertDialog(
-          backgroundColor: ScribblrColors.surface,
+          backgroundColor: WritlyColors.surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -320,7 +320,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
       context: context,
       builder: (ctx) {
         return AlertDialog(
-          backgroundColor: ScribblrColors.surface,
+          backgroundColor: WritlyColors.surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -407,7 +407,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
   Widget _catAvatar(bool selected) {
     return CircleAvatar(
       radius: 11,
-      backgroundColor: selected ? Colors.white24 : ScribblrColors.chipBg,
+      backgroundColor: selected ? Colors.white24 : WritlyColors.chipBg,
       backgroundImage: const AssetImage('assets/logokpi.png'),
       onBackgroundImageError: (_, _) {},
       child: const SizedBox.shrink(),
@@ -431,13 +431,13 @@ class _DiscoverPageState extends State<DiscoverPage> {
             selectedIds.add(id);
           }
         }),
-        selectedColor: ScribblrColors.primary,
+        selectedColor: WritlyColors.primary,
         labelStyle: TextStyle(
-          color: selected ? Colors.white : ScribblrColors.ink,
+          color: selected ? Colors.white : WritlyColors.ink,
           fontWeight: FontWeight.w600,
         ),
         shape: const StadiumBorder(
-          side: BorderSide(color: ScribblrColors.line),
+          side: BorderSide(color: WritlyColors.line),
         ),
       ),
     );
@@ -470,10 +470,10 @@ class _DiscoverPageState extends State<DiscoverPage> {
       body: SafeArea(
         child: isLoading || _catSaving
             ? const Center(
-                child: CircularProgressIndicator(color: ScribblrColors.primary),
+                child: CircularProgressIndicator(color: WritlyColors.primary),
               )
             : RefreshIndicator(
-                color: ScribblrColors.primary,
+                color: WritlyColors.primary,
                 onRefresh: fetchDiscoverData,
                 child: ListView(
                   padding: const EdgeInsets.symmetric(
@@ -481,7 +481,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     vertical: 16,
                   ),
                   children: [
-                    const ScribblrHeader(
+                    const WritlyHeader(
                       title: 'Discover',
                       subtitle: 'Browse topics and articles.',
                     ),
@@ -512,7 +512,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w800,
-                            color: ScribblrColors.ink,
+                            color: WritlyColors.ink,
                           ),
                         ),
                         const Spacer(),
@@ -529,14 +529,14 @@ class _DiscoverPageState extends State<DiscoverPage> {
                         Icon(
                           Icons.touch_app_outlined,
                           size: 14,
-                          color: ScribblrColors.muted,
+                          color: WritlyColors.muted,
                         ),
                         SizedBox(width: 4),
                         Text(
                           'Tap untuk filter banyak, tahan lama untuk kelola.',
                           style: TextStyle(
                             fontSize: 12,
-                            color: ScribblrColors.muted,
+                            color: WritlyColors.muted,
                           ),
                         ),
                       ],
@@ -545,7 +545,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     if (categories.isEmpty)
                       const Text(
                         'Belum ada kategori.',
-                        style: TextStyle(color: ScribblrColors.muted),
+                        style: TextStyle(color: WritlyColors.muted),
                       )
                     else
                       SingleChildScrollView(
@@ -574,7 +574,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
-                        color: ScribblrColors.ink,
+                        color: WritlyColors.ink,
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -586,7 +586,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                             normalizedQuery.isNotEmpty
                                 ? 'Tidak ketemu artikel berjudul "$query".'
                                 : 'Tidak ada artikel di kategori ini.',
-                            style: const TextStyle(color: ScribblrColors.muted),
+                            style: const TextStyle(color: WritlyColors.muted),
                           ),
                         ),
                       )
@@ -594,7 +594,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                       ...filtered.map(
                         (postItem) => Padding(
                           padding: const EdgeInsets.only(bottom: 10),
-                          child: ScribblrCard(
+                          child: WritlyCard(
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -614,7 +614,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                             },
                             child: Row(
                               children: [
-                                ScribblrThumb(
+                                WritlyThumb(
                                   cover: (postItem as Map)['cover_image'],
                                 ),
                                 const SizedBox(width: 12),
@@ -631,7 +631,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                                         style: const TextStyle(
                                           fontSize: 10,
                                           fontWeight: FontWeight.w700,
-                                          color: ScribblrColors.primary,
+                                          color: WritlyColors.primary,
                                           letterSpacing: 0.8,
                                         ),
                                         maxLines: 1,
@@ -643,7 +643,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                                         style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w700,
-                                          color: ScribblrColors.ink,
+                                          color: WritlyColors.ink,
                                           height: 1.35,
                                         ),
                                         maxLines: 2,
@@ -654,7 +654,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                                         strOf(postItem, 'author'),
                                         style: const TextStyle(
                                           fontSize: 11,
-                                          color: ScribblrColors.muted,
+                                          color: WritlyColors.muted,
                                         ),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -664,7 +664,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
                                 ),
                                 const Icon(
                                   Icons.chevron_right,
-                                  color: ScribblrColors.muted,
+                                  color: WritlyColors.muted,
                                 ),
                               ],
                             ),

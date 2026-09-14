@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frontendats/posts_refresh.dart';
-import 'package:frontendats/scribblr_theme.dart';
+import 'package:frontendats/writly_theme.dart';
 
-class ScribblrHeader extends StatelessWidget {
+class WritlyHeader extends StatelessWidget {
   final String title;
   final String? subtitle;
-  const ScribblrHeader({super.key, required this.title, this.subtitle});
+  const WritlyHeader({super.key, required this.title, this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +17,14 @@ class ScribblrHeader extends StatelessWidget {
           style: const TextStyle(
             fontSize: 26,
             fontWeight: FontWeight.w800,
-            color: ScribblrColors.ink,
+            color: WritlyColors.ink,
           ),
         ),
         if (subtitle != null) ...[
           const SizedBox(height: 4),
           Text(
             subtitle!,
-            style: const TextStyle(fontSize: 13, color: ScribblrColors.muted),
+            style: const TextStyle(fontSize: 13, color: WritlyColors.muted),
           ),
         ],
       ],
@@ -32,9 +32,9 @@ class ScribblrHeader extends StatelessWidget {
   }
 }
 
-class ScribblrLabel extends StatelessWidget {
+class WritlyLabel extends StatelessWidget {
   final String text;
-  const ScribblrLabel({super.key, required this.text});
+  const WritlyLabel({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -45,18 +45,18 @@ class ScribblrLabel extends StatelessWidget {
         style: const TextStyle(
           fontSize: 13,
           fontWeight: FontWeight.w600,
-          color: ScribblrColors.ink,
+          color: WritlyColors.ink,
         ),
       ),
     );
   }
 }
 
-class ScribblrPrimaryButton extends StatelessWidget {
+class WritlyPrimaryButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final bool loading;
-  const ScribblrPrimaryButton({
+  const WritlyPrimaryButton({
     super.key,
     required this.text,
     required this.onPressed,
@@ -81,11 +81,11 @@ class ScribblrPrimaryButton extends StatelessWidget {
   }
 }
 
-class ScribblrThumb extends StatelessWidget {
+class WritlyThumb extends StatelessWidget {
   final dynamic cover;
   final double width;
   final double height;
-  const ScribblrThumb({
+  const WritlyThumb({
     super.key,
     required this.cover,
     this.width = 92,
@@ -100,15 +100,15 @@ class ScribblrThumb extends StatelessWidget {
       child: Container(
         width: width,
         height: height,
-        color: ScribblrColors.placeholderBg,
+        color: WritlyColors.placeholderBg,
         child: url.isEmpty
-            ? const Icon(Icons.article_outlined, color: ScribblrColors.primary)
+            ? const Icon(Icons.article_outlined, color: WritlyColors.primary)
             : Image.network(
                 url,
                 fit: BoxFit.cover,
                 errorBuilder: (_, _, _) => const Icon(
                   Icons.article_outlined,
-                  color: ScribblrColors.primary,
+                  color: WritlyColors.primary,
                 ),
               ),
       ),
@@ -116,19 +116,19 @@ class ScribblrThumb extends StatelessWidget {
   }
 }
 
-class ScribblrCard extends StatelessWidget {
+class WritlyCard extends StatelessWidget {
   final Widget child;
   final VoidCallback? onTap;
-  const ScribblrCard({super.key, required this.child, this.onTap});
+  const WritlyCard({super.key, required this.child, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: ScribblrColors.surface,
+      color: WritlyColors.surface,
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18),
-        side: const BorderSide(color: ScribblrColors.line),
+        side: const BorderSide(color: WritlyColors.line),
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
@@ -153,7 +153,7 @@ class AuthHeader extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [ScribblrColors.primary, ScribblrColors.primaryDark],
+          colors: [WritlyColors.primary, WritlyColors.primaryDark],
         ),
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(32)),
       ),
@@ -173,7 +173,7 @@ class AuthHeader extends StatelessWidget {
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w800,
-                color: ScribblrColors.primary,
+                color: WritlyColors.primary,
               ),
             ),
           ),
@@ -209,12 +209,12 @@ class AuthCard extends StatelessWidget {
       transform: Matrix4.translationValues(0, -40, 0),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: ScribblrColors.surface,
+        color: WritlyColors.surface,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: ScribblrColors.line),
+        border: Border.all(color: WritlyColors.line),
         boxShadow: [
           BoxShadow(
-            color: ScribblrColors.ink.withValues(alpha: 0.08),
+            color: WritlyColors.ink.withValues(alpha: 0.08),
             blurRadius: 24,
             offset: const Offset(0, 12),
           ),
@@ -230,7 +230,7 @@ Future<bool> confirmDeleteArticle(BuildContext context) async {
     context: context,
     builder: (context) {
       return AlertDialog(
-        backgroundColor: ScribblrColors.surface,
+        backgroundColor: WritlyColors.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Text(
           'Delete Article',

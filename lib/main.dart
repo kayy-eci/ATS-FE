@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontendats/api.dart';
 import 'package:frontendats/login.dart';
-import 'package:frontendats/scribblr_theme.dart';
+import 'package:frontendats/writly_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Writly',
-      theme: scribblrTheme(),
+      theme: writlyTheme(),
 
       home: const LoginPage(),
     );

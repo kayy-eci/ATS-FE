@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ScribblrColors {
+class WritlyColors {
   static const bg = Color(0xFFFDF8F2);
   static const surface = Color(0xFFFFFFFF);
   static const primary = Color(0xFFA9603D);
@@ -12,36 +12,36 @@ class ScribblrColors {
   static const placeholderBg = Color(0xFFF1E4D6);
 }
 
-ThemeData scribblrTheme() {
-  const primary = ScribblrColors.primary;
+ThemeData writlyTheme() {
+  const primary = WritlyColors.primary;
   return ThemeData(
     useMaterial3: true,
-    scaffoldBackgroundColor: ScribblrColors.bg,
+    scaffoldBackgroundColor: WritlyColors.bg,
     colorScheme: ColorScheme.fromSeed(
       seedColor: primary,
       primary: primary,
-      surface: ScribblrColors.surface,
+      surface: WritlyColors.surface,
     ),
     appBarTheme: const AppBarTheme(
-      backgroundColor: ScribblrColors.bg,
-      foregroundColor: ScribblrColors.ink,
+      backgroundColor: WritlyColors.bg,
+      foregroundColor: WritlyColors.ink,
       elevation: 0,
       centerTitle: false,
       titleTextStyle: TextStyle(
-        color: ScribblrColors.ink,
+        color: WritlyColors.ink,
         fontSize: 20,
         fontWeight: FontWeight.w700,
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: ScribblrColors.surface,
-      labelStyle: const TextStyle(color: ScribblrColors.muted, fontSize: 13),
-      hintStyle: const TextStyle(color: ScribblrColors.muted, fontSize: 14),
+      fillColor: WritlyColors.surface,
+      labelStyle: const TextStyle(color: WritlyColors.muted, fontSize: 13),
+      hintStyle: const TextStyle(color: WritlyColors.muted, fontSize: 14),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(color: ScribblrColors.line),
+        borderSide: const BorderSide(color: WritlyColors.line),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
@@ -69,15 +69,15 @@ ThemeData scribblrTheme() {
       style: TextButton.styleFrom(foregroundColor: primary),
     ),
     chipTheme: const ChipThemeData(
-      backgroundColor: ScribblrColors.chipBg,
+      backgroundColor: WritlyColors.chipBg,
       selectedColor: primary,
       labelStyle: TextStyle(fontSize: 13),
-      shape: StadiumBorder(side: BorderSide(color: ScribblrColors.line)),
+      shape: StadiumBorder(side: BorderSide(color: WritlyColors.line)),
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: ScribblrColors.surface,
+      backgroundColor: WritlyColors.surface,
       selectedItemColor: primary,
-      unselectedItemColor: ScribblrColors.muted,
+      unselectedItemColor: WritlyColors.muted,
       showUnselectedLabels: true,
       type: BottomNavigationBarType.fixed,
     ),

@@ -5,8 +5,8 @@ import 'package:frontendats/api.dart';
 import 'package:frontendats/api_client.dart';
 import 'package:frontendats/edit_profile.dart';
 import 'package:frontendats/posts_refresh.dart';
-import 'package:frontendats/scribblr_theme.dart';
-import 'package:frontendats/scribblr_widgets.dart';
+import 'package:frontendats/writly_theme.dart';
+import 'package:frontendats/writly_widgets.dart';
 
 class ProfilePage extends StatefulWidget {
   final String username;
@@ -58,19 +58,19 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(
-          color: ScribblrColors.primary,
+          color: WritlyColors.primary,
           onRefresh: fetchArticleCount,
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             children: [
-              const ScribblrHeader(title: 'Profile'),
+              const WritlyHeader(title: 'Profile'),
               const SizedBox(height: 20),
               Center(
                 child: Column(
                   children: [
                     CircleAvatar(
                       radius: 44,
-                      backgroundColor: ScribblrColors.chipBg,
+                      backgroundColor: WritlyColors.chipBg,
                       child: Text(
                         widget.username.isEmpty
                             ? 'S'
@@ -78,7 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: const TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.w800,
-                          color: ScribblrColors.primary,
+                          color: WritlyColors.primary,
                         ),
                       ),
                     ),
@@ -88,7 +88,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: const TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w800,
-                        color: ScribblrColors.ink,
+                        color: WritlyColors.ink,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -96,20 +96,20 @@ class _ProfilePageState extends State<ProfilePage> {
                       widget.email.isEmpty ? '-' : widget.email,
                       style: const TextStyle(
                         fontSize: 13,
-                        color: ScribblrColors.muted,
+                        color: WritlyColors.muted,
                       ),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 20),
-              ScribblrCard(
+              WritlyCard(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(
                       Icons.article_outlined,
-                      color: ScribblrColors.primary,
+                      color: WritlyColors.primary,
                     ),
                     const SizedBox(width: 10),
                     Text(
@@ -117,7 +117,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
-                        color: ScribblrColors.ink,
+                        color: WritlyColors.ink,
                       ),
                     ),
                     const SizedBox(width: 6),
@@ -125,25 +125,25 @@ class _ProfilePageState extends State<ProfilePage> {
                       'Articles',
                       style: TextStyle(
                         fontSize: 13,
-                        color: ScribblrColors.muted,
+                        color: WritlyColors.muted,
                       ),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 12),
-              ScribblrCard(
+              WritlyCard(
                 child: Column(
                   children: [
                     ListTile(
                       leading: const Icon(
                         Icons.edit_outlined,
-                        color: ScribblrColors.primary,
+                        color: WritlyColors.primary,
                       ),
                       title: const Text('Edit Profile'),
                       trailing: const Icon(
                         Icons.chevron_right,
-                        color: ScribblrColors.muted,
+                        color: WritlyColors.muted,
                       ),
                       onTap: () {
                         Navigator.push(
@@ -157,7 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         );
                       },
                     ),
-                    const Divider(height: 1, color: ScribblrColors.line),
+                    const Divider(height: 1, color: WritlyColors.line),
                     ListTile(
                       leading: const Icon(
                         Icons.logout,

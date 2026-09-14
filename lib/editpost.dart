@@ -8,8 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:frontendats/api.dart';
 import 'package:frontendats/api_client.dart';
 import 'package:frontendats/posts_refresh.dart';
-import 'package:frontendats/scribblr_theme.dart';
-import 'package:frontendats/scribblr_widgets.dart';
+import 'package:frontendats/writly_theme.dart';
+import 'package:frontendats/writly_widgets.dart';
 
 class EditPostPage extends StatefulWidget {
   final Map post;
@@ -345,7 +345,7 @@ class _EditPostPageState extends State<EditPostPage> {
                     style: TextStyle(color: Colors.redAccent, fontSize: 13),
                   ),
                 ),
-              const ScribblrLabel(text: 'Cover image (dari galeri)'),
+              const WritlyLabel(text: 'Cover image (dari galeri)'),
               _coverPreview(),
               const SizedBox(height: 8),
               Row(
@@ -377,12 +377,12 @@ class _EditPostPageState extends State<EditPostPage> {
                   _pickedCover!.name,
                   style: const TextStyle(
                     fontSize: 12,
-                    color: ScribblrColors.muted,
+                    color: WritlyColors.muted,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
               const SizedBox(height: 14),
-              const ScribblrLabel(text: 'Title'),
+              const WritlyLabel(text: 'Title'),
               TextFormField(
                 controller: titleController,
                 enabled: _isMine,
@@ -394,7 +394,7 @@ class _EditPostPageState extends State<EditPostPage> {
                 },
               ),
               const SizedBox(height: 14),
-              const ScribblrLabel(text: 'Article'),
+              const WritlyLabel(text: 'Article'),
               TextFormField(
                 controller: contentController,
                 maxLines: 6,
@@ -407,14 +407,14 @@ class _EditPostPageState extends State<EditPostPage> {
                 },
               ),
               const SizedBox(height: 14),
-              const ScribblrLabel(text: 'Excerpt'),
+              const WritlyLabel(text: 'Excerpt'),
               TextFormField(
                 controller: excerptController,
                 maxLines: 2,
                 enabled: _isMine,
               ),
               const SizedBox(height: 14),
-              const ScribblrLabel(text: 'Author (terkunci)'),
+              const WritlyLabel(text: 'Author (terkunci)'),
               TextFormField(
                 controller: authorController,
                 readOnly: true,
@@ -428,19 +428,19 @@ class _EditPostPageState extends State<EditPostPage> {
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w800,
-                  color: ScribblrColors.ink,
+                  color: WritlyColors.ink,
                 ),
               ),
               const SizedBox(height: 4),
               const Text(
                 'Bisa pilih lebih dari 1 topik.',
-                style: TextStyle(fontSize: 12, color: ScribblrColors.muted),
+                style: TextStyle(fontSize: 12, color: WritlyColors.muted),
               ),
               const SizedBox(height: 8),
               if (isLoadingCats)
                 const Center(
                   child: CircularProgressIndicator(
-                    color: ScribblrColors.primary,
+                    color: WritlyColors.primary,
                   ),
                 )
               else if (categories.isNotEmpty)
@@ -457,7 +457,7 @@ class _EditPostPageState extends State<EditPostPage> {
                         radius: 11,
                         backgroundColor: selected
                             ? Colors.white24
-                            : ScribblrColors.chipBg,
+                            : WritlyColors.chipBg,
                         backgroundImage: const AssetImage('assets/logokpi.png'),
                         onBackgroundImageError: (_, _) {},
                         child: const SizedBox.shrink(),
@@ -476,13 +476,13 @@ class _EditPostPageState extends State<EditPostPage> {
                                 categoryError = null;
                               });
                             },
-                      selectedColor: ScribblrColors.primary,
+                      selectedColor: WritlyColors.primary,
                       labelStyle: TextStyle(
-                        color: selected ? Colors.white : ScribblrColors.ink,
+                        color: selected ? Colors.white : WritlyColors.ink,
                         fontWeight: FontWeight.w600,
                       ),
                       shape: const StadiumBorder(
-                        side: BorderSide(color: ScribblrColors.line),
+                        side: BorderSide(color: WritlyColors.line),
                       ),
                     );
                   }).toList(),
@@ -495,11 +495,11 @@ class _EditPostPageState extends State<EditPostPage> {
                 ),
               ],
               const SizedBox(height: 18),
-              const ScribblrLabel(text: 'Status'),
+              const WritlyLabel(text: 'Status'),
               Container(
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                  color: ScribblrColors.chipBg,
+                  color: WritlyColors.chipBg,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Row(
@@ -510,7 +510,7 @@ class _EditPostPageState extends State<EditPostPage> {
                 ),
               ),
               const SizedBox(height: 24),
-              ScribblrPrimaryButton(
+              WritlyPrimaryButton(
                 text: 'Save Changes',
                 loading: isSaving,
                 onPressed: (!_isMine || isSaving) ? null : updatePost,
@@ -554,14 +554,14 @@ class _EditPostPageState extends State<EditPostPage> {
     return Container(
       height: 150,
       decoration: BoxDecoration(
-        color: ScribblrColors.placeholderBg,
+        color: WritlyColors.placeholderBg,
         borderRadius: BorderRadius.circular(20),
       ),
       alignment: Alignment.center,
       child: const Icon(
         Icons.image_outlined,
         size: 40,
-        color: ScribblrColors.primary,
+        color: WritlyColors.primary,
       ),
     );
   }
@@ -574,7 +574,7 @@ class _EditPostPageState extends State<EditPostPage> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: active ? ScribblrColors.surface : Colors.transparent,
+            color: active ? WritlyColors.surface : Colors.transparent,
             borderRadius: BorderRadius.circular(26),
           ),
           alignment: Alignment.center,
@@ -583,7 +583,7 @@ class _EditPostPageState extends State<EditPostPage> {
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w700,
-              color: active ? ScribblrColors.primary : ScribblrColors.muted,
+              color: active ? WritlyColors.primary : WritlyColors.muted,
             ),
           ),
         ),

@@ -5,8 +5,8 @@ import 'package:frontendats/api_client.dart';
 import 'package:frontendats/posts_refresh.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:frontendats/scribblr_theme.dart';
-import 'package:frontendats/scribblr_widgets.dart';
+import 'package:frontendats/writly_theme.dart';
+import 'package:frontendats/writly_widgets.dart';
 
 class HomePage extends StatefulWidget {
   final String username;
@@ -187,10 +187,10 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: isLoading
             ? const Center(
-                child: CircularProgressIndicator(color: ScribblrColors.primary),
+                child: CircularProgressIndicator(color: WritlyColors.primary),
               )
             : RefreshIndicator(
-                color: ScribblrColors.primary,
+                color: WritlyColors.primary,
                 onRefresh: fetchPosts,
                 child: ListView(
                   padding: const EdgeInsets.symmetric(
@@ -209,7 +209,7 @@ class _HomePageState extends State<HomePage> {
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w800,
-                                  color: ScribblrColors.ink,
+                                  color: WritlyColors.ink,
                                 ),
                               ),
                               Text(
@@ -218,20 +218,20 @@ class _HomePageState extends State<HomePage> {
                                     : 'Welcome back, ${widget.username}!',
                                 style: const TextStyle(
                                   fontSize: 12,
-                                  color: ScribblrColors.muted,
+                                  color: WritlyColors.muted,
                                 ),
                               ),
                             ],
                           ),
                         ),
                         CircleAvatar(
-                          backgroundColor: ScribblrColors.chipBg,
+                          backgroundColor: WritlyColors.chipBg,
                           child: Text(
                             widget.username.isEmpty
                                 ? 'S'
                                 : widget.username[0].toUpperCase(),
                             style: const TextStyle(
-                              color: ScribblrColors.primary,
+                              color: WritlyColors.primary,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -246,7 +246,7 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           padding: const EdgeInsets.all(18),
                           decoration: BoxDecoration(
-                            color: ScribblrColors.primary,
+                            color: WritlyColors.primary,
                             borderRadius: BorderRadius.circular(22),
                           ),
                           child: Column(
@@ -297,7 +297,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w800,
-                        color: ScribblrColors.ink,
+                        color: WritlyColors.ink,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -307,7 +307,7 @@ class _HomePageState extends State<HomePage> {
                         child: Center(
                           child: Text(
                             'Belum ada artikel.',
-                            style: TextStyle(color: ScribblrColors.muted),
+                            style: TextStyle(color: WritlyColors.muted),
                           ),
                         ),
                       )
@@ -321,7 +321,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w800,
-                        color: ScribblrColors.ink,
+                        color: WritlyColors.ink,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -354,11 +354,11 @@ class _HomePageState extends State<HomePage> {
     final cat = categoryLabelOf(categories, post);
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
-      child: ScribblrCard(
+      child: WritlyCard(
         onTap: () => openDetail(Map<String, dynamic>.from(post)),
         child: Row(
           children: [
-            ScribblrThumb(cover: post['cover_image']),
+            WritlyThumb(cover: post['cover_image']),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
@@ -370,7 +370,7 @@ class _HomePageState extends State<HomePage> {
                       style: const TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
-                        color: ScribblrColors.primary,
+                        color: WritlyColors.primary,
                         letterSpacing: 0.8,
                       ),
                     ),
@@ -380,7 +380,7 @@ class _HomePageState extends State<HomePage> {
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      color: ScribblrColors.ink,
+                      color: WritlyColors.ink,
                       height: 1.35,
                     ),
                     maxLines: 2,
@@ -391,7 +391,7 @@ class _HomePageState extends State<HomePage> {
                     _metaLine(post),
                     style: const TextStyle(
                       fontSize: 11,
-                      color: ScribblrColors.muted,
+                      color: WritlyColors.muted,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -399,7 +399,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: ScribblrColors.muted),
+            const Icon(Icons.chevron_right, color: WritlyColors.muted),
           ],
         ),
       ),

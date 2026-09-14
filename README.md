@@ -20,8 +20,8 @@ Dokumentasi ini dibuat dari seluruh file Dart di folder `lib/`. Setiap baris kod
 - [posts_refresh.dart](#posts-refresh) â€” 107 baris
 - [profile.dart](#profile) â€” 181 baris
 - [register.dart](#register) â€” 214 baris
-- [scribblr_theme.dart](#scribblr-theme) â€” 85 baris
-- [scribblr_widgets.dart](#scribblr-widgets) â€” 255 baris
+- [writly_theme.dart](#writly-theme) â€” 85 baris
+- [writly_widgets.dart](#writly-widgets) â€” 255 baris
 
 ## Gambaran Arsitektur
 
@@ -30,7 +30,7 @@ Dokumentasi ini dibuat dari seluruh file Dart di folder `lib/`. Setiap baris kod
 - **Autentikasi:** `login.dart`, `register.dart`, dan `auth_session.dart` menangani login, pendaftaran, serta sesi pengguna.
 - **Data/API:** `api.dart` dan `api_client.dart` menjadi lapisan komunikasi backend.
 - **Fitur konten:** halaman homepage, discover, detail/edit/add post, artikel pengguna, dan refresh postingan.
-- **Profil dan UI bersama:** `profile.dart`, `edit_profile.dart`, `scribblr_theme.dart`, dan `scribblr_widgets.dart`.
+- **Profil dan UI bersama:** `profile.dart`, `edit_profile.dart`, `writly_theme.dart`, dan `writly_widgets.dart`.
 
 > Catatan: Nomor baris mengikuti isi file saat README ini dibuat. Regenerasikan dokumentasi jika kode berubah.
 
@@ -51,8 +51,8 @@ Jumlah baris: **678**
 | 8 | ``import 'package:frontendats/api.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 9 | ``import 'package:frontendats/api_client.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 10 | ``import 'package:frontendats/posts_refresh.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 11 | ``import 'package:frontendats/scribblr_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 12 | ``import 'package:frontendats/scribblr_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 11 | ``import 'package:frontendats/writly_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 12 | ``import 'package:frontendats/writly_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 13 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
 | 14 | ``class AddPostPage extends StatefulWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
 | 15 | ``  final String username;`` | Mendeklarasikan variabel atau konstanta. |
@@ -114,7 +114,7 @@ Jumlah baris: **678**
 | 71 | ``      context: context,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 72 | ``      builder: (context) {`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 73 | ``        return AlertDialog(`` | Mengembalikan nilai dari fungsi atau widget. |
-| 74 | ``          backgroundColor: ScribblrColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 74 | ``          backgroundColor: WritlyColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 75 | ``          shape: RoundedRectangleBorder(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 76 | ``            borderRadius: BorderRadius.circular(20),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 77 | ``          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -432,7 +432,7 @@ Jumlah baris: **678**
 | 389 | ``                  vertical: 6,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 390 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 391 | ``                decoration: BoxDecoration(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 392 | ``                  color: ScribblrColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 392 | ``                  color: WritlyColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 393 | ``                  borderRadius: BorderRadius.circular(20),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 394 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 395 | ``                child: Text(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -440,7 +440,7 @@ Jumlah baris: **678**
 | 397 | ``                  style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 398 | ``                    fontSize: 12,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 399 | ``                    fontWeight: FontWeight.w700,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 400 | ``                    color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 400 | ``                    color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 401 | ``                  ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 402 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 403 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -454,7 +454,7 @@ Jumlah baris: **678**
 | 411 | ``          child: ListView(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 412 | ``            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),`` | Menyusun elemen antarmuka Flutter. |
 | 413 | ``            children: [`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 414 | ``              const ScribblrLabel(text: 'Cover image (opsional, dari galeri)'),`` | Mendeklarasikan variabel atau konstanta. |
+| 414 | ``              const WritlyLabel(text: 'Cover image (opsional, dari galeri)'),`` | Mendeklarasikan variabel atau konstanta. |
 | 415 | ``              _coverPreview(),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 416 | ``              const SizedBox(height: 8),`` | Mendeklarasikan variabel atau konstanta. |
 | 417 | ``              Row(`` | Menyusun elemen antarmuka Flutter. |
@@ -479,12 +479,12 @@ Jumlah baris: **678**
 | 436 | ``                  _pickedCover!.name,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 437 | ``                  style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 438 | ``                    fontSize: 12,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 439 | ``                    color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 439 | ``                    color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 440 | ``                  ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 441 | ``                  overflow: TextOverflow.ellipsis,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 442 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 443 | ``              const SizedBox(height: 14),`` | Mendeklarasikan variabel atau konstanta. |
-| 444 | ``              const ScribblrLabel(text: 'Title'),`` | Mendeklarasikan variabel atau konstanta. |
+| 444 | ``              const WritlyLabel(text: 'Title'),`` | Mendeklarasikan variabel atau konstanta. |
 | 445 | ``              TextFormField(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 446 | ``                controller: titleController,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 447 | ``                decoration: const InputDecoration(hintText: 'Article title'),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -496,7 +496,7 @@ Jumlah baris: **678**
 | 453 | ``                },`` | Menutup blok, widget, atau pemanggilan method. |
 | 454 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 455 | ``              const SizedBox(height: 14),`` | Mendeklarasikan variabel atau konstanta. |
-| 456 | ``              const ScribblrLabel(text: 'Article'),`` | Mendeklarasikan variabel atau konstanta. |
+| 456 | ``              const WritlyLabel(text: 'Article'),`` | Mendeklarasikan variabel atau konstanta. |
 | 457 | ``              TextFormField(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 458 | ``                controller: contentController,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 459 | ``                maxLines: 6,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -511,14 +511,14 @@ Jumlah baris: **678**
 | 468 | ``                },`` | Menutup blok, widget, atau pemanggilan method. |
 | 469 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 470 | ``              const SizedBox(height: 14),`` | Mendeklarasikan variabel atau konstanta. |
-| 471 | ``              const ScribblrLabel(text: 'Excerpt'),`` | Mendeklarasikan variabel atau konstanta. |
+| 471 | ``              const WritlyLabel(text: 'Excerpt'),`` | Mendeklarasikan variabel atau konstanta. |
 | 472 | ``              TextFormField(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 473 | ``                controller: excerptController,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 474 | ``                maxLines: 2,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 475 | ``                decoration: const InputDecoration(hintText: 'Short summary...'),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 476 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 477 | ``              const SizedBox(height: 14),`` | Mendeklarasikan variabel atau konstanta. |
-| 478 | ``              const ScribblrLabel(text: 'Author (akun kamu, terkunci)'),`` | Mendeklarasikan variabel atau konstanta. |
+| 478 | ``              const WritlyLabel(text: 'Author (akun kamu, terkunci)'),`` | Mendeklarasikan variabel atau konstanta. |
 | 479 | ``              TextFormField(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 480 | ``                controller: authorController,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 481 | ``                readOnly: authorLocked,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -544,7 +544,7 @@ Jumlah baris: **678**
 | 501 | ``                    style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 502 | ``                      fontSize: 15,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 503 | ``                      fontWeight: FontWeight.w800,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 504 | ``                      color: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 504 | ``                      color: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 505 | ``                    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 506 | ``                  ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 507 | ``                  const Spacer(),`` | Mendeklarasikan variabel atau konstanta. |
@@ -570,12 +570,12 @@ Jumlah baris: **678**
 | 527 | ``                  Icon(`` | Menyusun elemen antarmuka Flutter. |
 | 528 | ``                    Icons.touch_app_outlined,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 529 | ``                    size: 14,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 530 | ``                    color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 530 | ``                    color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 531 | ``                  ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 532 | ``                  SizedBox(width: 4),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 533 | ``                  Text(`` | Menyusun elemen antarmuka Flutter. |
 | 534 | ``                    'Bisa pilih lebih dari 1 topik.',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 535 | ``                    style: TextStyle(fontSize: 12, color: ScribblrColors.muted),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 535 | ``                    style: TextStyle(fontSize: 12, color: WritlyColors.muted),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 536 | ``                  ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 537 | ``                ],`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 538 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -583,7 +583,7 @@ Jumlah baris: **678**
 | 540 | ``              if (categories.isEmpty)`` | Mengatur percabangan logika. |
 | 541 | ``                const Text(`` | Mendeklarasikan variabel atau konstanta. |
 | 542 | ``                  'Belum ada topik. Bikin baru lewat tombol New.',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 543 | ``                  style: TextStyle(color: ScribblrColors.muted, fontSize: 13),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 543 | ``                  style: TextStyle(color: WritlyColors.muted, fontSize: 13),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 544 | ``                )`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 545 | ``              else`` | Mengatur percabangan logika. |
 | 546 | ``                Wrap(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -599,7 +599,7 @@ Jumlah baris: **678**
 | 556 | ``                        radius: 11,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 557 | ``                        backgroundColor: selected`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 558 | ``                            ? Colors.white24`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 559 | ``                            : ScribblrColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 559 | ``                            : WritlyColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 560 | ``                        backgroundImage: const AssetImage('assets/logokpi.png'),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 561 | ``                        onBackgroundImageError: (_, _) {},`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 562 | ``                        child: const SizedBox.shrink(),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -616,13 +616,13 @@ Jumlah baris: **678**
 | 573 | ``                          categoryError = null;`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 574 | ``                        });`` | Menutup blok, widget, atau pemanggilan method. |
 | 575 | ``                      },`` | Menutup blok, widget, atau pemanggilan method. |
-| 576 | ``                      selectedColor: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 576 | ``                      selectedColor: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 577 | ``                      labelStyle: TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 578 | ``                        color: selected ? Colors.white : ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 578 | ``                        color: selected ? Colors.white : WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 579 | ``                        fontWeight: FontWeight.w600,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 580 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 581 | ``                      shape: const StadiumBorder(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 582 | ``                        side: BorderSide(color: ScribblrColors.line),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 582 | ``                        side: BorderSide(color: WritlyColors.line),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 583 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 584 | ``                    );`` | Menutup blok, widget, atau pemanggilan method. |
 | 585 | ``                  }).toList(),`` | Menutup blok, widget, atau pemanggilan method. |
@@ -635,11 +635,11 @@ Jumlah baris: **678**
 | 592 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 593 | ``              ],`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 594 | ``              const SizedBox(height: 18),`` | Mendeklarasikan variabel atau konstanta. |
-| 595 | ``              const ScribblrLabel(text: 'Status'),`` | Mendeklarasikan variabel atau konstanta. |
+| 595 | ``              const WritlyLabel(text: 'Status'),`` | Mendeklarasikan variabel atau konstanta. |
 | 596 | ``              Container(`` | Menyusun elemen antarmuka Flutter. |
 | 597 | ``                padding: const EdgeInsets.all(4),`` | Menyusun elemen antarmuka Flutter. |
 | 598 | ``                decoration: BoxDecoration(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 599 | ``                  color: ScribblrColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 599 | ``                  color: WritlyColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 600 | ``                  borderRadius: BorderRadius.circular(30),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 601 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 602 | ``                child: Row(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -650,7 +650,7 @@ Jumlah baris: **678**
 | 607 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 608 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 609 | ``              const SizedBox(height: 24),`` | Mendeklarasikan variabel atau konstanta. |
-| 610 | ``              ScribblrPrimaryButton(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 610 | ``              WritlyPrimaryButton(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 611 | ``                text: selectedStatus == 'draft' ? 'Save Draft' : 'Publish',`` | Menyusun elemen antarmuka Flutter. |
 | 612 | ``                loading: isSaving,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 613 | ``                onPressed: isSaving ? null : addPost,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -682,14 +682,14 @@ Jumlah baris: **678**
 | 639 | ``    return Container(`` | Mengembalikan nilai dari fungsi atau widget. |
 | 640 | ``      height: 150,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 641 | ``      decoration: BoxDecoration(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 642 | ``        color: ScribblrColors.placeholderBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 642 | ``        color: WritlyColors.placeholderBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 643 | ``        borderRadius: BorderRadius.circular(20),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 644 | ``      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 645 | ``      alignment: Alignment.center,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 646 | ``      child: const Icon(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 647 | ``        Icons.image_outlined,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 648 | ``        size: 40,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 649 | ``        color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 649 | ``        color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 650 | ``      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 651 | ``    );`` | Menutup blok, widget, atau pemanggilan method. |
 | 652 | ``  }`` | Menutup blok, widget, atau pemanggilan method. |
@@ -702,7 +702,7 @@ Jumlah baris: **678**
 | 659 | ``        child: Container(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 660 | ``          padding: const EdgeInsets.symmetric(vertical: 10),`` | Menyusun elemen antarmuka Flutter. |
 | 661 | ``          decoration: BoxDecoration(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 662 | ``            color: active ? ScribblrColors.surface : Colors.transparent,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 662 | ``            color: active ? WritlyColors.surface : Colors.transparent,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 663 | ``            borderRadius: BorderRadius.circular(26),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 664 | ``          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 665 | ``          alignment: Alignment.center,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -711,7 +711,7 @@ Jumlah baris: **678**
 | 668 | ``            style: TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 669 | ``              fontSize: 13,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 670 | ``              fontWeight: FontWeight.w700,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 671 | ``              color: active ? ScribblrColors.primary : ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 671 | ``              color: active ? WritlyColors.primary : WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 672 | ``            ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 673 | ``          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 674 | ``        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -913,8 +913,8 @@ Jumlah baris: **244**
 | 4 | ``import 'package:frontendats/api_client.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 5 | ``import 'package:frontendats/editpost.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 6 | ``import 'package:frontendats/posts_refresh.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 7 | ``import 'package:frontendats/scribblr_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 8 | ``import 'package:frontendats/scribblr_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 7 | ``import 'package:frontendats/writly_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 8 | ``import 'package:frontendats/writly_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 9 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
 | 10 | ``class DetailPostPage extends StatefulWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
 | 11 | ``  final Map post;`` | Mendeklarasikan variabel atau konstanta. |
@@ -1052,7 +1052,7 @@ Jumlah baris: **244**
 | 143 | ``            Container(`` | Menyusun elemen antarmuka Flutter. |
 | 144 | ``              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),`` | Menyusun elemen antarmuka Flutter. |
 | 145 | ``              decoration: BoxDecoration(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 146 | ``                color: ScribblrColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 146 | ``                color: WritlyColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 147 | ``                borderRadius: BorderRadius.circular(20),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 148 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 149 | ``              child: Text(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1060,7 +1060,7 @@ Jumlah baris: **244**
 | 151 | ``                style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 152 | ``                  fontSize: 11,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 153 | ``                  fontWeight: FontWeight.w700,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 154 | ``                  color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 154 | ``                  color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 155 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 156 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 157 | ``            ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1071,7 +1071,7 @@ Jumlah baris: **244**
 | 162 | ``              fontSize: 24,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 163 | ``              fontWeight: FontWeight.w800,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 164 | ``              height: 1.3,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 165 | ``              color: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 165 | ``              color: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 166 | ``            ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 167 | ``          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 168 | ``          const SizedBox(height: 10),`` | Mendeklarasikan variabel atau konstanta. |
@@ -1079,11 +1079,11 @@ Jumlah baris: **244**
 | 170 | ``            children: [`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 171 | ``              const CircleAvatar(`` | Mendeklarasikan variabel atau konstanta. |
 | 172 | ``                radius: 16,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 173 | ``                backgroundColor: ScribblrColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 173 | ``                backgroundColor: WritlyColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 174 | ``                child: Icon(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 175 | ``                  Icons.person,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 176 | ``                  size: 16,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 177 | ``                  color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 177 | ``                  color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 178 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 179 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 180 | ``              const SizedBox(width: 8),`` | Mendeklarasikan variabel atau konstanta. |
@@ -1095,7 +1095,7 @@ Jumlah baris: **244**
 | 186 | ``                  ].join('  \u2022  '),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 187 | ``                  style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 188 | ``                    fontSize: 12,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 189 | ``                    color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 189 | ``                    color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 190 | ``                  ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 191 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 192 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1106,12 +1106,12 @@ Jumlah baris: **244**
 | 197 | ``            borderRadius: BorderRadius.circular(20),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 198 | ``            child: Container(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 199 | ``              height: 200,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 200 | ``              color: ScribblrColors.placeholderBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 200 | ``              color: WritlyColors.placeholderBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 201 | ``              child: cover.isEmpty`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 202 | ``                  ? const Icon(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 203 | ``                      Icons.image_outlined,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 204 | ``                      size: 44,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 205 | ``                      color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 205 | ``                      color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 206 | ``                    )`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 207 | ``                  : Image.network(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 208 | ``                      cover,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1119,7 +1119,7 @@ Jumlah baris: **244**
 | 210 | ``                      errorBuilder: (_, _, _) => const Icon(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 211 | ``                        Icons.image_outlined,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 212 | ``                        size: 44,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 213 | ``                        color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 213 | ``                        color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 214 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 215 | ``                    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 216 | ``            ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1131,7 +1131,7 @@ Jumlah baris: **244**
 | 222 | ``              style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 223 | ``                fontSize: 14,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 224 | ``                fontStyle: FontStyle.italic,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 225 | ``                color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 225 | ``                color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 226 | ``                height: 1.6,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 227 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 228 | ``            ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1142,7 +1142,7 @@ Jumlah baris: **244**
 | 233 | ``            style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 234 | ``              fontSize: 15,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 235 | ``              height: 1.7,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 236 | ``              color: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 236 | ``              color: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 237 | ``            ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 238 | ``          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 239 | ``          const SizedBox(height: 32),`` | Mendeklarasikan variabel atau konstanta. |
@@ -1166,8 +1166,8 @@ Jumlah baris: **680**
 | 5 | ``import 'package:frontendats/api_client.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 6 | ``import 'package:frontendats/detailpost.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 7 | ``import 'package:frontendats/posts_refresh.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 8 | ``import 'package:frontendats/scribblr_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 9 | ``import 'package:frontendats/scribblr_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 8 | ``import 'package:frontendats/writly_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 9 | ``import 'package:frontendats/writly_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 10 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
 | 11 | ``class DiscoverPage extends StatefulWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
 | 12 | ``  final String username;`` | Mendeklarasikan variabel atau konstanta. |
@@ -1261,7 +1261,7 @@ Jumlah baris: **680**
 | 100 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
 | 101 | ``    await showModalBottomSheet(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 102 | ``      context: context,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 103 | ``      backgroundColor: ScribblrColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 103 | ``      backgroundColor: WritlyColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 104 | ``      shape: const RoundedRectangleBorder(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 105 | ``        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 106 | ``      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1276,7 +1276,7 @@ Jumlah baris: **680**
 | 115 | ``                  width: 40,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 116 | ``                  height: 4,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 117 | ``                  decoration: BoxDecoration(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 118 | ``                    color: ScribblrColors.line,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 118 | ``                    color: WritlyColors.line,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 119 | ``                    borderRadius: BorderRadius.circular(4),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 120 | ``                  ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 121 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1293,10 +1293,10 @@ Jumlah baris: **680**
 | 132 | ``                        errorBuilder: (_, _, _) => Container(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 133 | ``                          width: 44,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 134 | ``                          height: 44,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 135 | ``                          color: ScribblrColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 135 | ``                          color: WritlyColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 136 | ``                          child: const Icon(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 137 | ``                            Icons.label_outline,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 138 | ``                            color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 138 | ``                            color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 139 | ``                          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 140 | ``                        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 141 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1311,7 +1311,7 @@ Jumlah baris: **680**
 | 150 | ``                            style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 151 | ``                              fontSize: 16,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 152 | ``                              fontWeight: FontWeight.w800,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 153 | ``                              color: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 153 | ``                              color: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 154 | ``                            ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 155 | ``                          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 156 | ``                          Text(`` | Menyusun elemen antarmuka Flutter. |
@@ -1320,7 +1320,7 @@ Jumlah baris: **680**
 | 159 | ``                                : 'Dipakai $used artikel',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 160 | ``                            style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 161 | ``                              fontSize: 12,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 162 | ``                              color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 162 | ``                              color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 163 | ``                            ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 164 | ``                          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 165 | ``                        ],`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1382,7 +1382,7 @@ Jumlah baris: **680**
 | 221 | ``      context: context,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 222 | ``      builder: (ctx) {`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 223 | ``        return AlertDialog(`` | Mengembalikan nilai dari fungsi atau widget. |
-| 224 | ``          backgroundColor: ScribblrColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 224 | ``          backgroundColor: WritlyColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 225 | ``          shape: RoundedRectangleBorder(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 226 | ``            borderRadius: BorderRadius.circular(20),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 227 | ``          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1481,7 +1481,7 @@ Jumlah baris: **680**
 | 320 | ``      context: context,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 321 | ``      builder: (ctx) {`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 322 | ``        return AlertDialog(`` | Mengembalikan nilai dari fungsi atau widget. |
-| 323 | ``          backgroundColor: ScribblrColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 323 | ``          backgroundColor: WritlyColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 324 | ``          shape: RoundedRectangleBorder(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 325 | ``            borderRadius: BorderRadius.circular(20),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 326 | ``          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1568,7 +1568,7 @@ Jumlah baris: **680**
 | 407 | ``  Widget _catAvatar(bool selected) {`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 408 | ``    return CircleAvatar(`` | Mengembalikan nilai dari fungsi atau widget. |
 | 409 | ``      radius: 11,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 410 | ``      backgroundColor: selected ? Colors.white24 : ScribblrColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 410 | ``      backgroundColor: selected ? Colors.white24 : WritlyColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 411 | ``      backgroundImage: const AssetImage('assets/logokpi.png'),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 412 | ``      onBackgroundImageError: (_, _) {},`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 413 | ``      child: const SizedBox.shrink(),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1592,13 +1592,13 @@ Jumlah baris: **680**
 | 431 | ``            selectedIds.add(id);`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 432 | ``          }`` | Menutup blok, widget, atau pemanggilan method. |
 | 433 | ``        }),`` | Menutup blok, widget, atau pemanggilan method. |
-| 434 | ``        selectedColor: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 434 | ``        selectedColor: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 435 | ``        labelStyle: TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 436 | ``          color: selected ? Colors.white : ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 436 | ``          color: selected ? Colors.white : WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 437 | ``          fontWeight: FontWeight.w600,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 438 | ``        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 439 | ``        shape: const StadiumBorder(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 440 | ``          side: BorderSide(color: ScribblrColors.line),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 440 | ``          side: BorderSide(color: WritlyColors.line),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 441 | ``        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 442 | ``      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 443 | ``    );`` | Menutup blok, widget, atau pemanggilan method. |
@@ -1631,10 +1631,10 @@ Jumlah baris: **680**
 | 470 | ``      body: SafeArea(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 471 | ``        child: isLoading \|\| _catSaving`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 472 | ``            ? const Center(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 473 | ``                child: CircularProgressIndicator(color: ScribblrColors.primary),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 473 | ``                child: CircularProgressIndicator(color: WritlyColors.primary),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 474 | ``              )`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 475 | ``            : RefreshIndicator(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 476 | ``                color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 476 | ``                color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 477 | ``                onRefresh: fetchDiscoverData,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 478 | ``                child: ListView(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 479 | ``                  padding: const EdgeInsets.symmetric(`` | Menyusun elemen antarmuka Flutter. |
@@ -1642,7 +1642,7 @@ Jumlah baris: **680**
 | 481 | ``                    vertical: 16,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 482 | ``                  ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 483 | ``                  children: [`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 484 | ``                    const ScribblrHeader(`` | Mendeklarasikan variabel atau konstanta. |
+| 484 | ``                    const WritlyHeader(`` | Mendeklarasikan variabel atau konstanta. |
 | 485 | ``                      title: 'Discover',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 486 | ``                      subtitle: 'Browse topics and articles.',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 487 | ``                    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1673,7 +1673,7 @@ Jumlah baris: **680**
 | 512 | ``                          style: TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 513 | ``                            fontSize: 16,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 514 | ``                            fontWeight: FontWeight.w800,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 515 | ``                            color: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 515 | ``                            color: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 516 | ``                          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 517 | ``                        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 518 | ``                        const Spacer(),`` | Mendeklarasikan variabel atau konstanta. |
@@ -1690,14 +1690,14 @@ Jumlah baris: **680**
 | 529 | ``                        Icon(`` | Menyusun elemen antarmuka Flutter. |
 | 530 | ``                          Icons.touch_app_outlined,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 531 | ``                          size: 14,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 532 | ``                          color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 532 | ``                          color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 533 | ``                        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 534 | ``                        SizedBox(width: 4),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 535 | ``                        Text(`` | Menyusun elemen antarmuka Flutter. |
 | 536 | ``                          'Tap untuk filter banyak, tahan lama untuk kelola.',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 537 | ``                          style: TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 538 | ``                            fontSize: 12,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 539 | ``                            color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 539 | ``                            color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 540 | ``                          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 541 | ``                        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 542 | ``                      ],`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1706,7 +1706,7 @@ Jumlah baris: **680**
 | 545 | ``                    if (categories.isEmpty)`` | Mengatur percabangan logika. |
 | 546 | ``                      const Text(`` | Mendeklarasikan variabel atau konstanta. |
 | 547 | ``                        'Belum ada kategori.',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 548 | ``                        style: TextStyle(color: ScribblrColors.muted),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 548 | ``                        style: TextStyle(color: WritlyColors.muted),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 549 | ``                      )`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 550 | ``                    else`` | Mengatur percabangan logika. |
 | 551 | ``                      SingleChildScrollView(`` | Menyusun elemen antarmuka Flutter. |
@@ -1735,7 +1735,7 @@ Jumlah baris: **680**
 | 574 | ``                      style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 575 | ``                        fontSize: 16,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 576 | ``                        fontWeight: FontWeight.w800,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 577 | ``                        color: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 577 | ``                        color: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 578 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 579 | ``                    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 580 | ``                    const SizedBox(height: 10),`` | Mendeklarasikan variabel atau konstanta. |
@@ -1747,7 +1747,7 @@ Jumlah baris: **680**
 | 586 | ``                            normalizedQuery.isNotEmpty`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 587 | ``                                ? 'Tidak ketemu artikel berjudul "$query".'`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 588 | ``                                : 'Tidak ada artikel di kategori ini.',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 589 | ``                            style: const TextStyle(color: ScribblrColors.muted),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 589 | ``                            style: const TextStyle(color: WritlyColors.muted),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 590 | ``                          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 591 | ``                        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 592 | ``                      )`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1755,7 +1755,7 @@ Jumlah baris: **680**
 | 594 | ``                      ...filtered.map(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 595 | ``                        (postItem) => Padding(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 596 | ``                          padding: const EdgeInsets.only(bottom: 10),`` | Menyusun elemen antarmuka Flutter. |
-| 597 | ``                          child: ScribblrCard(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 597 | ``                          child: WritlyCard(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 598 | ``                            onTap: () {`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 599 | ``                              Navigator.push(`` | Menyusun elemen antarmuka Flutter. |
 | 600 | ``                                context,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1775,7 +1775,7 @@ Jumlah baris: **680**
 | 614 | ``                            },`` | Menutup blok, widget, atau pemanggilan method. |
 | 615 | ``                            child: Row(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 616 | ``                              children: [`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 617 | ``                                ScribblrThumb(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 617 | ``                                WritlyThumb(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 618 | ``                                  cover: (postItem as Map)['cover_image'],`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 619 | ``                                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 620 | ``                                const SizedBox(width: 12),`` | Mendeklarasikan variabel atau konstanta. |
@@ -1792,7 +1792,7 @@ Jumlah baris: **680**
 | 631 | ``                                        style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 632 | ``                                          fontSize: 10,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 633 | ``                                          fontWeight: FontWeight.w700,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 634 | ``                                          color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 634 | ``                                          color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 635 | ``                                          letterSpacing: 0.8,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 636 | ``                                        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 637 | ``                                        maxLines: 1,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1804,7 +1804,7 @@ Jumlah baris: **680**
 | 643 | ``                                        style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 644 | ``                                          fontSize: 14,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 645 | ``                                          fontWeight: FontWeight.w700,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 646 | ``                                          color: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 646 | ``                                          color: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 647 | ``                                          height: 1.35,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 648 | ``                                        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 649 | ``                                        maxLines: 2,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1815,7 +1815,7 @@ Jumlah baris: **680**
 | 654 | ``                                        strOf(postItem, 'author'),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 655 | ``                                        style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 656 | ``                                          fontSize: 11,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 657 | ``                                          color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 657 | ``                                          color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 658 | ``                                        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 659 | ``                                        maxLines: 1,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 660 | ``                                        overflow: TextOverflow.ellipsis,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1825,7 +1825,7 @@ Jumlah baris: **680**
 | 664 | ``                                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 665 | ``                                const Icon(`` | Mendeklarasikan variabel atau konstanta. |
 | 666 | ``                                  Icons.chevron_right,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 667 | ``                                  color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 667 | ``                                  color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 668 | ``                                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 669 | ``                              ],`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 670 | ``                            ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -1852,8 +1852,8 @@ Jumlah baris: **166**
 | 3 | ``import 'dart:convert';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 4 | ``import 'package:frontendats/api.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 5 | ``import 'package:frontendats/api_client.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 6 | ``import 'package:frontendats/scribblr_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 7 | ``import 'package:frontendats/scribblr_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 6 | ``import 'package:frontendats/writly_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 7 | ``import 'package:frontendats/writly_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 8 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
 | 9 | ``class EditProfilePage extends StatefulWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
 | 10 | ``  final String username;`` | Mendeklarasikan variabel atau konstanta. |
@@ -1982,7 +1982,7 @@ Jumlah baris: **166**
 | 133 | ``      body: SafeArea(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 134 | ``        child: isLoading`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 135 | ``            ? const Center(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 136 | ``                child: CircularProgressIndicator(color: ScribblrColors.primary),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 136 | ``                child: CircularProgressIndicator(color: WritlyColors.primary),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 137 | ``              )`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 138 | ``            : ListView(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 139 | ``                padding: const EdgeInsets.symmetric(`` | Menyusun elemen antarmuka Flutter. |
@@ -1990,19 +1990,19 @@ Jumlah baris: **166**
 | 141 | ``                  vertical: 16,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 142 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 143 | ``                children: [`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 144 | ``                  const ScribblrLabel(text: 'Username'),`` | Mendeklarasikan variabel atau konstanta. |
+| 144 | ``                  const WritlyLabel(text: 'Username'),`` | Mendeklarasikan variabel atau konstanta. |
 | 145 | ``                  TextField(controller: usernameController),`` | Menyusun elemen antarmuka Flutter. |
 | 146 | ``                  const SizedBox(height: 16),`` | Mendeklarasikan variabel atau konstanta. |
-| 147 | ``                  const ScribblrLabel(text: 'Email'),`` | Mendeklarasikan variabel atau konstanta. |
+| 147 | ``                  const WritlyLabel(text: 'Email'),`` | Mendeklarasikan variabel atau konstanta. |
 | 148 | ``                  TextField(`` | Menyusun elemen antarmuka Flutter. |
 | 149 | ``                    controller: emailController,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 150 | ``                    keyboardType: TextInputType.emailAddress,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 151 | ``                  ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 152 | ``                  const SizedBox(height: 16),`` | Mendeklarasikan variabel atau konstanta. |
-| 153 | ``                  const ScribblrLabel(text: 'Password (isi ulang, min 4)'),`` | Mendeklarasikan variabel atau konstanta. |
+| 153 | ``                  const WritlyLabel(text: 'Password (isi ulang, min 4)'),`` | Mendeklarasikan variabel atau konstanta. |
 | 154 | ``                  TextField(controller: passwordController, obscureText: true),`` | Menyusun elemen antarmuka Flutter. |
 | 155 | ``                  const SizedBox(height: 28),`` | Mendeklarasikan variabel atau konstanta. |
-| 156 | ``                  ScribblrPrimaryButton(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 156 | ``                  WritlyPrimaryButton(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 157 | ``                    text: 'Save Changes',`` | Menyusun elemen antarmuka Flutter. |
 | 158 | ``                    loading: isSaving,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 159 | ``                    onPressed: save,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -2031,8 +2031,8 @@ Jumlah baris: **593**
 | 8 | ``import 'package:frontendats/api.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 9 | ``import 'package:frontendats/api_client.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 10 | ``import 'package:frontendats/posts_refresh.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 11 | ``import 'package:frontendats/scribblr_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 12 | ``import 'package:frontendats/scribblr_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 11 | ``import 'package:frontendats/writly_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 12 | ``import 'package:frontendats/writly_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 13 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
 | 14 | ``class EditPostPage extends StatefulWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
 | 15 | ``  final Map post;`` | Mendeklarasikan variabel atau konstanta. |
@@ -2368,7 +2368,7 @@ Jumlah baris: **593**
 | 345 | ``                    style: TextStyle(color: Colors.redAccent, fontSize: 13),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 346 | ``                  ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 347 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 348 | ``              const ScribblrLabel(text: 'Cover image (dari galeri)'),`` | Mendeklarasikan variabel atau konstanta. |
+| 348 | ``              const WritlyLabel(text: 'Cover image (dari galeri)'),`` | Mendeklarasikan variabel atau konstanta. |
 | 349 | ``              _coverPreview(),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 350 | ``              const SizedBox(height: 8),`` | Mendeklarasikan variabel atau konstanta. |
 | 351 | ``              Row(`` | Menyusun elemen antarmuka Flutter. |
@@ -2400,12 +2400,12 @@ Jumlah baris: **593**
 | 377 | ``                  _pickedCover!.name,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 378 | ``                  style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 379 | ``                    fontSize: 12,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 380 | ``                    color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 380 | ``                    color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 381 | ``                  ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 382 | ``                  overflow: TextOverflow.ellipsis,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 383 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 384 | ``              const SizedBox(height: 14),`` | Mendeklarasikan variabel atau konstanta. |
-| 385 | ``              const ScribblrLabel(text: 'Title'),`` | Mendeklarasikan variabel atau konstanta. |
+| 385 | ``              const WritlyLabel(text: 'Title'),`` | Mendeklarasikan variabel atau konstanta. |
 | 386 | ``              TextFormField(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 387 | ``                controller: titleController,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 388 | ``                enabled: _isMine,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -2417,7 +2417,7 @@ Jumlah baris: **593**
 | 394 | ``                },`` | Menutup blok, widget, atau pemanggilan method. |
 | 395 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 396 | ``              const SizedBox(height: 14),`` | Mendeklarasikan variabel atau konstanta. |
-| 397 | ``              const ScribblrLabel(text: 'Article'),`` | Mendeklarasikan variabel atau konstanta. |
+| 397 | ``              const WritlyLabel(text: 'Article'),`` | Mendeklarasikan variabel atau konstanta. |
 | 398 | ``              TextFormField(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 399 | ``                controller: contentController,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 400 | ``                maxLines: 6,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -2430,14 +2430,14 @@ Jumlah baris: **593**
 | 407 | ``                },`` | Menutup blok, widget, atau pemanggilan method. |
 | 408 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 409 | ``              const SizedBox(height: 14),`` | Mendeklarasikan variabel atau konstanta. |
-| 410 | ``              const ScribblrLabel(text: 'Excerpt'),`` | Mendeklarasikan variabel atau konstanta. |
+| 410 | ``              const WritlyLabel(text: 'Excerpt'),`` | Mendeklarasikan variabel atau konstanta. |
 | 411 | ``              TextFormField(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 412 | ``                controller: excerptController,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 413 | ``                maxLines: 2,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 414 | ``                enabled: _isMine,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 415 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 416 | ``              const SizedBox(height: 14),`` | Mendeklarasikan variabel atau konstanta. |
-| 417 | ``              const ScribblrLabel(text: 'Author (terkunci)'),`` | Mendeklarasikan variabel atau konstanta. |
+| 417 | ``              const WritlyLabel(text: 'Author (terkunci)'),`` | Mendeklarasikan variabel atau konstanta. |
 | 418 | ``              TextFormField(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 419 | ``                controller: authorController,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 420 | ``                readOnly: true,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -2451,19 +2451,19 @@ Jumlah baris: **593**
 | 428 | ``                style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 429 | ``                  fontSize: 15,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 430 | ``                  fontWeight: FontWeight.w800,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 431 | ``                  color: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 431 | ``                  color: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 432 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 433 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 434 | ``              const SizedBox(height: 4),`` | Mendeklarasikan variabel atau konstanta. |
 | 435 | ``              const Text(`` | Mendeklarasikan variabel atau konstanta. |
 | 436 | ``                'Bisa pilih lebih dari 1 topik.',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 437 | ``                style: TextStyle(fontSize: 12, color: ScribblrColors.muted),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 437 | ``                style: TextStyle(fontSize: 12, color: WritlyColors.muted),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 438 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 439 | ``              const SizedBox(height: 8),`` | Mendeklarasikan variabel atau konstanta. |
 | 440 | ``              if (isLoadingCats)`` | Mengatur percabangan logika. |
 | 441 | ``                const Center(`` | Mendeklarasikan variabel atau konstanta. |
 | 442 | ``                  child: CircularProgressIndicator(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 443 | ``                    color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 443 | ``                    color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 444 | ``                  ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 445 | ``                )`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 446 | ``              else if (categories.isNotEmpty)`` | Mengatur percabangan logika. |
@@ -2480,7 +2480,7 @@ Jumlah baris: **593**
 | 457 | ``                        radius: 11,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 458 | ``                        backgroundColor: selected`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 459 | ``                            ? Colors.white24`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 460 | ``                            : ScribblrColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 460 | ``                            : WritlyColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 461 | ``                        backgroundImage: const AssetImage('assets/logokpi.png'),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 462 | ``                        onBackgroundImageError: (_, _) {},`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 463 | ``                        child: const SizedBox.shrink(),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -2499,13 +2499,13 @@ Jumlah baris: **593**
 | 476 | ``                                categoryError = null;`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 477 | ``                              });`` | Menutup blok, widget, atau pemanggilan method. |
 | 478 | ``                            },`` | Menutup blok, widget, atau pemanggilan method. |
-| 479 | ``                      selectedColor: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 479 | ``                      selectedColor: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 480 | ``                      labelStyle: TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 481 | ``                        color: selected ? Colors.white : ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 481 | ``                        color: selected ? Colors.white : WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 482 | ``                        fontWeight: FontWeight.w600,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 483 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 484 | ``                      shape: const StadiumBorder(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 485 | ``                        side: BorderSide(color: ScribblrColors.line),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 485 | ``                        side: BorderSide(color: WritlyColors.line),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 486 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 487 | ``                    );`` | Menutup blok, widget, atau pemanggilan method. |
 | 488 | ``                  }).toList(),`` | Menutup blok, widget, atau pemanggilan method. |
@@ -2518,11 +2518,11 @@ Jumlah baris: **593**
 | 495 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 496 | ``              ],`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 497 | ``              const SizedBox(height: 18),`` | Mendeklarasikan variabel atau konstanta. |
-| 498 | ``              const ScribblrLabel(text: 'Status'),`` | Mendeklarasikan variabel atau konstanta. |
+| 498 | ``              const WritlyLabel(text: 'Status'),`` | Mendeklarasikan variabel atau konstanta. |
 | 499 | ``              Container(`` | Menyusun elemen antarmuka Flutter. |
 | 500 | ``                padding: const EdgeInsets.all(4),`` | Menyusun elemen antarmuka Flutter. |
 | 501 | ``                decoration: BoxDecoration(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 502 | ``                  color: ScribblrColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 502 | ``                  color: WritlyColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 503 | ``                  borderRadius: BorderRadius.circular(30),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 504 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 505 | ``                child: Row(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -2533,7 +2533,7 @@ Jumlah baris: **593**
 | 510 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 511 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 512 | ``              const SizedBox(height: 24),`` | Mendeklarasikan variabel atau konstanta. |
-| 513 | ``              ScribblrPrimaryButton(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 513 | ``              WritlyPrimaryButton(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 514 | ``                text: 'Save Changes',`` | Menyusun elemen antarmuka Flutter. |
 | 515 | ``                loading: isSaving,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 516 | ``                onPressed: (!_isMine \|\| isSaving) ? null : updatePost,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -2577,14 +2577,14 @@ Jumlah baris: **593**
 | 554 | ``    return Container(`` | Mengembalikan nilai dari fungsi atau widget. |
 | 555 | ``      height: 150,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 556 | ``      decoration: BoxDecoration(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 557 | ``        color: ScribblrColors.placeholderBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 557 | ``        color: WritlyColors.placeholderBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 558 | ``        borderRadius: BorderRadius.circular(20),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 559 | ``      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 560 | ``      alignment: Alignment.center,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 561 | ``      child: const Icon(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 562 | ``        Icons.image_outlined,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 563 | ``        size: 40,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 564 | ``        color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 564 | ``        color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 565 | ``      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 566 | ``    );`` | Menutup blok, widget, atau pemanggilan method. |
 | 567 | ``  }`` | Menutup blok, widget, atau pemanggilan method. |
@@ -2597,7 +2597,7 @@ Jumlah baris: **593**
 | 574 | ``        child: Container(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 575 | ``          padding: const EdgeInsets.symmetric(vertical: 10),`` | Menyusun elemen antarmuka Flutter. |
 | 576 | ``          decoration: BoxDecoration(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 577 | ``            color: active ? ScribblrColors.surface : Colors.transparent,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 577 | ``            color: active ? WritlyColors.surface : Colors.transparent,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 578 | ``            borderRadius: BorderRadius.circular(26),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 579 | ``          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 580 | ``          alignment: Alignment.center,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -2606,7 +2606,7 @@ Jumlah baris: **593**
 | 583 | ``            style: TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 584 | ``              fontSize: 13,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 585 | ``              fontWeight: FontWeight.w700,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 586 | ``              color: active ? ScribblrColors.primary : ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 586 | ``              color: active ? WritlyColors.primary : WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 587 | ``            ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 588 | ``          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 589 | ``        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -2629,8 +2629,8 @@ Jumlah baris: **408**
 | 5 | ``import 'package:frontendats/posts_refresh.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 6 | ``import 'package:http/http.dart' as http;`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 7 | ``import 'dart:convert';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 8 | ``import 'package:frontendats/scribblr_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 9 | ``import 'package:frontendats/scribblr_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 8 | ``import 'package:frontendats/writly_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 9 | ``import 'package:frontendats/writly_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 10 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
 | 11 | ``class HomePage extends StatefulWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
 | 12 | ``  final String username;`` | Mendeklarasikan variabel atau konstanta. |
@@ -2811,10 +2811,10 @@ Jumlah baris: **408**
 | 187 | ``      body: SafeArea(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 188 | ``        child: isLoading`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 189 | ``            ? const Center(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 190 | ``                child: CircularProgressIndicator(color: ScribblrColors.primary),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 190 | ``                child: CircularProgressIndicator(color: WritlyColors.primary),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 191 | ``              )`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 192 | ``            : RefreshIndicator(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 193 | ``                color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 193 | ``                color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 194 | ``                onRefresh: fetchPosts,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 195 | ``                child: ListView(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 196 | ``                  padding: const EdgeInsets.symmetric(`` | Menyusun elemen antarmuka Flutter. |
@@ -2833,7 +2833,7 @@ Jumlah baris: **408**
 | 209 | ``                                style: TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 210 | ``                                  fontSize: 20,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 211 | ``                                  fontWeight: FontWeight.w800,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 212 | ``                                  color: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 212 | ``                                  color: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 213 | ``                                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 214 | ``                              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 215 | ``                              Text(`` | Menyusun elemen antarmuka Flutter. |
@@ -2842,20 +2842,20 @@ Jumlah baris: **408**
 | 218 | ``                                    : 'Welcome back, ${widget.username}!',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 219 | ``                                style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 220 | ``                                  fontSize: 12,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 221 | ``                                  color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 221 | ``                                  color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 222 | ``                                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 223 | ``                              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 224 | ``                            ],`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 225 | ``                          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 226 | ``                        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 227 | ``                        CircleAvatar(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 228 | ``                          backgroundColor: ScribblrColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 228 | ``                          backgroundColor: WritlyColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 229 | ``                          child: Text(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 230 | ``                            widget.username.isEmpty`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 231 | ``                                ? 'S'`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 232 | ``                                : widget.username[0].toUpperCase(),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 233 | ``                            style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 234 | ``                              color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 234 | ``                              color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 235 | ``                              fontWeight: FontWeight.w700,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 236 | ``                            ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 237 | ``                          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -2870,7 +2870,7 @@ Jumlah baris: **408**
 | 246 | ``                        child: Container(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 247 | ``                          padding: const EdgeInsets.all(18),`` | Menyusun elemen antarmuka Flutter. |
 | 248 | ``                          decoration: BoxDecoration(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 249 | ``                            color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 249 | ``                            color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 250 | ``                            borderRadius: BorderRadius.circular(22),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 251 | ``                          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 252 | ``                          child: Column(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -2921,7 +2921,7 @@ Jumlah baris: **408**
 | 297 | ``                      style: TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 298 | ``                        fontSize: 17,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 299 | ``                        fontWeight: FontWeight.w800,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 300 | ``                        color: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 300 | ``                        color: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 301 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 302 | ``                    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 303 | ``                    const SizedBox(height: 12),`` | Mendeklarasikan variabel atau konstanta. |
@@ -2931,7 +2931,7 @@ Jumlah baris: **408**
 | 307 | ``                        child: Center(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 308 | ``                          child: Text(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 309 | ``                            'Belum ada artikel.',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 310 | ``                            style: TextStyle(color: ScribblrColors.muted),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 310 | ``                            style: TextStyle(color: WritlyColors.muted),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 311 | ``                          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 312 | ``                        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 313 | ``                      )`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -2945,7 +2945,7 @@ Jumlah baris: **408**
 | 321 | ``                      style: TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 322 | ``                        fontSize: 17,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 323 | ``                        fontWeight: FontWeight.w800,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 324 | ``                        color: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 324 | ``                        color: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 325 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 326 | ``                    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 327 | ``                    const SizedBox(height: 12),`` | Mendeklarasikan variabel atau konstanta. |
@@ -2978,11 +2978,11 @@ Jumlah baris: **408**
 | 354 | ``    final cat = categoryLabelOf(categories, post);`` | Mendeklarasikan variabel atau konstanta. |
 | 355 | ``    return Padding(`` | Mengembalikan nilai dari fungsi atau widget. |
 | 356 | ``      padding: const EdgeInsets.only(bottom: 10),`` | Menyusun elemen antarmuka Flutter. |
-| 357 | ``      child: ScribblrCard(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 357 | ``      child: WritlyCard(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 358 | ``        onTap: () => openDetail(Map<String, dynamic>.from(post)),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 359 | ``        child: Row(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 360 | ``          children: [`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 361 | ``            ScribblrThumb(cover: post['cover_image']),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 361 | ``            WritlyThumb(cover: post['cover_image']),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 362 | ``            const SizedBox(width: 12),`` | Mendeklarasikan variabel atau konstanta. |
 | 363 | ``            Expanded(`` | Menyusun elemen antarmuka Flutter. |
 | 364 | ``              child: Column(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -2994,7 +2994,7 @@ Jumlah baris: **408**
 | 370 | ``                      style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 371 | ``                        fontSize: 10,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 372 | ``                        fontWeight: FontWeight.w700,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 373 | ``                        color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 373 | ``                        color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 374 | ``                        letterSpacing: 0.8,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 375 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 376 | ``                    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3004,7 +3004,7 @@ Jumlah baris: **408**
 | 380 | ``                    style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 381 | ``                      fontSize: 14,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 382 | ``                      fontWeight: FontWeight.w700,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 383 | ``                      color: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 383 | ``                      color: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 384 | ``                      height: 1.35,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 385 | ``                    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 386 | ``                    maxLines: 2,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3015,7 +3015,7 @@ Jumlah baris: **408**
 | 391 | ``                    _metaLine(post),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 392 | ``                    style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 393 | ``                      fontSize: 11,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 394 | ``                      color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 394 | ``                      color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 395 | ``                    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 396 | ``                    maxLines: 1,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 397 | ``                    overflow: TextOverflow.ellipsis,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3023,7 +3023,7 @@ Jumlah baris: **408**
 | 399 | ``                ],`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 400 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 401 | ``            ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 402 | ``            const Icon(Icons.chevron_right, color: ScribblrColors.muted),`` | Mendeklarasikan variabel atau konstanta. |
+| 402 | ``            const Icon(Icons.chevron_right, color: WritlyColors.muted),`` | Mendeklarasikan variabel atau konstanta. |
 | 403 | ``          ],`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 404 | ``        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 405 | ``      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3045,8 +3045,8 @@ Jumlah baris: **386**
 | 5 | ``import 'package:frontendats/auth_session.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 6 | ``import 'package:frontendats/main_shell.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 7 | ``import 'package:frontendats/register.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 8 | ``import 'package:frontendats/scribblr_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 9 | ``import 'package:frontendats/scribblr_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 8 | ``import 'package:frontendats/writly_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 9 | ``import 'package:frontendats/writly_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 10 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
 | 11 | ``class LoginPage extends StatefulWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
 | 12 | ``  const LoginPage({super.key});`` | Mendeklarasikan variabel atau konstanta. |
@@ -3183,7 +3183,7 @@ Jumlah baris: **386**
 | 143 | ``      context: context,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 144 | ``      builder: (context) {`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 145 | ``        return AlertDialog(`` | Mengembalikan nilai dari fungsi atau widget. |
-| 146 | ``          backgroundColor: ScribblrColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 146 | ``          backgroundColor: WritlyColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 147 | ``          shape: RoundedRectangleBorder(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 148 | ``            borderRadius: BorderRadius.circular(20),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 149 | ``          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3199,7 +3199,7 @@ Jumlah baris: **386**
 | 159 | ``              children: [`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 160 | ``                const Text(`` | Mendeklarasikan variabel atau konstanta. |
 | 161 | ``                  'HP fisik harus satu WiFi dengan laptop. Cek IP terbaru via ipconfig.',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 162 | ``                  style: TextStyle(fontSize: 12, color: ScribblrColors.muted),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 162 | ``                  style: TextStyle(fontSize: 12, color: WritlyColors.muted),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 163 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 164 | ``                const SizedBox(height: 12),`` | Mendeklarasikan variabel atau konstanta. |
 | 165 | ``                TextFormField(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3271,7 +3271,7 @@ Jumlah baris: **386**
 | 231 | ``  @override`` | Annotation/metadata untuk framework atau analyzer. |
 | 232 | ``  Widget build(BuildContext context) {`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 233 | ``    return Scaffold(`` | Mengembalikan nilai dari fungsi atau widget. |
-| 234 | ``      backgroundColor: ScribblrColors.bg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 234 | ``      backgroundColor: WritlyColors.bg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 235 | ``      body: SafeArea(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 236 | ``        top: false,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 237 | ``        child: SingleChildScrollView(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3287,7 +3287,7 @@ Jumlah baris: **386**
 | 247 | ``                  child: Column(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 248 | ``                    crossAxisAlignment: CrossAxisAlignment.stretch,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 249 | ``                    children: [`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 250 | ``                      const ScribblrLabel(text: 'Email'),`` | Mendeklarasikan variabel atau konstanta. |
+| 250 | ``                      const WritlyLabel(text: 'Email'),`` | Mendeklarasikan variabel atau konstanta. |
 | 251 | ``                      TextFormField(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 252 | ``                        controller: emailController,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 253 | ``                        keyboardType: TextInputType.emailAddress,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3305,7 +3305,7 @@ Jumlah baris: **386**
 | 265 | ``                        },`` | Menutup blok, widget, atau pemanggilan method. |
 | 266 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 267 | ``                      const SizedBox(height: 16),`` | Mendeklarasikan variabel atau konstanta. |
-| 268 | ``                      const ScribblrLabel(text: 'Password'),`` | Mendeklarasikan variabel atau konstanta. |
+| 268 | ``                      const WritlyLabel(text: 'Password'),`` | Mendeklarasikan variabel atau konstanta. |
 | 269 | ``                      TextFormField(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 270 | ``                        controller: passwordController,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 271 | ``                        obscureText: obscure,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3333,7 +3333,7 @@ Jumlah baris: **386**
 | 293 | ``                        },`` | Menutup blok, widget, atau pemanggilan method. |
 | 294 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 295 | ``                      const SizedBox(height: 24),`` | Mendeklarasikan variabel atau konstanta. |
-| 296 | ``                      ScribblrPrimaryButton(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 296 | ``                      WritlyPrimaryButton(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 297 | ``                        text: 'Sign In',`` | Menyusun elemen antarmuka Flutter. |
 | 298 | ``                        loading: isSaving,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 299 | ``                        onPressed: isSaving ? null : login,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3346,7 +3346,7 @@ Jumlah baris: **386**
 | 306 | ``                            "Don't have an account? ",`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 307 | ``                            style: TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 308 | ``                              fontSize: 13,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 309 | ``                              color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 309 | ``                              color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 310 | ``                            ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 311 | ``                          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 312 | ``                          TextButton(`` | Menyusun elemen antarmuka Flutter. |
@@ -3386,7 +3386,7 @@ Jumlah baris: **386**
 | 346 | ``                              const Icon(`` | Mendeklarasikan variabel atau konstanta. |
 | 347 | ``                                Icons.dns_outlined,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 348 | ``                                size: 14,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 349 | ``                                color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 349 | ``                                color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 350 | ``                              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 351 | ``                              const SizedBox(width: 6),`` | Mendeklarasikan variabel atau konstanta. |
 | 352 | ``                              Flexible(`` | Menyusun elemen antarmuka Flutter. |
@@ -3394,7 +3394,7 @@ Jumlah baris: **386**
 | 354 | ``                                  baseUrl,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 355 | ``                                  style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 356 | ``                                    fontSize: 11,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 357 | ``                                    color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 357 | ``                                    color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 358 | ``                                  ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 359 | ``                                  overflow: TextOverflow.ellipsis,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 360 | ``                                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3405,7 +3405,7 @@ Jumlah baris: **386**
 | 365 | ``                                style: TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 366 | ``                                  fontSize: 11,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 367 | ``                                  fontWeight: FontWeight.w700,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 368 | ``                                  color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 368 | ``                                  color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 369 | ``                                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 370 | ``                              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 371 | ``                            ],`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3435,7 +3435,7 @@ Jumlah baris: **26**
 | 1 | ``import 'package:flutter/material.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 2 | ``import 'package:frontendats/api.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 3 | ``import 'package:frontendats/login.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 4 | ``import 'package:frontendats/scribblr_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 4 | ``import 'package:frontendats/writly_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 5 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
 | 6 | ``void main() async {`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 7 | ``  WidgetsFlutterBinding.ensureInitialized();`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3452,7 +3452,7 @@ Jumlah baris: **26**
 | 18 | ``    return MaterialApp(`` | Mengembalikan nilai dari fungsi atau widget. |
 | 19 | ``      debugShowCheckedModeBanner: false,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 20 | ``      title: 'Writly',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 21 | ``      theme: scribblrTheme(),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 21 | ``      theme: writlyTheme(),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 22 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
 | 23 | ``      home: const LoginPage(),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 24 | ``    );`` | Menutup blok, widget, atau pemanggilan method. |
@@ -3474,7 +3474,7 @@ Jumlah baris: **182**
 | 6 | ``import 'package:frontendats/my_articles.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 7 | ``import 'package:frontendats/posts_refresh.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 8 | ``import 'package:frontendats/profile.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 9 | ``import 'package:frontendats/scribblr_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 9 | ``import 'package:frontendats/writly_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 10 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
 | 11 | ``class MainShell extends StatefulWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
 | 12 | ``  final String username;`` | Mendeklarasikan variabel atau konstanta. |
@@ -3528,12 +3528,12 @@ Jumlah baris: **182**
 | 60 | ``        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 61 | ``        theme: BottomBarThemeData(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 62 | ``          barDecoration: BoxDecoration(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 63 | ``            color: ScribblrColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 63 | ``            color: WritlyColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 64 | ``            borderRadius: BorderRadius.circular(28),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 65 | ``            border: Border.all(color: ScribblrColors.line),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 65 | ``            border: Border.all(color: WritlyColors.line),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 66 | ``            boxShadow: [`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 67 | ``              BoxShadow(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 68 | ``                color: ScribblrColors.ink.withValues(alpha: 0.12),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 68 | ``                color: WritlyColors.ink.withValues(alpha: 0.12),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 69 | ``                blurRadius: 28,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 70 | ``                offset: const Offset(0, 12),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 71 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3568,7 +3568,7 @@ Jumlah baris: **182**
 | 100 | ``    String label,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 101 | ``  ) {`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 102 | ``    final selected = index == tabIndex;`` | Mendeklarasikan variabel atau konstanta. |
-| 103 | ``    final color = selected ? ScribblrColors.primary : ScribblrColors.muted;`` | Mendeklarasikan variabel atau konstanta. |
+| 103 | ``    final color = selected ? WritlyColors.primary : WritlyColors.muted;`` | Mendeklarasikan variabel atau konstanta. |
 | 104 | ``    return Expanded(`` | Mengembalikan nilai dari fungsi atau widget. |
 | 105 | ``      child: InkWell(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 106 | ``        borderRadius: BorderRadius.circular(20),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3612,17 +3612,17 @@ Jumlah baris: **182**
 | 144 | ``                width: 52,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 145 | ``                height: 52,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 146 | ``                decoration: BoxDecoration(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 147 | ``                  color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 147 | ``                  color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 148 | ``                  shape: BoxShape.circle,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 149 | ``                  border: selected`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 150 | ``                      ? Border.all(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 151 | ``                          color: ScribblrColors.primaryDark,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 151 | ``                          color: WritlyColors.primaryDark,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 152 | ``                          width: 2.5,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 153 | ``                        )`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 154 | ``                      : null,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 155 | ``                  boxShadow: [`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 156 | ``                    BoxShadow(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 157 | ``                      color: ScribblrColors.primary.withValues(alpha: 0.4),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 157 | ``                      color: WritlyColors.primary.withValues(alpha: 0.4),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 158 | ``                      blurRadius: 12,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 159 | ``                      offset: const Offset(0, 4),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 160 | ``                    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3637,8 +3637,8 @@ Jumlah baris: **182**
 | 169 | ``                  fontSize: 10,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 170 | ``                  fontWeight: selected ? FontWeight.w700 : FontWeight.w500,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 171 | ``                  color: selected`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 172 | ``                      ? ScribblrColors.primary`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 173 | ``                      : ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 172 | ``                      ? WritlyColors.primary`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 173 | ``                      : WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 174 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 175 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 176 | ``            ],`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3664,8 +3664,8 @@ Jumlah baris: **351**
 | 6 | ``import 'package:frontendats/detailpost.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 7 | ``import 'package:frontendats/editpost.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 8 | ``import 'package:frontendats/posts_refresh.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 9 | ``import 'package:frontendats/scribblr_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 10 | ``import 'package:frontendats/scribblr_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 9 | ``import 'package:frontendats/writly_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 10 | ``import 'package:frontendats/writly_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 11 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
 | 12 | ``class MyArticlesPage extends StatefulWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
 | 13 | ``  final String username;`` | Mendeklarasikan variabel atau konstanta. |
@@ -3812,10 +3812,10 @@ Jumlah baris: **351**
 | 154 | ``      body: SafeArea(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 155 | ``        child: isLoading`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 156 | ``            ? const Center(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 157 | ``                child: CircularProgressIndicator(color: ScribblrColors.primary),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 157 | ``                child: CircularProgressIndicator(color: WritlyColors.primary),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 158 | ``              )`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 159 | ``            : RefreshIndicator(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 160 | ``                color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 160 | ``                color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 161 | ``                onRefresh: fetchPosts,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 162 | ``                child: ListView(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 163 | ``                  padding: const EdgeInsets.symmetric(`` | Menyusun elemen antarmuka Flutter. |
@@ -3823,7 +3823,7 @@ Jumlah baris: **351**
 | 165 | ``                    vertical: 16,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 166 | ``                  ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 167 | ``                  children: [`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 168 | ``                    ScribblrHeader(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 168 | ``                    WritlyHeader(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 169 | ``                      title: 'My Articles',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 170 | ``                      subtitle:`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 171 | ``                          '$pubCount Published  \u2022  $draftCount Drafts',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3832,7 +3832,7 @@ Jumlah baris: **351**
 | 174 | ``                    Container(`` | Menyusun elemen antarmuka Flutter. |
 | 175 | ``                      padding: const EdgeInsets.all(4),`` | Menyusun elemen antarmuka Flutter. |
 | 176 | ``                      decoration: BoxDecoration(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 177 | ``                        color: ScribblrColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 177 | ``                        color: WritlyColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 178 | ``                        borderRadius: BorderRadius.circular(30),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 179 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 180 | ``                      child: Row(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3849,7 +3849,7 @@ Jumlah baris: **351**
 | 191 | ``                        child: Center(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 192 | ``                          child: Text(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 193 | ``                            'Belum ada artikel di tab ini.',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 194 | ``                            style: TextStyle(color: ScribblrColors.muted),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 194 | ``                            style: TextStyle(color: WritlyColors.muted),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 195 | ``                          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 196 | ``                        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 197 | ``                      )`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3857,7 +3857,7 @@ Jumlah baris: **351**
 | 199 | ``                      ...mine.map(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 200 | ``                        (postItem) => Padding(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 201 | ``                          padding: const EdgeInsets.only(bottom: 10),`` | Menyusun elemen antarmuka Flutter. |
-| 202 | ``                          child: ScribblrCard(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 202 | ``                          child: WritlyCard(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 203 | ``                            onTap: () {`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 204 | ``                              Navigator.push(`` | Menyusun elemen antarmuka Flutter. |
 | 205 | ``                                context,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3878,7 +3878,7 @@ Jumlah baris: **351**
 | 220 | ``                            },`` | Menutup blok, widget, atau pemanggilan method. |
 | 221 | ``                            child: Row(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 222 | ``                              children: [`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 223 | ``                                ScribblrThumb(cover: postItem['cover_image']),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 223 | ``                                WritlyThumb(cover: postItem['cover_image']),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 224 | ``                                const SizedBox(width: 12),`` | Mendeklarasikan variabel atau konstanta. |
 | 225 | ``                                Expanded(`` | Menyusun elemen antarmuka Flutter. |
 | 226 | ``                                  child: Column(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3890,7 +3890,7 @@ Jumlah baris: **351**
 | 232 | ``                                        style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 233 | ``                                          fontSize: 14,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 234 | ``                                          fontWeight: FontWeight.w700,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 235 | ``                                          color: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 235 | ``                                          color: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 236 | ``                                          height: 1.35,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 237 | ``                                        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 238 | ``                                        maxLines: 2,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3921,7 +3921,7 @@ Jumlah baris: **351**
 | 263 | ``                                                Icon(`` | Menyusun elemen antarmuka Flutter. |
 | 264 | ``                                                  Icons.edit_outlined,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 265 | ``                                                  size: 15,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 266 | ``                                                  color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 266 | ``                                                  color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 267 | ``                                                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 268 | ``                                                SizedBox(width: 4),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 269 | ``                                                Text(`` | Menyusun elemen antarmuka Flutter. |
@@ -3929,7 +3929,7 @@ Jumlah baris: **351**
 | 271 | ``                                                  style: TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 272 | ``                                                    fontSize: 12,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 273 | ``                                                    color:`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 274 | ``                                                        ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 274 | ``                                                        WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 275 | ``                                                    fontWeight: FontWeight.w600,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 276 | ``                                                  ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 277 | ``                                                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3990,7 +3990,7 @@ Jumlah baris: **351**
 | 332 | ``        child: Container(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 333 | ``          padding: const EdgeInsets.symmetric(vertical: 10),`` | Menyusun elemen antarmuka Flutter. |
 | 334 | ``          decoration: BoxDecoration(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 335 | ``            color: active ? ScribblrColors.surface : Colors.transparent,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 335 | ``            color: active ? WritlyColors.surface : Colors.transparent,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 336 | ``            borderRadius: BorderRadius.circular(26),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 337 | ``          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 338 | ``          alignment: Alignment.center,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -3999,7 +3999,7 @@ Jumlah baris: **351**
 | 341 | ``            style: TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 342 | ``              fontSize: 13,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 343 | ``              fontWeight: FontWeight.w700,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 344 | ``              color: active ? ScribblrColors.primary : ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 344 | ``              color: active ? WritlyColors.primary : WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 345 | ``            ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 346 | ``          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 347 | ``        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4137,8 +4137,8 @@ Jumlah baris: **181**
 | 5 | ``import 'package:frontendats/api_client.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 6 | ``import 'package:frontendats/edit_profile.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 7 | ``import 'package:frontendats/posts_refresh.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 8 | ``import 'package:frontendats/scribblr_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 9 | ``import 'package:frontendats/scribblr_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 8 | ``import 'package:frontendats/writly_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 9 | ``import 'package:frontendats/writly_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 10 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
 | 11 | ``class ProfilePage extends StatefulWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
 | 12 | ``  final String username;`` | Mendeklarasikan variabel atau konstanta. |
@@ -4190,19 +4190,19 @@ Jumlah baris: **181**
 | 58 | ``    return Scaffold(`` | Mengembalikan nilai dari fungsi atau widget. |
 | 59 | ``      body: SafeArea(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 60 | ``        child: RefreshIndicator(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 61 | ``          color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 61 | ``          color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 62 | ``          onRefresh: fetchArticleCount,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 63 | ``          child: ListView(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 64 | ``            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),`` | Menyusun elemen antarmuka Flutter. |
 | 65 | ``            children: [`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 66 | ``              const ScribblrHeader(title: 'Profile'),`` | Mendeklarasikan variabel atau konstanta. |
+| 66 | ``              const WritlyHeader(title: 'Profile'),`` | Mendeklarasikan variabel atau konstanta. |
 | 67 | ``              const SizedBox(height: 20),`` | Mendeklarasikan variabel atau konstanta. |
 | 68 | ``              Center(`` | Menyusun elemen antarmuka Flutter. |
 | 69 | ``                child: Column(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 70 | ``                  children: [`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 71 | ``                    CircleAvatar(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 72 | ``                      radius: 44,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 73 | ``                      backgroundColor: ScribblrColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 73 | ``                      backgroundColor: WritlyColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 74 | ``                      child: Text(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 75 | ``                        widget.username.isEmpty`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 76 | ``                            ? 'S'`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4210,7 +4210,7 @@ Jumlah baris: **181**
 | 78 | ``                        style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 79 | ``                          fontSize: 32,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 80 | ``                          fontWeight: FontWeight.w800,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 81 | ``                          color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 81 | ``                          color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 82 | ``                        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 83 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 84 | ``                    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4220,7 +4220,7 @@ Jumlah baris: **181**
 | 88 | ``                      style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 89 | ``                        fontSize: 19,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 90 | ``                        fontWeight: FontWeight.w800,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 91 | ``                        color: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 91 | ``                        color: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 92 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 93 | ``                    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 94 | ``                    const SizedBox(height: 4),`` | Mendeklarasikan variabel atau konstanta. |
@@ -4228,20 +4228,20 @@ Jumlah baris: **181**
 | 96 | ``                      widget.email.isEmpty ? '-' : widget.email,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 97 | ``                      style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 98 | ``                        fontSize: 13,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 99 | ``                        color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 99 | ``                        color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 100 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 101 | ``                    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 102 | ``                  ],`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 103 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 104 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 105 | ``              const SizedBox(height: 20),`` | Mendeklarasikan variabel atau konstanta. |
-| 106 | ``              ScribblrCard(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 106 | ``              WritlyCard(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 107 | ``                child: Row(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 108 | ``                  mainAxisAlignment: MainAxisAlignment.center,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 109 | ``                  children: [`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 110 | ``                    const Icon(`` | Mendeklarasikan variabel atau konstanta. |
 | 111 | ``                      Icons.article_outlined,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 112 | ``                      color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 112 | ``                      color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 113 | ``                    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 114 | ``                    const SizedBox(width: 10),`` | Mendeklarasikan variabel atau konstanta. |
 | 115 | ``                    Text(`` | Menyusun elemen antarmuka Flutter. |
@@ -4249,7 +4249,7 @@ Jumlah baris: **181**
 | 117 | ``                      style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 118 | ``                        fontSize: 18,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 119 | ``                        fontWeight: FontWeight.w800,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 120 | ``                        color: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 120 | ``                        color: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 121 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 122 | ``                    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 123 | ``                    const SizedBox(width: 6),`` | Mendeklarasikan variabel atau konstanta. |
@@ -4257,25 +4257,25 @@ Jumlah baris: **181**
 | 125 | ``                      'Articles',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 126 | ``                      style: TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 127 | ``                        fontSize: 13,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 128 | ``                        color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 128 | ``                        color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 129 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 130 | ``                    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 131 | ``                  ],`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 132 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 133 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 134 | ``              const SizedBox(height: 12),`` | Mendeklarasikan variabel atau konstanta. |
-| 135 | ``              ScribblrCard(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 135 | ``              WritlyCard(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 136 | ``                child: Column(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 137 | ``                  children: [`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 138 | ``                    ListTile(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 139 | ``                      leading: const Icon(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 140 | ``                        Icons.edit_outlined,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 141 | ``                        color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 141 | ``                        color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 142 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 143 | ``                      title: const Text('Edit Profile'),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 144 | ``                      trailing: const Icon(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 145 | ``                        Icons.chevron_right,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 146 | ``                        color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 146 | ``                        color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 147 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 148 | ``                      onTap: () {`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 149 | ``                        Navigator.push(`` | Menyusun elemen antarmuka Flutter. |
@@ -4289,7 +4289,7 @@ Jumlah baris: **181**
 | 157 | ``                        );`` | Menutup blok, widget, atau pemanggilan method. |
 | 158 | ``                      },`` | Menutup blok, widget, atau pemanggilan method. |
 | 159 | ``                    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 160 | ``                    const Divider(height: 1, color: ScribblrColors.line),`` | Mendeklarasikan variabel atau konstanta. |
+| 160 | ``                    const Divider(height: 1, color: WritlyColors.line),`` | Mendeklarasikan variabel atau konstanta. |
 | 161 | ``                    ListTile(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 162 | ``                      leading: const Icon(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 163 | ``                        Icons.logout,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4323,8 +4323,8 @@ Jumlah baris: **214**
 | 2 | ``import 'package:http/http.dart' as http;`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 3 | ``import 'dart:convert';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 4 | ``import 'package:frontendats/api.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 5 | ``import 'package:frontendats/scribblr_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 6 | ``import 'package:frontendats/scribblr_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 5 | ``import 'package:frontendats/writly_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 6 | ``import 'package:frontendats/writly_widgets.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 7 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
 | 8 | ``class RegisterPage extends StatefulWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
 | 9 | ``  const RegisterPage({super.key});`` | Mendeklarasikan variabel atau konstanta. |
@@ -4409,7 +4409,7 @@ Jumlah baris: **214**
 | 88 | ``  @override`` | Annotation/metadata untuk framework atau analyzer. |
 | 89 | ``  Widget build(BuildContext context) {`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 90 | ``    return Scaffold(`` | Mengembalikan nilai dari fungsi atau widget. |
-| 91 | ``      backgroundColor: ScribblrColors.bg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 91 | ``      backgroundColor: WritlyColors.bg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 92 | ``      appBar: AppBar(`` | Menyusun elemen antarmuka Flutter. |
 | 93 | ``        leading: const BackButton(),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 94 | ``        backgroundColor: Colors.transparent,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4431,7 +4431,7 @@ Jumlah baris: **214**
 | 110 | ``                  child: Column(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 111 | ``                    crossAxisAlignment: CrossAxisAlignment.stretch,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 112 | ``                    children: [`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 113 | ``                      const ScribblrLabel(text: 'Username'),`` | Mendeklarasikan variabel atau konstanta. |
+| 113 | ``                      const WritlyLabel(text: 'Username'),`` | Mendeklarasikan variabel atau konstanta. |
 | 114 | ``                      TextFormField(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 115 | ``                        controller: usernameController,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 116 | ``                        decoration: const InputDecoration(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4446,7 +4446,7 @@ Jumlah baris: **214**
 | 125 | ``                        },`` | Menutup blok, widget, atau pemanggilan method. |
 | 126 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 127 | ``                      const SizedBox(height: 16),`` | Mendeklarasikan variabel atau konstanta. |
-| 128 | ``                      const ScribblrLabel(text: 'Email'),`` | Mendeklarasikan variabel atau konstanta. |
+| 128 | ``                      const WritlyLabel(text: 'Email'),`` | Mendeklarasikan variabel atau konstanta. |
 | 129 | ``                      TextFormField(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 130 | ``                        controller: emailController,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 131 | ``                        keyboardType: TextInputType.emailAddress,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4464,7 +4464,7 @@ Jumlah baris: **214**
 | 143 | ``                        },`` | Menutup blok, widget, atau pemanggilan method. |
 | 144 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 145 | ``                      const SizedBox(height: 16),`` | Mendeklarasikan variabel atau konstanta. |
-| 146 | ``                      const ScribblrLabel(text: 'Password'),`` | Mendeklarasikan variabel atau konstanta. |
+| 146 | ``                      const WritlyLabel(text: 'Password'),`` | Mendeklarasikan variabel atau konstanta. |
 | 147 | ``                      TextFormField(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 148 | ``                        controller: passwordController,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 149 | ``                        obscureText: obscure,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4489,7 +4489,7 @@ Jumlah baris: **214**
 | 168 | ``                        },`` | Menutup blok, widget, atau pemanggilan method. |
 | 169 | ``                      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 170 | ``                      const SizedBox(height: 24),`` | Mendeklarasikan variabel atau konstanta. |
-| 171 | ``                      ScribblrPrimaryButton(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 171 | ``                      WritlyPrimaryButton(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 172 | ``                        text: 'Sign Up',`` | Menyusun elemen antarmuka Flutter. |
 | 173 | ``                        loading: isSaving,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 174 | ``                        onPressed: isSaving ? null : register,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4502,7 +4502,7 @@ Jumlah baris: **214**
 | 181 | ``                            'Already have an account? ',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 182 | ``                            style: TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 183 | ``                              fontSize: 13,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 184 | ``                              color: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 184 | ``                              color: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 185 | ``                            ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 186 | ``                          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 187 | ``                          TextButton(`` | Menyusun elemen antarmuka Flutter. |
@@ -4534,16 +4534,16 @@ Jumlah baris: **214**
 | 213 | ``  }`` | Menutup blok, widget, atau pemanggilan method. |
 | 214 | ``}`` | Menutup blok, widget, atau pemanggilan method. |
 
-## `scribblr_theme.dart`
+## `writly_theme.dart`
 
-Path: [`lib/scribblr_theme.dart`](lib/scribblr_theme.dart)
+Path: [`lib/writly_theme.dart`](lib/writly_theme.dart)
 Jumlah baris: **85**
 
 | Baris | Kode | Penjelasan |
 |---:|---|---|
 | 1 | ``import 'package:flutter/material.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 2 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
-| 3 | ``class ScribblrColors {`` | Mendefinisikan tipe atau abstraksi Dart. |
+| 3 | ``class WritlyColors {`` | Mendefinisikan tipe atau abstraksi Dart. |
 | 4 | ``  static const bg = Color(0xFFFDF8F2);`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 5 | ``  static const surface = Color(0xFFFFFFFF);`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 6 | ``  static const primary = Color(0xFFA9603D);`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4555,36 +4555,36 @@ Jumlah baris: **85**
 | 12 | ``  static const placeholderBg = Color(0xFFF1E4D6);`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 13 | ``}`` | Menutup blok, widget, atau pemanggilan method. |
 | 14 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
-| 15 | ``ThemeData scribblrTheme() {`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 16 | ``  const primary = ScribblrColors.primary;`` | Mendeklarasikan variabel atau konstanta. |
+| 15 | ``ThemeData writlyTheme() {`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 16 | ``  const primary = WritlyColors.primary;`` | Mendeklarasikan variabel atau konstanta. |
 | 17 | ``  return ThemeData(`` | Mengembalikan nilai dari fungsi atau widget. |
 | 18 | ``    useMaterial3: true,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 19 | ``    scaffoldBackgroundColor: ScribblrColors.bg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 19 | ``    scaffoldBackgroundColor: WritlyColors.bg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 20 | ``    colorScheme: ColorScheme.fromSeed(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 21 | ``      seedColor: primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 22 | ``      primary: primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 23 | ``      surface: ScribblrColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 23 | ``      surface: WritlyColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 24 | ``    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 25 | ``    appBarTheme: const AppBarTheme(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 26 | ``      backgroundColor: ScribblrColors.bg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 27 | ``      foregroundColor: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 26 | ``      backgroundColor: WritlyColors.bg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 27 | ``      foregroundColor: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 28 | ``      elevation: 0,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 29 | ``      centerTitle: false,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 30 | ``      titleTextStyle: TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 31 | ``        color: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 31 | ``        color: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 32 | ``        fontSize: 20,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 33 | ``        fontWeight: FontWeight.w700,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 34 | ``      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 35 | ``    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 36 | ``    inputDecorationTheme: InputDecorationTheme(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 37 | ``      filled: true,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 38 | ``      fillColor: ScribblrColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 39 | ``      labelStyle: const TextStyle(color: ScribblrColors.muted, fontSize: 13),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 40 | ``      hintStyle: const TextStyle(color: ScribblrColors.muted, fontSize: 14),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 38 | ``      fillColor: WritlyColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 39 | ``      labelStyle: const TextStyle(color: WritlyColors.muted, fontSize: 13),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 40 | ``      hintStyle: const TextStyle(color: WritlyColors.muted, fontSize: 14),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 41 | ``      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 42 | ``      enabledBorder: OutlineInputBorder(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 43 | ``        borderRadius: BorderRadius.circular(14),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 44 | ``        borderSide: const BorderSide(color: ScribblrColors.line),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 44 | ``        borderSide: const BorderSide(color: WritlyColors.line),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 45 | ``      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 46 | ``      focusedBorder: OutlineInputBorder(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 47 | ``        borderRadius: BorderRadius.circular(14),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4612,36 +4612,36 @@ Jumlah baris: **85**
 | 69 | ``      style: TextButton.styleFrom(foregroundColor: primary),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 70 | ``    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 71 | ``    chipTheme: const ChipThemeData(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 72 | ``      backgroundColor: ScribblrColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 72 | ``      backgroundColor: WritlyColors.chipBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 73 | ``      selectedColor: primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 74 | ``      labelStyle: TextStyle(fontSize: 13),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 75 | ``      shape: StadiumBorder(side: BorderSide(color: ScribblrColors.line)),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 75 | ``      shape: StadiumBorder(side: BorderSide(color: WritlyColors.line)),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 76 | ``    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 77 | ``    bottomNavigationBarTheme: const BottomNavigationBarThemeData(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 78 | ``      backgroundColor: ScribblrColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 78 | ``      backgroundColor: WritlyColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 79 | ``      selectedItemColor: primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 80 | ``      unselectedItemColor: ScribblrColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 80 | ``      unselectedItemColor: WritlyColors.muted,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 81 | ``      showUnselectedLabels: true,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 82 | ``      type: BottomNavigationBarType.fixed,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 83 | ``    ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 84 | ``  );`` | Menutup blok, widget, atau pemanggilan method. |
 | 85 | ``}`` | Menutup blok, widget, atau pemanggilan method. |
 
-## `scribblr_widgets.dart`
+## `writly_widgets.dart`
 
-Path: [`lib/scribblr_widgets.dart`](lib/scribblr_widgets.dart)
+Path: [`lib/writly_widgets.dart`](lib/writly_widgets.dart)
 Jumlah baris: **255**
 
 | Baris | Kode | Penjelasan |
 |---:|---|---|
 | 1 | ``import 'package:flutter/material.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 2 | ``import 'package:frontendats/posts_refresh.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
-| 3 | ``import 'package:frontendats/scribblr_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
+| 3 | ``import 'package:frontendats/writly_theme.dart';`` | Mengimpor library atau file Dart yang dibutuhkan. |
 | 4 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
-| 5 | ``class ScribblrHeader extends StatelessWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
+| 5 | ``class WritlyHeader extends StatelessWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
 | 6 | ``  final String title;`` | Mendeklarasikan variabel atau konstanta. |
 | 7 | ``  final String? subtitle;`` | Mendeklarasikan variabel atau konstanta. |
-| 8 | ``  const ScribblrHeader({super.key, required this.title, this.subtitle});`` | Mendeklarasikan variabel atau konstanta. |
+| 8 | ``  const WritlyHeader({super.key, required this.title, this.subtitle});`` | Mendeklarasikan variabel atau konstanta. |
 | 9 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
 | 10 | ``  @override`` | Annotation/metadata untuk framework atau analyzer. |
 | 11 | ``  Widget build(BuildContext context) {`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4653,14 +4653,14 @@ Jumlah baris: **255**
 | 17 | ``          style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 18 | ``            fontSize: 26,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 19 | ``            fontWeight: FontWeight.w800,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 20 | ``            color: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 20 | ``            color: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 21 | ``          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 22 | ``        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 23 | ``        if (subtitle != null) ...[`` | Mengatur percabangan logika. |
 | 24 | ``          const SizedBox(height: 4),`` | Mendeklarasikan variabel atau konstanta. |
 | 25 | ``          Text(`` | Menyusun elemen antarmuka Flutter. |
 | 26 | ``            subtitle!,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 27 | ``            style: const TextStyle(fontSize: 13, color: ScribblrColors.muted),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 27 | ``            style: const TextStyle(fontSize: 13, color: WritlyColors.muted),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 28 | ``          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 29 | ``        ],`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 30 | ``      ],`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4668,9 +4668,9 @@ Jumlah baris: **255**
 | 32 | ``  }`` | Menutup blok, widget, atau pemanggilan method. |
 | 33 | ``}`` | Menutup blok, widget, atau pemanggilan method. |
 | 34 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
-| 35 | ``class ScribblrLabel extends StatelessWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
+| 35 | ``class WritlyLabel extends StatelessWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
 | 36 | ``  final String text;`` | Mendeklarasikan variabel atau konstanta. |
-| 37 | ``  const ScribblrLabel({super.key, required this.text});`` | Mendeklarasikan variabel atau konstanta. |
+| 37 | ``  const WritlyLabel({super.key, required this.text});`` | Mendeklarasikan variabel atau konstanta. |
 | 38 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
 | 39 | ``  @override`` | Annotation/metadata untuk framework atau analyzer. |
 | 40 | ``  Widget build(BuildContext context) {`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4681,18 +4681,18 @@ Jumlah baris: **255**
 | 45 | ``        style: const TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 46 | ``          fontSize: 13,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 47 | ``          fontWeight: FontWeight.w600,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 48 | ``          color: ScribblrColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 48 | ``          color: WritlyColors.ink,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 49 | ``        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 50 | ``      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 51 | ``    );`` | Menutup blok, widget, atau pemanggilan method. |
 | 52 | ``  }`` | Menutup blok, widget, atau pemanggilan method. |
 | 53 | ``}`` | Menutup blok, widget, atau pemanggilan method. |
 | 54 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
-| 55 | ``class ScribblrPrimaryButton extends StatelessWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
+| 55 | ``class WritlyPrimaryButton extends StatelessWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
 | 56 | ``  final String text;`` | Mendeklarasikan variabel atau konstanta. |
 | 57 | ``  final VoidCallback? onPressed;`` | Mendeklarasikan variabel atau konstanta. |
 | 58 | ``  final bool loading;`` | Mendeklarasikan variabel atau konstanta. |
-| 59 | ``  const ScribblrPrimaryButton({`` | Mendeklarasikan variabel atau konstanta. |
+| 59 | ``  const WritlyPrimaryButton({`` | Mendeklarasikan variabel atau konstanta. |
 | 60 | ``    super.key,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 61 | ``    required this.text,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 62 | ``    required this.onPressed,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4717,11 +4717,11 @@ Jumlah baris: **255**
 | 81 | ``  }`` | Menutup blok, widget, atau pemanggilan method. |
 | 82 | ``}`` | Menutup blok, widget, atau pemanggilan method. |
 | 83 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
-| 84 | ``class ScribblrThumb extends StatelessWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
+| 84 | ``class WritlyThumb extends StatelessWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
 | 85 | ``  final dynamic cover;`` | Mendeklarasikan variabel atau konstanta. |
 | 86 | ``  final double width;`` | Mendeklarasikan variabel atau konstanta. |
 | 87 | ``  final double height;`` | Mendeklarasikan variabel atau konstanta. |
-| 88 | ``  const ScribblrThumb({`` | Mendeklarasikan variabel atau konstanta. |
+| 88 | ``  const WritlyThumb({`` | Mendeklarasikan variabel atau konstanta. |
 | 89 | ``    super.key,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 90 | ``    required this.cover,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 91 | ``    this.width = 92,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4736,15 +4736,15 @@ Jumlah baris: **255**
 | 100 | ``      child: Container(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 101 | ``        width: width,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 102 | ``        height: height,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 103 | ``        color: ScribblrColors.placeholderBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 103 | ``        color: WritlyColors.placeholderBg,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 104 | ``        child: url.isEmpty`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 105 | ``            ? const Icon(Icons.article_outlined, color: ScribblrColors.primary)`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 105 | ``            ? const Icon(Icons.article_outlined, color: WritlyColors.primary)`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 106 | ``            : Image.network(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 107 | ``                url,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 108 | ``                fit: BoxFit.cover,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 109 | ``                errorBuilder: (_, _, _) => const Icon(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 110 | ``                  Icons.article_outlined,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 111 | ``                  color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 111 | ``                  color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 112 | ``                ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 113 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 114 | ``      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4752,19 +4752,19 @@ Jumlah baris: **255**
 | 116 | ``  }`` | Menutup blok, widget, atau pemanggilan method. |
 | 117 | ``}`` | Menutup blok, widget, atau pemanggilan method. |
 | 118 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
-| 119 | ``class ScribblrCard extends StatelessWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
+| 119 | ``class WritlyCard extends StatelessWidget {`` | Mendefinisikan tipe atau abstraksi Dart. |
 | 120 | ``  final Widget child;`` | Mendeklarasikan variabel atau konstanta. |
 | 121 | ``  final VoidCallback? onTap;`` | Mendeklarasikan variabel atau konstanta. |
-| 122 | ``  const ScribblrCard({super.key, required this.child, this.onTap});`` | Mendeklarasikan variabel atau konstanta. |
+| 122 | ``  const WritlyCard({super.key, required this.child, this.onTap});`` | Mendeklarasikan variabel atau konstanta. |
 | 123 | ```` | Baris kosong untuk pemisah dan keterbacaan. |
 | 124 | ``  @override`` | Annotation/metadata untuk framework atau analyzer. |
 | 125 | ``  Widget build(BuildContext context) {`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 126 | ``    return Card(`` | Mengembalikan nilai dari fungsi atau widget. |
-| 127 | ``      color: ScribblrColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 127 | ``      color: WritlyColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 128 | ``      elevation: 0,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 129 | ``      shape: RoundedRectangleBorder(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 130 | ``        borderRadius: BorderRadius.circular(18),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 131 | ``        side: const BorderSide(color: ScribblrColors.line),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 131 | ``        side: const BorderSide(color: WritlyColors.line),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 132 | ``      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 133 | ``      child: InkWell(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 134 | ``        borderRadius: BorderRadius.circular(18),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4789,7 +4789,7 @@ Jumlah baris: **255**
 | 153 | ``        gradient: LinearGradient(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 154 | ``          begin: Alignment.topLeft,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 155 | ``          end: Alignment.bottomRight,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 156 | ``          colors: [ScribblrColors.primary, ScribblrColors.primaryDark],`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 156 | ``          colors: [WritlyColors.primary, WritlyColors.primaryDark],`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 157 | ``        ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 158 | ``        borderRadius: BorderRadius.vertical(bottom: Radius.circular(32)),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 159 | ``      ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4809,7 +4809,7 @@ Jumlah baris: **255**
 | 173 | ``              style: TextStyle(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 174 | ``                fontSize: 28,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 175 | ``                fontWeight: FontWeight.w800,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 176 | ``                color: ScribblrColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 176 | ``                color: WritlyColors.primary,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 177 | ``              ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 178 | ``            ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 179 | ``          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4845,12 +4845,12 @@ Jumlah baris: **255**
 | 209 | ``      transform: Matrix4.translationValues(0, -40, 0),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 210 | ``      padding: const EdgeInsets.all(20),`` | Menyusun elemen antarmuka Flutter. |
 | 211 | ``      decoration: BoxDecoration(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 212 | ``        color: ScribblrColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 212 | ``        color: WritlyColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 213 | ``        borderRadius: BorderRadius.circular(24),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 214 | ``        border: Border.all(color: ScribblrColors.line),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 214 | ``        border: Border.all(color: WritlyColors.line),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 215 | ``        boxShadow: [`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 216 | ``          BoxShadow(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
-| 217 | ``            color: ScribblrColors.ink.withValues(alpha: 0.08),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 217 | ``            color: WritlyColors.ink.withValues(alpha: 0.08),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 218 | ``            blurRadius: 24,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 219 | ``            offset: const Offset(0, 12),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 220 | ``          ),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
@@ -4866,7 +4866,7 @@ Jumlah baris: **255**
 | 230 | ``    context: context,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 231 | ``    builder: (context) {`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 232 | ``      return AlertDialog(`` | Mengembalikan nilai dari fungsi atau widget. |
-| 233 | ``        backgroundColor: ScribblrColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
+| 233 | ``        backgroundColor: WritlyColors.surface,`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 234 | ``        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 235 | ``        title: const Text(`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
 | 236 | ``          'Delete Article',`` | Implementasi detail logika, konfigurasi, atau UI pada konteks sekitarnya. |
