@@ -431,7 +431,7 @@ class _AddPostPageState extends State<AddPostPage> {
                     ),
                 ],
               ),
-              if (_pickedCover != null)
+              if (_pickedCover != null) 
                 Text(
                   _pickedCover!.name,
                   style: const TextStyle(
