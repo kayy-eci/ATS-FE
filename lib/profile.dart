@@ -140,7 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Icons.edit_outlined,
                         color: WritlyColors.primary,
                       ),
-                      title: const Text('Edit Profile'),
+                      title: const Text('Edits Profile'),
                       trailing: const Icon(
                         Icons.chevron_right,
                         color: WritlyColors.muted,
